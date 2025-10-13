@@ -187,18 +187,18 @@ int main(void) {
                 screen_status = 3; // inventaire (placeholder temps (vide atm))
             }
             else if (cmd == 'Q' || cmd == 'q') {
-                // Si [Q] Quitter => revenir a l'ecran (et beh non, c'est con ca, il faudrait une variable (previous screen status) | variable ajouté, a implementer
+                // Si [Q] Quitter => revenir a l'ecran
                 if (screen_status == 0){
                     screen_status = 0;
                 }
                 if (screen_status == 2){
-                    screen_status = 2;
+                    screen_status = 0;
                 }
                 if (screen_status == 3){
-                    screen_status = 3;
+                    screen_status = 0;
                 }
                 if (screen_status == 4){
-                    screen_status = 4;
+                    screen_status = 0;
                 }
             }
             else {
