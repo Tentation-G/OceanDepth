@@ -117,6 +117,18 @@ void layer_explo_base(char **screen){
     (void)screen;
 }
 
+// Evite d'avoir une valeur de stats en dehors des limites
+int clamp(int valeur, int max) {
+    if (valeur < 0){
+        return 0;
+    }
+    if (valeur > max){
+        return max;
+    }
+    return valeur;
+
+}
+
 // couche d'affichage des fleches de sortie de Case map
 void layer_explo_arrows(char **screen){
     screen[0][largeur/2] = '^';
@@ -480,7 +492,72 @@ void demander_player_for_coords(char **screen, Plongeur *p) {
     // MAJ position joueur | joueur = @
     player_y = y;
     player_x = x;
-    p->niveau_oxygene -= 10;
+    p->niveau_oxygene -= 2;
 
     printf("Coords screen[%d][%d] | Coords char (Y=%c, X=%c) \n", player_y, player_x, y_char, x_char);
 }
+
+// ===================== Arrivé sur case =====================
+
+void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char **screen){
+    if (screen_status == 0) { // Exploration
+
+        switch (screen[y][x]) {
+        case '^':
+            printf("Sortie NORD (à implémenter: changement de grille ↑).\n");
+            // plus tard: changer d’index de carte, re-positionner player_y/player_x, etc.
+            break;
+        case 'v':
+            printf("Sortie SUD (à implémenter: changement de grille ↓).\n");
+            break;
+        case '<':
+            printf("Sortie OUEST (à implémenter: changement de grille ←).\n");
+            break;
+        case '>':
+            printf("Sortie EST (à implémenter: changement de grille →).\n");
+            break;
+
+
+        case 'T': // trésor
+            printf("Delcancher fonction pour le tresord (affichage ecran tresor => generation du loot => affichage du loot)\n");
+            break;
+
+        case 'E': // ennemi
+            printf("Declancher fonction combat\n");
+            screen_status = 1; // combat
+            // init l'ennemie ici maybe
+            break;
+
+        default: // case vide
+            // Consommation d'O2 par déplacement
+            // plus tard : conso d'O2 en fonction de la distance
+            p->niveau_oxygene = clamp(p->niveau_oxygene - 2, p->niveau_oxygene_max);
+            printf("Vous vous déplacez. O₂: %d%%\n", p->niveau_oxygene);
+            if (p->niveau_oxygene == 0) {
+                printf("⚠️ Oxygène à 0%% ! (à gérer: malus/dégâts ou game over)\n");
+            }
+            break;
+        }
+    }
+    else {
+        // rien pour les autres ecran
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
