@@ -33,6 +33,8 @@ typedef struct {
     int niveau_fatigue;
     int niveau_fatigue_max; // 0 à 5 => ramené en % => 0 à 100
     int perles; // monnaie du jeu
+    int id_arme_equipe; // id unique de l'arme
+    int id_equipement_equipe;
 } Plongeur;
 
 typedef struct {
@@ -49,15 +51,18 @@ typedef struct {
 } CreatureMarine;
 
 typedef struct {
+    int id; // id unique de l'arme
+    int id_type; // id du type de l'arme (si id_type = 0 => c'est un harpon rouillé, il a entre x et x de dmg 
     char nom[30];
     int rarete; // 0 - 5
-    int degats_min;
-    int degats_max;
+    int degats_min; // debat min de l'arme (fourchette aleatoire a la generation de l'arme)
+    int degats_max; // degat max de l'arme (fourchette aleatoire a la generation de l'arme)
     int consomation; // conso d'02 par attaque
     int special;
 } Arme;
 
 typedef struct {
+    int id;
     char nom[30];
     int rarete; // 0 - 5
     int defense;
@@ -333,7 +338,7 @@ void screen_footer(){
         }
         case 1:{
             printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
-            printf("│  [A] Attaque légère  [B] Attaque Lourde  [I] Inventaire  [F] Fuire          │\n");
+            printf("│  [A] Attaque légère  [B] Attaque Lourde  [C]  Méditation  [I] Inventaire    │\n");
             printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
             break;
         }
