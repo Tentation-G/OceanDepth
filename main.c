@@ -1,9 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
-#include <windows.h> // affichage console wd
+#include <windows.h>  // affichage console wd
 #include <time.h>    // rand
+
+
 
 // ===================== Config / Globals =====================
 //res screen
@@ -20,44 +23,66 @@ int previous_screen_status = 0;
 const char *X_AXIS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!?@#$^&";
 const char *Y_AXIS = "0123456789ABCDEFGHI";
 
-// Position du joueur (couche joueur) — centre par défaut (temp)
-int player_y = 9;
-int player_x = 34;
+// Pour calcul de distance parcourue => conso en O2 | dans le plongeur direct
+// int* player_last_pos_y;
+// int* player_last_pos_x;
+
+// init info bull (str)
+char* info = " ";
 
 // ===================== Types =====================
 typedef struct {
     int points_de_vie;
     int points_de_vie_max; // 0 a 100
+
     int niveau_oxygene;
     int niveau_oxygene_max; // 0 a 100
+
     int niveau_fatigue;
     int niveau_fatigue_max; // 0 à 5 => ramené en % => 0 à 100
+
+    int defense;
+    int vitesse;
+
     int perles; // monnaie du jeu
+
     int id_arme_equipe; // id unique de l'arme
     int id_equipement_equipe;
+
+    int pos_y;
+    int pos_x;
+    int last_pos_y;
+    int last_pos_x;
 } Plongeur;
 
 typedef struct {
     int id; // identifiant unique pour cibler
     char nom[30];
+
     int points_de_vie_max;
     int points_de_vie_actuels;
+
     int attaque_minimale;
     int attaque_maximale;
+
     int defense;
     int vitesse;
+
     char effet_special[20]; // "paralysie", "poison", "aucun"
     int est_vivant;
 } CreatureMarine;
 
 typedef struct {
     int id; // id unique de l'arme
-    int id_type; // id du type de l'arme (si id_type = 0 => c'est un harpon rouillé, il a entre x et x de dmg 
+    int id_type; // id du type de l'arme (si id_type = 0 => c'est un harpon rouillé, il a entre x et x de dmg
     char nom[30];
+
     int rarete; // 0 - 5
+
     int degats_min; // debat min de l'arme (fourchette aleatoire a la generation de l'arme)
     int degats_max; // degat max de l'arme (fourchette aleatoire a la generation de l'arme)
     int consomation; // conso d'02 par attaque
+
     int special;
 } Arme;
 
@@ -75,15 +100,16 @@ void print_screen(char **screen);
 void ajout_joueur_combat_screen(char **screen);
 void ajout_creature_combat_screen(char** screen, CreatureMarine *c);
 
-void full_screen(Plongeur *p, CreatureMarine *c, char **screen);
+void full_screen(Plongeur *p, CreatureMarine *c, char **screen, char* info);
 
-void screen_header(Plongeur *p, char* pv_bar, char* oxy_bar, char* fatigue_bar);
-void screen_main(CreatureMarine *c, char** screen);
+void screen_header(Plongeur *p, char* pv_bar, char* oxy_bar, char* fatigue_bar, char* info);
+void screen_main(Plongeur *p, CreatureMarine *c, char** screen);
 void screen_footer();
 
 char* convert_to_visual_bar(int stat);
 
 void demander_player_for_coords(char** screen, Plongeur *p);
+void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char **screen);
 
 // ======= Utilitaires =======
 //converti les coord char en cord int lisible par screen[][]
@@ -135,18 +161,70 @@ void layer_explo_arrows(char **screen){
     screen[hauteur/2][0] = '<';
     screen[hauteur-1][largeur/2] = 'v';
     screen[hauteur/2][largeur-1] = '>';
+
+    screen[5][15] = 'E';
 }
-void layer_player(char **screen){
+void layer_player(Plongeur *p, char **screen){
     // place le joueur
-    if (player_y >= 0 && player_y < hauteur && player_x >= 0 && player_x < largeur){
-        screen[player_y][player_x] = '@';
+    if (p->pos_y >= 0 && p->pos_y < hauteur && p->pos_x >= 0 && p->pos_x < largeur){
+        screen[p->pos_y][p->pos_x] = '@';
+    }
+}
+
+// === Validation entrée user ===
+
+// Vérifie si un caract est la liste
+int char_in(char *liste, char c) {
+    for (int i = 0; liste[i] != '\0'; i++) {
+        if (liste[i] == c) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+// Retourne la liste des touches valides selon l'écran courant
+// (tu peux ajuster au fur et à mesure que tu ajoutes des écrans)
+char* saisies_utilisateur_autorise(int status) {
+    switch (status) {
+        case 0:  return "CDIcdi";       // Exploration: [C] Carte, [I] Inventaire, [D] Déplacer
+        case 1:  return "ABIFabif";    // Combat: A,B,C, [I] Inventaire, [F] Fuire
+        case 2:  return "Qq";         // Carte: quitter retour exploration
+        case 3:  return "Qq";        // Inventaire: quitter retour exploration
+        case 4:  return "Qq";       // Trésor: quitter (exemple)
+        default: return "";        // Par défaut rien
+    }
+}
+
+// Prompt + validation : redemande tant que la touche n'est pas autorisée
+char prompt_for_command(int status) {
+    char *allowed = saisies_utilisateur_autorise(status);
+    char input[16];
+
+    // for(;;) => boucle infinie (apparement c'est mieux que faire un while infinie)
+    for (;;) {
+        printf("Que souhaitez vous faire : ");
+        if (scanf("%15s", input) != 1) {
+            // entrée EOF/erreur -> renvoyer un code neutre
+            return '\0';
+        }
+        if (strlen(input) != 1) {
+            printf("Entrez UN seul caractère.\n");
+            continue;
+        }
+        char c = input[0];
+        if (!char_in(allowed, c)) {
+            printf("Touche non disponible sur cet écran.\n");
+            continue;
+        }
+        return c;
     }
 }
 
 // ===================== MAIN =====================
 int main(void) {
     SetConsoleOutputCP(CP_UTF8); // affichage console wd
-    srand((unsigned)time(NULL)); // rand
+    srand((unsigned)time(NULL));  // rand
 
     // Créa plongeur
     Plongeur plongeur = {
@@ -156,7 +234,11 @@ int main(void) {
         .niveau_oxygene_max = 100,
         .niveau_fatigue = 0,
         .niveau_fatigue_max = 100,
-        .perles = 10
+        .perles = 10,
+        .pos_y      = 0,
+        .pos_x      = 0,
+        .last_pos_y = 0,    // set a la pos de base
+        .last_pos_x = 0    // set a la pos de base
     };
     // Créa ennemi
     CreatureMarine crabe = {
@@ -174,63 +256,92 @@ int main(void) {
 
     char **screen = init_screen();
 
-    // ======= Boucle de gameplay simple =======
-    int running = 1;
-    while (running) {
+// ======= Boucle de gameplay =======
+int running = 1;
+while (running) {
 
-        // Affichage ecran
-        full_screen(&plongeur, &crabe, screen);
+    // Affichage
+    full_screen(&plongeur, &crabe, screen, info);
 
-        // Recup input user | penser a ajouter les verif de touche dispo par scene
-        printf("Que souhaitez vous faire : ");
-        char input[8];
-        if (scanf("%7s", input) != 1) break;
+    // Récup input user validé selon l'écran courant
+    char cmd = prompt_for_command(screen_status);
+    if (cmd == '\0') break; // fin d'entrée
 
-        int len = (int)strlen(input);
+    switch (screen_status) {
 
-        if (len == 1) {
-            char cmd = input[0];
-
+        // ── Exploration ─────────────────────────────────────────────
+        case 0: {
             if (cmd == 'C' || cmd == 'c') {
-                screen_status = 2; // carte (placeholder temps (vide atm))
+                screen_status = 2; // Carte
+            }
+            else if (cmd == 'I' || cmd == 'i') {
+                screen_status = 3; // Inventaire
             }
             else if (cmd == 'D' || cmd == 'd') {
                 // Demander coords => déplacer joueur (2 chars)
                 demander_player_for_coords(screen, &plongeur);
-                // On reste en explo (screen_status = 0)
+                // Reste en exploration
                 screen_status = 0;
             }
-            else if (cmd == 'I' || cmd == 'i') {
-                screen_status = 3; // inventaire (placeholder temps (vide atm))
-            }
-            else if (cmd == 'Q' || cmd == 'q') {
-                // Si [Q] Quitter => revenir a l'ecran
-                if (screen_status == 0){
-                    screen_status = 0;
-                }
-                if (screen_status == 2){
-                    screen_status = 0;
-                }
-                if (screen_status == 3){
-                    screen_status = 0;
-                }
-                if (screen_status == 4){
-                    screen_status = 0;
-                }
-            }
-            else {
-                // Autre touches a ajouter plus tard
-            }
-        }
-        else {
-            // Saisie à 2 caractères, on n'en fait rien ici.
-            // (2 chars demandé uniquement après 'D')
-            printf("Action invalide, ne donnez qu'un seul caractere");
+            break;
         }
 
-        // petite séparation
-        printf("\n");
+        // ── Combat ─────────────────────────────────────────────────
+        case 1: {
+            if (cmd == 'A' || cmd == 'a') {
+                // Attaque légère
+                // A faire : implémentation
+            }
+            else if (cmd == 'B' || cmd == 'b') {
+                // Attaque lourde
+            }
+            else if (cmd == 'C' || cmd == 'c') {
+                // Attaque passive (?)
+            }
+            else if (cmd == 'I' || cmd == 'i') {
+                // Ouvrir inventaire en combat
+            }
+            else if (cmd == 'F' || cmd == 'f') {
+                // Tentative de fuite => grandes chances d'ecoucher
+                // si echoue => passe tour
+                // si reussie, sors du combat (perte d'O2 ?)
+            }
+            break;
+        }
+
+        // ── Carte ──────────────────────────────────────────────────
+        case 2: {
+            if (cmd == 'Q' || cmd == 'q') {
+                screen_status = 0; // retour exploration
+            }
+            break;
+        }
+
+        // ── Inventaire ─────────────────────────────────────────────
+        case 3: {
+            if (cmd == 'Q' || cmd == 'q') {
+                screen_status = 0; // retour exploration
+            }
+            break;
+        }
+
+        // ── Trésor / autres écrans ────────────────────────────────
+        case 4: {
+            if (cmd == 'Q' || cmd == 'q') {
+                screen_status = 0;
+            }
+            break;
+        }
+
+        default:
+            // écran inconnu -> retour sécu
+            screen_status = 0;
+            break;
     }
+
+    printf("\n"); // petite séparation
+}
+
 
     // faire une function pour free le tab
     return 0;
@@ -254,14 +365,14 @@ char* convert_to_visual_bar(int stat){
 }
 
 // ===================== Rendu global =====================
-void full_screen(Plongeur *p, CreatureMarine *c, char** screen){
+void full_screen(Plongeur *p, CreatureMarine *c, char** screen, char* info){
     char* pv_bar = convert_to_visual_bar(p->points_de_vie);
     char* oxy_bar = convert_to_visual_bar(p->niveau_oxygene);
     char* fatigue_bar = convert_to_visual_bar(p->niveau_fatigue);
 
-    screen_header(p, pv_bar, oxy_bar, fatigue_bar);
+    screen_header(p, pv_bar, oxy_bar, fatigue_bar, info);
     // 69, bords non compris
-    screen_main(c, screen);
+    screen_main(p, c, screen);
     screen_footer();
 
     free(pv_bar);
@@ -269,16 +380,21 @@ void full_screen(Plongeur *p, CreatureMarine *c, char** screen){
     free(fatigue_bar);
 }
 
-void screen_header(Plongeur *p, char* pv_bar, char* oxy_bar, char* fatigue_bar){
+void screen_header(Plongeur *p, char* pv_bar, char* oxy_bar, char* fatigue_bar, char* info){
+    //max 64
+    //char* info = "Information";
     printf("╭─────────────────────────────── Ocean  Depth ────────────────────────────────╮\n");
     printf("│  Vie: %s %3d%%  │", pv_bar, p->points_de_vie);
     printf("  O₂: %s %3d%%  │", oxy_bar, p->niveau_oxygene);
     printf("  Fatigue: %s %3d%%  │\n", fatigue_bar, p->niveau_fatigue);
     printf("│  Profondeur: 500M     │  Arme équipé : Harpon Rouillé                       │\n");
     printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
+    //printf("│  [Info] : %64d  │\n", p->niveau_oxygene);
+    printf("│  [Info] : %-64s  │\n", info);
+    printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
 }
 
-void screen_main(CreatureMarine *c, char** screen){
+void screen_main(Plongeur *p, CreatureMarine *c, char** screen){
     clear_screen_grid(screen, fill);
 
     switch (screen_status) {
@@ -289,7 +405,7 @@ void screen_main(CreatureMarine *c, char** screen){
 
             layer_explo_base(screen);
             layer_explo_arrows(screen);
-            layer_player(screen);
+            layer_player(p, screen);
 
             print_screen(screen);
             break;
@@ -314,7 +430,7 @@ void screen_main(CreatureMarine *c, char** screen){
         case 2: { // Carte
             printf("│                                                                             │\n");
             printf("│    [Carte] (à implémenter)                                                  │\n");
-            printf("│   ╭────────────────────────────── Carte ─────────────────────────────────╮  │\n");
+            printf("│   ╭────────────────────────────── Carte ────────────────────────────────╮   │\n");
             // remplissage de grille carte a faire ici
             print_screen(screen);
             break;
@@ -391,6 +507,7 @@ char** init_screen(){
             screen[i][j] = fill;
         }
     }
+
     return screen;
 }
 
@@ -460,61 +577,90 @@ void ajout_creature_combat_screen(char** screen, CreatureMarine *c) {
 
 // ===================== Déplacement joueur =====================
 void demander_player_for_coords(char **screen, Plongeur *p) {
-    (void)screen; //MAJ player_x/y
+    char input[8];
 
-    const char *X_AXIS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!?@#$^&";
-    const char *Y_AXIS = "0123456789ABCDEFGHI";
+    for (;;) {
+        printf("Entrez des coordonnées [↓][→] : ");
+        if (scanf(" %7s", input) != 1) {
+            // Erreur => "sortie propre (j'ai vu ca sur internet")
+            return;
+        }
 
-    char input[4];  // +1 au cazou, +1 pour '\0'
-    printf("Entrez des coordonnées [↓][→] : ");
-    if (scanf("%3s", input) != 1) return;
+        size_t longueur = strlen(input);
+        if (longueur != 2) {
+            printf("Erreur : entrez exactement 2 caractères (ex: bB).\n");
+            continue;
+        }
 
-    int longueur = (int)strlen(input);
-    if (longueur != 2) {
-        printf("Erreur : entrez exactement 2 caractères.\n");
-        return;
+        // Ordre: [↓][→]  => Y puis X
+        char y_char = to_upper_ascii(input[0]); // Y tolère min/maj
+        char x_char = input[1];                 // X est sensible à la casse
+
+        int y = index_in_axis(y_char, Y_AXIS);
+        int x = index_in_axis(x_char, X_AXIS);
+
+        if (y < 0) { printf("Erreur : ligne invalide.\n"); continue; }
+        if (x < 0) { printf("Erreur : colonne invalide.\n"); continue; }
+        if (y >= hauteur || x >= largeur) {
+            printf("Erreur : coordonnées hors limites (max Y=%d, X=%d).\n", hauteur-1, largeur-1);
+            continue;
+        }
+
+        // Maj last pos a pos avant changement de pos
+        p->last_pos_y = p->pos_y;
+        p->last_pos_x = p->pos_x;
+        // MAJ position joueur "@"
+        p->pos_y = y;
+        p->pos_x = x;
+
+        // Si probleme d'affichage, reaficher les grilles d'en dessous
+        // clear_screen_grid(screen, fill);
+        // layer_explo_base(screen);
+        // layer_explo_arrows(screen);
+
+        // Traitement de l'info sur arrivé de la case
+        action_apres_deplacement(p, /*c=*/NULL, y, x, screen);
+
+        // Tout bon => sortie de boucle de saisie
+        break;
     }
-
-    // Ordre: [↓][→]
-    char y_char = to_upper_ascii(input[0]);
-    char x_char = input[1];
-
-    int y = index_in_axis(y_char, Y_AXIS);
-    int x = index_in_axis(x_char, X_AXIS);
-
-    if (y < 0) { printf("Erreur : ligne invalide.\n"); return; }
-    if (x < 0) { printf("Erreur : colonne invalide.\n"); return; }
-    if (y >= hauteur || x >= largeur) {
-        printf("Erreur : coordonnées hors limites.\n");
-        return;
-    }
-
-    // MAJ position joueur | joueur = @
-    player_y = y;
-    player_x = x;
-    p->niveau_oxygene -= 2;
-
-    printf("Coords screen[%d][%d] | Coords char (Y=%c, X=%c) \n", player_y, player_x, y_char, x_char);
 }
 
 // ===================== Arrivé sur case =====================
+int distance_entre_pos(Plongeur *p){
+
+    int dist_y = abs(p->last_pos_y - p->pos_y);
+    int dist_x = abs(p->last_pos_x - p->pos_x);
+    // √(dx² + dy²)
+    double dist = sqrt(dist_y*dist_y + dist_x*dist_x);
+    // return l'entier le plus proche
+    return (int)(dist + 0.5);
+}
 
 void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char **screen){
+    int cout_oxy = distance_entre_pos(p)/5;
+    if (cout_oxy < 1){
+        cout_oxy = 1;
+    }
+    int count_oxy_par_deplacement = cout_oxy;
+    p->niveau_oxygene = clamp(p->niveau_oxygene - count_oxy_par_deplacement, p->niveau_oxygene_max);
+
     if (screen_status == 0) { // Exploration
 
         switch (screen[y][x]) {
         case '^':
-            printf("Sortie NORD (à implémenter: changement de grille ↑).\n");
+            //printf("Sortie NORD (à implémenter: changement de grille ↑).\n");
+            info = "Sortie NORD";
             // plus tard: changer d’index de carte, re-positionner player_y/player_x, etc.
             break;
         case 'v':
-            printf("Sortie SUD (à implémenter: changement de grille ↓).\n");
+            info = "Sortie SUD";
             break;
         case '<':
-            printf("Sortie OUEST (à implémenter: changement de grille ←).\n");
+            info = "Sortie OUEST";
             break;
         case '>':
-            printf("Sortie EST (à implémenter: changement de grille →).\n");
+            info = "Sortie EST";
             break;
 
 
@@ -524,18 +670,15 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
 
         case 'E': // ennemi
             printf("Declancher fonction combat\n");
+            info = "Combat";
             screen_status = 1; // combat
             // init l'ennemie ici maybe
             break;
 
         default: // case vide
+            info = " ";
             // Consommation d'O2 par déplacement
             // plus tard : conso d'O2 en fonction de la distance
-            p->niveau_oxygene = clamp(p->niveau_oxygene - 2, p->niveau_oxygene_max);
-            printf("Vous vous déplacez. O₂: %d%%\n", p->niveau_oxygene);
-            if (p->niveau_oxygene == 0) {
-                printf("⚠️ Oxygène à 0%% ! (à gérer: malus/dégâts ou game over)\n");
-            }
             break;
         }
     }
@@ -543,21 +686,3 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
         // rien pour les autres ecran
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
