@@ -113,6 +113,7 @@ void decorate_zone(Zone zone, int y, int x, int zone_h, int zone_l) {
         build_mur_droit(zone, y, x, zone_h, zone_l);
     }
 
+    // mettre 4 murs pour la zone 2 2 (pour test)
     if( x == 2 && y == 2){
         build_mur_haut(zone, y, x, zone_h, zone_l);
         build_mur_bas(zone, y, x, zone_h, zone_l);
@@ -151,6 +152,7 @@ void decorate_zone(Zone zone, int y, int x, int zone_h, int zone_l) {
     }
 }
 
+// Creation quasi divine du monde
 World* init_world(int map_h, int map_l) {
     World *w = malloc(sizeof(World));
 

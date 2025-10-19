@@ -62,6 +62,12 @@ int distance_entre_pos(Plongeur *p){
     dist = (int)(dist + 0.5);
     return (int)dist;
 }
+// return le signe, (ex : v=2 => 1 | v=0 => 0 | v=-2 => -1)
+int vecteur_dir(int valeur){
+    if (valeur > 0) return 1;
+    if (valeur < 0) return -1;
+    return 0;
+}
 
 void demander_player_for_coords(char **screen, Plongeur *p, World *w) {
     char input[8];
@@ -100,12 +106,12 @@ void demander_player_for_coords(char **screen, Plongeur *p, World *w) {
         p->pos_x = x;
 
         // Traitement de l'info sur arrivé de la case
-        action_apres_deplacement(p, /*c=*/NULL, y, x, screen, w);
+        action_apres_deplacement(p, /*c=*/NULL, y, x, screen, w, screen); // (screen est une Zone zone)
         break;
     }
 }
 
-void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char **screen, World *w){
+void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char **screen, World *w, Zone zone){
     int dist = distance_entre_pos(p);
     int cout_oxy;
     if (dist != 0){
@@ -214,10 +220,79 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
             printf("Declancher fonction pour le tresord (affichage ecran tresor => generation du loot => affichage du loot)\n");
             break;
 
-        case '#':
-            info = "Tu as heurte un rochet, -5pv";
+        case '#': {
+            //info = "Tu as heurté un rocher, -5 PV.";
             p->points_de_vie -= 5;
+
+            // dir brute
+            int dir_y_brut = p->pos_y - p->last_pos_y;
+            int dir_x_brut = p->pos_x - p->last_pos_x;
+            // Normal de la dir
+            int dir_y = vecteur_dir(dir_y_brut);
+            int dir_x = vecteur_dir(dir_x_brut);
+
+            // si pas de mouvement
+            if (dir_y == 0 && dir_x == 0) {
+                if (in_screen_lim(p->last_pos_y, p->last_pos_x) &&
+                    zone[p->last_pos_y][p->last_pos_x] == ' ') {
+                    p->pos_y = p->last_pos_y;
+                    p->pos_x = p->last_pos_x;
+                    p->last_pos_y = p->pos_y;  // évite double cout O2
+                    p->last_pos_x = p->pos_x;
+                    info = "Vous avez heurte une paroi, -5 hp";
+                } else {
+                    info = "Vous avez heurte une paroi, -5 hp";
+                }
+                break;
+            }
+
+            // Var pour reculer dans la dir opposé
+            int back_y = -dir_y;
+            int back_x = -dir_x;
+
+            int moved = 0;
+
+            // Reculer dans la dite dir until on tombe sur une case libre (ou sortie d'ecran)
+            while (1) {
+                // prochaine pos y et x a tester
+                int proch_pos_y = p->pos_y + back_y;
+                int proch_pos_x = p->pos_x + back_x;
+
+                if (!in_screen_lim(proch_pos_y, proch_pos_x)){  // Si hors ecran => on break
+                    break;
+                }
+                if (zone[proch_pos_y][proch_pos_x] == ' ') { // trouvé une case libre
+                    p->pos_y = proch_pos_y;
+                    p->pos_x = proch_pos_x;
+                    moved = 1;
+                    break;
+                }
+                if (zone[proch_pos_y][proch_pos_x] != '#'){ // si on tombe sur autre chose qu'un mur
+                    break;
+                }
+
+                // Continuer a reculer
+                p->pos_y = proch_pos_y;
+                p->pos_x = proch_pos_x;
+            }
+
+            // Au cazou, on revient sur la case depart
+            if (!moved && in_screen_lim(p->last_pos_y, p->last_pos_x) && zone[p->last_pos_y][p->last_pos_x] == ' ') {
+                p->pos_y = p->last_pos_y;
+                p->pos_x = p->last_pos_x;
+                moved = 1;
+            }
+
+            if (moved) {
+                p->last_pos_y = p->pos_y;   // évite coût O2 au prochain tick
+                p->last_pos_x = p->pos_x;
+                info = "Vous avez heurte une paroi, -5 hp";
+            } else {
+                info = "Vous avez heurte une paroi, -5 hp";
+            }
+
             break;
+        }
 
         case 'E':
             printf("Declancher fonction combat\n");

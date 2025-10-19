@@ -19,6 +19,11 @@ int clamp(int valeur, int max) {
     return valeur;
 }
 
+int in_screen_lim(int y, int x){
+    extern int hauteur, largeur;
+    return (y >= 0 && y < hauteur && x >= 0 && x < largeur);
+}
+
 int convert_to_percent(int val, int val_max) {
     double val_in_pc = ((double)val / val_max) * 100;
     return (int)val_in_pc;
@@ -39,4 +44,9 @@ char* convert_to_visual_bar(int stat, int stat_max){
     if (semi_block) strcat(bar, "▓");
     for (int i = 0; i < empty_blocks; i++) strcat(bar, "░");
     return bar;
+}
+
+int sign_int(int v)
+{
+    return (v>0) - (v<0);
 }
