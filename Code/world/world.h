@@ -15,6 +15,8 @@ void build_mur_haut(Zone zone, int y, int x, int zone_h, int zone_l);
 void build_mur_bas(Zone zone, int y, int x, int zone_h, int zone_l);
 void build_mur_gauche(Zone zone, int y, int x, int zone_h, int zone_l);
 void build_mur_droit(Zone zone, int y, int x, int zone_h, int zone_l);
+// Rochers
+void build_cailloux(Zone zone, int y, int x, int zone_h, int zone_l, int taille);
 
 // visited
 int  zone_already_visited(const World *w, int zone_y, int zone_x);

@@ -20,8 +20,8 @@ void ajout_joueur_combat_screen(char** screen){
     for(int i = 10; i < 16; i++){ screen[7][i] = remp;}
 }
 
-// pour l'instant ca place le nom avec [id] de la creature
-// (fonctionne que pour une, a mettre a jour pour le 1 v n)
+// pour l'instant ça place le nom avec [id] de la creature
+// (fonctionne que pour une, à mettre à jour pour le 1 v n)
 void ajout_creature_combat_screen(char** screen, CreatureMarine *c) {
     int taille_nom = (int)strlen(c->nom);
     int indice_depart = largeur - 8 - taille_nom;

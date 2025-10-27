@@ -2,7 +2,7 @@
 #include "world.h"
 #include "../globals/globals.h"
 
-// === murs : choix aléatoires locaux au fichier
+// === murs
 static char fill_wall_rd[] = {'#',' '};
 static size_t n = sizeof(fill_wall_rd) / sizeof(fill_wall_rd[0]); // rand
 
@@ -59,6 +59,85 @@ void build_mur_droit(Zone zone, int y, int x, int zone_h, int zone_l) { // droit
         zone[1][largeur - 3] = '#';
         zone[hauteur - 2][largeur - 3] = '#';
         zone[hauteur - 1][largeur - 3] = '#';
+    }
+}
+
+// === Item sur la map / Rochers / alges / faut que je trouve des trucs
+// == Rochers : plusieurs types (de plusieurs formes) a placer sur la (les) map
+/*
+void build_cailloux(Zone zone, int y, int x, int zone_h, int zone_l){
+    //origine cailloux
+    int y_org = zone_h;
+    int x_org = zone_l;
+    // 0 : Origine | C : Coeur | # : fill random {'#',' '}
+    // ##C##
+    // #COC#
+    // ##C##
+
+    //origine
+    zone[y_org][x_org] = '#';
+    //coeur
+    zone[y_org][x_org + 1] = '#';
+    zone[y_org][x_org - 1] = '#';
+    zone[y_org + 1][x_org] = '#';
+    zone[y_org - 1][x_org] = '#';
+    //contour (fill random) | G et D de Origine
+    zone[y_org][x_org + 2] = fill_wall_rd[rand() % n];;
+    zone[y_org][x_org - 2] = fill_wall_rd[rand() % n];;
+    // Premiere ligne
+    zone[y_org + 1][x_org + 1] = fill_wall_rd[rand() % n];;
+    zone[y_org + 1][x_org - 1] = fill_wall_rd[rand() % n];;
+    zone[y_org + 1][x_org + 2] = fill_wall_rd[rand() % n];;
+    zone[y_org + 1][x_org - 2] = fill_wall_rd[rand() % n];;
+    // Derniere ligne
+    zone[y_org - 1][x_org + 1] = fill_wall_rd[rand() % n];;
+    zone[y_org - 1][x_org - 1] = fill_wall_rd[rand() % n];;
+    zone[y_org - 1][x_org + 2] = fill_wall_rd[rand() % n];;
+    zone[y_org - 1][x_org - 2] = fill_wall_rd[rand() % n];;
+}
+*/
+
+void build_cailloux(Zone zone, int y, int x, int zone_h, int zone_l, int taille) {
+    // "zone" = sous-grille
+    // (y, x) = coordonnées de la sous-grille
+    // (zone_h, zone_l) = coordonnées internes dans la sous-grille
+    // => placement du centre du rocher ici
+
+    if (taille < 4) taille = 4; // taille minimale
+
+    int hauteur_rocher = taille;
+    int largeur_rocher = 2.5 * hauteur_rocher;   // respect du ratio ASCII
+    int demi_hauteur = hauteur_rocher / 2;
+    int demi_largeur = largeur_rocher / 2;
+
+    int bord_haut = zone_h - demi_hauteur;
+    int bord_bas = bord_haut + hauteur_rocher - 1;
+    int bord_gauche = zone_l - demi_largeur;
+    int bord_droite = bord_gauche + largeur_rocher - 1;
+
+    for (int ligne_actuelle = bord_haut; ligne_actuelle <= bord_bas; ++ligne_actuelle) {
+        if (ligne_actuelle < 0 || ligne_actuelle >= hauteur) continue;
+
+        for (int colonne_actuelle = bord_gauche; colonne_actuelle <= bord_droite; ++colonne_actuelle) {
+            if (colonne_actuelle < 0 || colonne_actuelle >= largeur) continue;
+
+            int dist_haut    = ligne_actuelle - bord_haut;
+            int dist_bas     = bord_bas - ligne_actuelle;
+            int dist_gauche  = colonne_actuelle - bord_gauche;
+            int dist_droite  = bord_droite - colonne_actuelle;
+
+            int distance_du_bord = dist_haut;
+            if (dist_bas < distance_du_bord) distance_du_bord = dist_bas;
+            if (dist_gauche < distance_du_bord) distance_du_bord = dist_gauche;
+            if (dist_droite < distance_du_bord) distance_du_bord = dist_droite;
+
+            // 2 couches extérieures aléatoires, intérieur plein
+            if (distance_du_bord <= 2) {
+                zone[ligne_actuelle][colonne_actuelle] = fill_wall_rd[rand() % n];
+            } else {
+                zone[ligne_actuelle][colonne_actuelle] = '#';
+            }
+        }
     }
 }
 
@@ -119,6 +198,8 @@ void decorate_zone(Zone zone, int y, int x, int zone_h, int zone_l) {
         build_mur_bas(zone, y, x, zone_h, zone_l);
         build_mur_gauche(zone, y, x, zone_h, zone_l);
         build_mur_droit(zone, y, x, zone_h, zone_l);
+        //test build cailloux
+        build_cailloux(zone, y, x, 10, 40, 6);
     }
 
     // Ajoute fleches si pas en bordure ( + vides autour des fleches)
