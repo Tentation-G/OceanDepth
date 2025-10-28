@@ -31,8 +31,8 @@ int main(void) {
         .pos_x      = 10,
         .last_pos_y = 5,
         .last_pos_x = 10,
-        .map_pos_y  = 2,
-        .map_pos_x  = 2
+        .map_pos_y  = 1,
+        .map_pos_x  = 0
     };
 
     // Créa ennemi

@@ -1,14 +1,25 @@
 #ifndef TYPES_H
 #define TYPES_H
 
+typedef enum {
+    ZoneType_UNKNOWN = 0,
+    ZoneType_BASE,
+    ZoneType_BATEAU,
+    ZoneType_GROTTE_S_G,   // _Sortie_Gauche
+    ZoneType_GROTTE_S_D,  // _Sortie_Droite
+    ZoneType_GROTTE_S_B, // _Sortie_Bas
+    ZoneType_RECIF,
+    ZoneType_BOSS
+} ZoneType;
+
 typedef char** Zone;
 
 typedef struct {
-    int zone_h;         // nombre de zones en Y
-    int zone_l;         // nombre de zones en X
-    Zone **zones;       // [zone_h][zone_l]
-    char **visited;     // [zone_h][zone_l] : 0/1
-    char *type;         // future meta (grotte, boss, base, ...)
+    int zone_h;             // nombre de zones en Y
+    int zone_l;            // nombre de zones en X
+    Zone **zones;         // [zone_h][zone_l]
+    char **visited;      // [zone_h][zone_l] : 0/1
+    ZoneType **types;   //[zone_h][zone_l] type de chaque zone
 } World;
 
 typedef struct {

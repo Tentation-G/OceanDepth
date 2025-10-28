@@ -17,7 +17,7 @@
 
 - [X] Amélioration Interface
   - [X] Barres de stats dynamiques
-  - [X] Génération procedurale de la map
+  - [X] Génération (semi) procedurale de la map
 
 ---
 
@@ -27,7 +27,7 @@ Flavien :
 - Affichage
 - Design (UI, [artwork])
 - Système de déplacement (~interation terrain et tout ce qui en découle)
-- Cartographie des Océan
+- Cartographie de l'Océan
 - [Sauvegarde et Chargement]
 
 Abdelkrim : 

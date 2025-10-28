@@ -8,7 +8,9 @@ void   free_world(World *w);
 
 Zone world_current_zone(World *w, const Plongeur *p);
 
-void decorate_zone(Zone zone, int y, int x, int map_h, int map_l);
+//void decorate_zone(Zone zone, int y, int x, int map_h, int map_l);
+void decorate_zone_base_borders(Zone zone, int y, int x, int zone_h, int zone_l, ZoneType type);
+void decorate_zone_typed(Zone zone, int y, int x, int zone_h, int zone_l, ZoneType type);
 
 // murs
 void build_mur_haut(Zone zone, int y, int x, int zone_h, int zone_l);

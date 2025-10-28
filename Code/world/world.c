@@ -2,7 +2,8 @@
 #include "world.h"
 #include "../globals/globals.h"
 
-// === murs
+// === murs + fleches
+static char arrow_spaces = ' ';
 static char fill_wall_rd[] = {'#',' '};
 static size_t n = sizeof(fill_wall_rd) / sizeof(fill_wall_rd[0]); // rand
 
@@ -60,6 +61,31 @@ void build_mur_droit(Zone zone, int y, int x, int zone_h, int zone_l) { // droit
         zone[hauteur - 2][largeur - 3] = '#';
         zone[hauteur - 1][largeur - 3] = '#';
     }
+}
+
+void build_fleche_haut(Zone zone){
+    zone[0][largeur / 2 + 2] = arrow_spaces; zone[0][largeur / 2 - 2] = arrow_spaces;
+    zone[0][largeur / 2 + 1] = arrow_spaces; zone[0][largeur / 2 - 1] = arrow_spaces;
+    zone[0][largeur / 2] = '^';              zone[1][largeur / 2]     = arrow_spaces;
+    zone[1][largeur / 2 + 1] = arrow_spaces; zone[1][largeur / 2 - 1] = arrow_spaces;
+    zone[1][largeur / 2 + 2] = arrow_spaces; zone[1][largeur / 2 - 2] = arrow_spaces;
+}
+void build_fleche_bas(Zone zone){
+    zone[hauteur - 1][largeur / 2 + 2] = arrow_spaces; zone[hauteur - 2][largeur / 2 + 2] = arrow_spaces;
+    zone[hauteur - 1][largeur / 2 + 1] = arrow_spaces; zone[hauteur - 2][largeur / 2 + 1] = arrow_spaces;
+    zone[hauteur - 1][largeur / 2] = 'v';              zone[hauteur - 2][largeur / 2]     = arrow_spaces;
+    zone[hauteur - 1][largeur / 2 - 1] = arrow_spaces; zone[hauteur - 2][largeur / 2 - 1] = arrow_spaces;
+    zone[hauteur - 1][largeur / 2 - 2] = arrow_spaces; zone[hauteur - 2][largeur / 2 - 2] = arrow_spaces;
+}
+void build_fleche_gauche(Zone zone){
+    zone[hauteur / 2 - 1][0] = arrow_spaces; zone[hauteur / 2 - 1][1] = arrow_spaces; zone[hauteur / 2 - 1][2] = arrow_spaces;
+    zone[hauteur / 2][0] = '<';              zone[hauteur / 2][1]     = arrow_spaces; zone[hauteur / 2][2]     = arrow_spaces;
+    zone[hauteur / 2 + 1][0] = arrow_spaces; zone[hauteur / 2 + 1][1] = arrow_spaces; zone[hauteur / 2 + 1][2] = arrow_spaces;
+}
+void build_fleche_droit(Zone zone){
+    zone[hauteur / 2 - 1][largeur - 1] = arrow_spaces; zone[hauteur / 2 - 1][largeur - 2] = arrow_spaces; zone[hauteur / 2 - 1][largeur - 3] = arrow_spaces;
+    zone[hauteur / 2][largeur - 1] = '>';              zone[hauteur / 2][largeur - 2]     = arrow_spaces; zone[hauteur / 2][largeur - 3]     = arrow_spaces;
+    zone[hauteur / 2 + 1][largeur - 1] = arrow_spaces; zone[hauteur / 2 + 1][largeur - 2] = arrow_spaces; zone[hauteur / 2 + 1][largeur - 3] = arrow_spaces;
 }
 
 // === Item sur la map / Rochers / alges / faut que je trouve des trucs
@@ -178,6 +204,83 @@ void marquer_zone_as_visited(World *w, int zone_y, int zone_x) {
     w->visited[zone_y][zone_x] = 1;
 }
 
+//  Return type de la zone passer en zy zx
+ZoneType world_get_zone_type(const World *w, int zone_y, int zone_x) {
+    if (!w) return ZoneType_UNKNOWN;
+    if (zone_y < 0 || zone_y >= w->zone_h || zone_x < 0 || zone_x >= w->zone_l) return ZoneType_UNKNOWN;
+    return w->types[zone_y][zone_x];
+}
+//  Definit le type de la zone passer en param
+void world_set_zone_type(World *w, int zone_y, int zone_x, ZoneType type) {
+    if (!w) return;
+    if (zone_y < 0 || zone_y >= w->zone_h || zone_x < 0 || zone_x >= w->zone_l) return;
+    w->types[zone_y][zone_x] = type;
+}
+
+void decorate_zone_base_borders(Zone zone, int y, int x, int zone_h, int zone_l, ZoneType type) {
+
+    // Ajoute les murs en bordures
+    if (y == zone_h - 1) { // bord bas
+        build_mur_bas(zone, y, x, zone_h, zone_l);
+    }
+    if (x == 0 && y != 0) { // bord gauche (pas [0][0])
+        build_mur_gauche(zone, y, x, zone_h, zone_l);
+    }
+    if (x == zone_l - 1) { // bord droit
+        build_mur_droit(zone, y, x, zone_h, zone_l);
+    }
+
+    // pas de fleches pour les grottes, gerer par la fn de deco des grottes
+    if (y > 0 && type != ZoneType_GROTTE) {
+        build_fleche_haut(zone);
+    }
+    if (y < zone_h - 1 && type != ZoneType_GROTTE) {
+        build_fleche_bas(zone);
+    }
+    if (x > 0 && type != ZoneType_GROTTE) {
+        build_fleche_gauche(zone);
+    }
+    if (x < zone_l - 1 && type != ZoneType_GROTTE) {
+        build_fleche_droit(zone);
+    }
+}
+
+void decorate_zone_typed(Zone zone, int y, int x, int zone_h, int zone_l, ZoneType type) {
+    // couche(s) de base (bords + flèches) (pas pour grottes, c'est gerer par la deco grotte)
+    decorate_zone_base_borders(zone, y, x, zone_h, zone_l, type);
+
+    // habillage selon le type
+    switch (type) {
+    case ZoneType_BASE:
+        // Deco Base
+        break;
+
+    case ZoneType_BATEAU:
+        // Deco zone bateau
+        break;
+
+    case ZoneType_GROTTE:
+        // murs haut + bas + quelques rochers
+        build_mur_haut(zone, y, x, zone_h, zone_l);
+        build_mur_bas(zone, y, x, zone_h, zone_l);
+        build_mur_gauche(zone, y, x, zone_h, zone_l);
+        build_mur_droit(zone, y, x, zone_h, zone_l);
+
+        build_fleche_haut(zone);
+        break;
+
+    case ZoneType_BOSS:
+
+        break;
+
+    case ZoneType_RECIF:
+    default:
+        // quelques cailloux random
+        build_cailloux(zone, y, x, hauteur/2, largeur/2, 5);
+        break;
+    }
+}
+/*
 void decorate_zone(Zone zone, int y, int x, int zone_h, int zone_l) {
     char arrow_spaces = ' ';
 
@@ -188,7 +291,7 @@ void decorate_zone(Zone zone, int y, int x, int zone_h, int zone_l) {
     if (x == 0 && y != 0) { // bord gauche (pas [0][0])
         build_mur_gauche(zone, y, x, zone_h, zone_l);
     }
-    if (x == zone_h - 1) { // bord droit (NB: ton code utilisait zone_h - 1 ici)
+    if (x == zone_h - 1) { // bord droit
         build_mur_droit(zone, y, x, zone_h, zone_l);
     }
 
@@ -228,10 +331,11 @@ void decorate_zone(Zone zone, int y, int x, int zone_h, int zone_l) {
     // Sortie EST
     if (x < zone_l - 1) {
         zone[hauteur / 2 - 1][largeur - 1] = arrow_spaces;     zone[hauteur / 2 - 1][largeur - 2] = arrow_spaces;     zone[hauteur / 2 - 1][largeur - 3] = arrow_spaces;
-        zone[hauteur / 2][largeur - 1] = '>';                  zone[hauteur / 2][largeur - 2] = arrow_spaces;          zone[hauteur / 2][largeur - 3] = arrow_spaces;
+        zone[hauteur / 2][largeur - 1] = '>';                  zone[hauteur / 2][largeur - 2] = arrow_spaces;         zone[hauteur / 2][largeur - 3] = arrow_spaces;
         zone[hauteur / 2 + 1][largeur - 1] = arrow_spaces;     zone[hauteur / 2 + 1][largeur - 2] = arrow_spaces;     zone[hauteur / 2 + 1][largeur - 3] = arrow_spaces;
     }
 }
+*/
 
 // Creation quasi divine du monde
 World* init_world(int map_h, int map_l) {
@@ -239,16 +343,32 @@ World* init_world(int map_h, int map_l) {
 
     w->zone_h = map_h;
     w->zone_l = map_l;
+
     w->zones = malloc((size_t)map_h * sizeof(Zone*));
     w->visited = malloc((size_t)map_h * sizeof(char*));
+    w->types   = malloc((size_t)map_h * sizeof(ZoneType*));
 
-    for (int y = 0; y < map_h; ++y) {
+    for (int y = 0; y < map_h; y++) {
         w->zones[y] = malloc((size_t)map_l * sizeof(Zone));
         w->visited[y] = malloc((size_t)map_l * sizeof(char));
-        for (int x = 0; x < map_l; ++x) {
-            w->zones[y][x] = init_screen();
+        w->types[y]   = malloc((size_t)map_l * sizeof(ZoneType));
+
+        for (int x = 0; x < map_l; x++) {
+            w->zones[y][x]   = init_screen();
             w->visited[y][x] = 0;
-            decorate_zone(w->zones[y][x], y, x, map_h, map_l);
+
+            // --- Tres tres temporaire, changer ca par un jolie matrice beaucoup sympa a regarder
+            ZoneType type = ZoneType_RECIF;
+            if (y == 0 && x == 3)             type = ZoneType_BATEAU; // surface bateau
+            else if (y == 0 && x == 0)        type = ZoneType_BASE;   // base
+            //else if (y == map_h-1 && x == 0) type = ZoneType_BOSS; // coin bas-gauche : boss
+            //else if ((y+x) % 3 == 0)          type = ZoneType_GROTTE; // quelques grottes éparses
+            else if (y == 1 && x == 1)          type = ZoneType_GROTTE_S_G; // quelques grottes éparses
+
+            w->types[y][x] = type;
+
+            // décor selon type
+            decorate_zone_typed(w->zones[y][x], y, x, map_h, map_l, type);
         }
     }
     return w;
@@ -274,10 +394,12 @@ void free_world(World *w) {
                 }
                 free(w->zones[y]);
                 free(w->visited[y]);
+                free(w->types[y]);
             }
         }
         free(w->zones);
         free(w->visited);
+        free(w->types);
     }
     free(w);
 }
