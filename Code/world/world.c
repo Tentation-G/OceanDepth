@@ -219,6 +219,11 @@ void world_set_zone_type(World *w, int zone_y, int zone_x, ZoneType type) {
 
 void decorate_zone_base_borders(Zone zone, int y, int x, int zone_h, int zone_l, ZoneType type) {
 
+    //ajout monstre zone de depart pour test pour les coco
+    if (y == 1 && x == 0){
+        zone[10][10] = 'E';
+    }
+
     // Ajoute les murs en bordures
     if (y == zone_h - 1) { // bord bas
         build_mur_bas(zone, y, x, zone_h, zone_l);
@@ -275,8 +280,8 @@ void decorate_zone_typed(Zone zone, int y, int x, int zone_h, int zone_l, ZoneTy
 
     case ZoneType_RECIF:
     default:
-        // quelques cailloux random
-        build_cailloux(zone, y, x, hauteur/2, largeur/2, 5);
+        // quelques cailloux random (enft non, faut que je regasse les cailloux)
+        //build_cailloux(zone, y, x, hauteur/2, largeur/2, 5);
         break;
     }
 }

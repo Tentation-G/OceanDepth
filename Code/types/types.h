@@ -5,6 +5,7 @@ typedef enum {
     ZoneType_UNKNOWN = 0,
     ZoneType_BASE,
     ZoneType_BATEAU,
+    ZoneType_GROTTE,
     ZoneType_GROTTE_S_G,   // _Sortie_Gauche
     ZoneType_GROTTE_S_D,  // _Sortie_Droite
     ZoneType_GROTTE_S_B, // _Sortie_Bas
