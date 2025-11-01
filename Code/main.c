@@ -49,7 +49,7 @@ int main(void) {
         .est_vivant = 1
     };
 
-    World *world = init_world(5, 5); // h, l
+    World *world = init_world(map_hauteur, map_largeur); // h, l
     marquer_zone_as_visited(world, plongeur.map_pos_y, plongeur.map_pos_x); // zone depart => visited
 
     // ======= Boucle de gameplay =======
@@ -63,7 +63,7 @@ int main(void) {
         full_screen(world, &plongeur, &crabe, screen, info);
 
         // Récup input user validé selon l'écran courant
-        char cmd = prompt_for_command(screen_status);
+        char cmd = prompt_for_command(world, &plongeur, screen_status);
         if (cmd == '\0') break; // fin d'entrée
 
         switch (screen_status) {
@@ -79,6 +79,9 @@ int main(void) {
                 else if (cmd == 'D' || cmd == 'd') {
                     demander_player_for_coords(screen, &plongeur, world);
                     screen_status = 0;
+                }
+                else if (cmd == 'S' || cmd == 's') {
+                    printf("Sauvegarde\n");
                 }
                 else if (cmd == 'E') {
                     screen_status = 1;

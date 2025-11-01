@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include "world.h"
+#include "map_lt.h"
 #include "../globals/globals.h"
 
 // === murs + fleches
@@ -61,6 +62,13 @@ void build_mur_droit(Zone zone, int y, int x, int zone_h, int zone_l) { // droit
         zone[hauteur - 2][largeur - 3] = '#';
         zone[hauteur - 1][largeur - 3] = '#';
     }
+}
+
+void build_all_mur(Zone zone, int y, int x, int zone_h, int zone_l){
+    build_mur_haut(zone, y, x, zone_h, zone_l);
+    build_mur_bas(zone, y, x, zone_h, zone_l);
+    build_mur_gauche(zone, y, x, zone_h, zone_l);
+    build_mur_droit(zone, y, x, zone_h, zone_l);
 }
 
 void build_fleche_haut(Zone zone){
@@ -210,16 +218,30 @@ ZoneType world_get_zone_type(const World *w, int zone_y, int zone_x) {
     if (zone_y < 0 || zone_y >= w->zone_h || zone_x < 0 || zone_x >= w->zone_l) return ZoneType_UNKNOWN;
     return w->types[zone_y][zone_x];
 }
-//  Definit le type de la zone passer en param
+//  Definit le type de la zone passé en param
 void world_set_zone_type(World *w, int zone_y, int zone_x, ZoneType type) {
-    if (!w) return;
+    if (!w) return; // secu
     if (zone_y < 0 || zone_y >= w->zone_h || zone_x < 0 || zone_x >= w->zone_l) return;
     w->types[zone_y][zone_x] = type;
 }
 
+// Si c'est l'un des type de grotte, ca renvoie GROTTE, sinon ca renvoie son zonetype
+static ZoneType zone_type_Norm(ZoneType type) {
+    switch (type) {
+    case ZoneType_GROTTE:
+    case ZoneType_GROTTE_NORD:
+    case ZoneType_GROTTE_SUD:
+    case ZoneType_GROTTE_OUEST:
+    case ZoneType_GROTTE_EST:
+        return ZoneType_GROTTE;
+    default:
+        return type;
+    }
+}
+
 void decorate_zone_base_borders(Zone zone, int y, int x, int zone_h, int zone_l, ZoneType type) {
 
-    //ajout monstre zone de depart pour test pour les coco
+    //ajout monstre zone de depart pour test pour les cocos
     if (y == 1 && x == 0){
         zone[10][10] = 'E';
     }
@@ -255,7 +277,7 @@ void decorate_zone_typed(Zone zone, int y, int x, int zone_h, int zone_l, ZoneTy
     decorate_zone_base_borders(zone, y, x, zone_h, zone_l, type);
 
     // habillage selon le type
-    switch (type) {
+    switch (zone_type_Norm(type)) {
     case ZoneType_BASE:
         // Deco Base
         break;
@@ -264,14 +286,32 @@ void decorate_zone_typed(Zone zone, int y, int x, int zone_h, int zone_l, ZoneTy
         // Deco zone bateau
         break;
 
+    // Les GROTTES
     case ZoneType_GROTTE:
-        // murs haut + bas + quelques rochers
-        build_mur_haut(zone, y, x, zone_h, zone_l);
-        build_mur_bas(zone, y, x, zone_h, zone_l);
-        build_mur_gauche(zone, y, x, zone_h, zone_l);
-        build_mur_droit(zone, y, x, zone_h, zone_l);
+        build_all_mur(zone, y, x, zone_h, zone_l);
 
-        build_fleche_haut(zone);
+        switch (type){
+            case ZoneType_GROTTE_NORD:
+                build_all_mur(zone, y, x, zone_h, zone_l);
+                build_fleche_haut(zone);
+
+                break;
+            case ZoneType_GROTTE_SUD:
+                build_all_mur(zone, y, x, zone_h, zone_l);
+                build_fleche_bas(zone);
+
+                break;
+            case ZoneType_GROTTE_OUEST:
+                build_all_mur(zone, y, x, zone_h, zone_l);
+                build_fleche_gauche(zone);
+                break;
+            case ZoneType_GROTTE_EST:
+                build_all_mur(zone, y, x, zone_h, zone_l);
+                build_fleche_droit(zone);
+                break;
+            default:;
+            }
+
         break;
 
     case ZoneType_BOSS:
@@ -280,71 +320,103 @@ void decorate_zone_typed(Zone zone, int y, int x, int zone_h, int zone_l, ZoneTy
 
     case ZoneType_RECIF:
     default:
-        // quelques cailloux random (enft non, faut que je regasse les cailloux)
-        //build_cailloux(zone, y, x, hauteur/2, largeur/2, 5);
         break;
     }
 }
-/*
-void decorate_zone(Zone zone, int y, int x, int zone_h, int zone_l) {
-    char arrow_spaces = ' ';
 
-    // Ajoute les murs en bordures
-    if (y == zone_h - 1) { // bord bas
-        build_mur_bas(zone, y, x, zone_h, zone_l);
-    }
-    if (x == 0 && y != 0) { // bord gauche (pas [0][0])
-        build_mur_gauche(zone, y, x, zone_h, zone_l);
-    }
-    if (x == zone_h - 1) { // bord droit
-        build_mur_droit(zone, y, x, zone_h, zone_l);
-    }
+void decorate_connect_zone_to_grotte(const World *w){
+    for (int y = 0; y < w->zone_h; y++) {
+        for (int x = 0; x < w->zone_l; x++) {
 
-    // mettre 4 murs pour la zone 2 2 (pour test)
-    if( x == 2 && y == 2){
-        build_mur_haut(zone, y, x, zone_h, zone_l);
-        build_mur_bas(zone, y, x, zone_h, zone_l);
-        build_mur_gauche(zone, y, x, zone_h, zone_l);
-        build_mur_droit(zone, y, x, zone_h, zone_l);
-        //test build cailloux
-        build_cailloux(zone, y, x, 10, 40, 6);
-    }
+            ZoneType type = w->types[y][x];
 
-    // Ajoute fleches si pas en bordure ( + vides autour des fleches)
-    // Sortie NORD
-    if (y > 0) {
-        zone[0][largeur / 2 + 2] = arrow_spaces ; zone[0][largeur / 2 - 2] = arrow_spaces;
-        zone[0][largeur / 2 + 1] = arrow_spaces ; zone[0][largeur / 2 - 1] = arrow_spaces;
-        zone[0][largeur / 2] = '^';               zone[1][largeur / 2] = arrow_spaces;
-        zone[1][largeur / 2 + 1] = arrow_spaces ; zone[1][largeur / 2 - 1] = arrow_spaces;
-        zone[1][largeur / 2 + 2] = arrow_spaces ; zone[1][largeur / 2 - 2] = arrow_spaces;
-    }
-    // Sortie SUD
-    if (y < zone_h - 1) {
-        zone[hauteur - 1][largeur / 2 + 2] = arrow_spaces; zone[hauteur - 2][largeur / 2 + 2] = arrow_spaces;
-        zone[hauteur - 1][largeur / 2 + 1] = arrow_spaces; zone[hauteur - 2][largeur / 2 + 1] = arrow_spaces;
-        zone[hauteur - 1][largeur / 2] = 'v';              zone[hauteur - 2][largeur / 2] = arrow_spaces;
-        zone[hauteur - 1][largeur / 2 - 1] = arrow_spaces; zone[hauteur - 2][largeur / 2 - 1] = arrow_spaces;
-        zone[hauteur - 1][largeur / 2 - 2] = arrow_spaces; zone[hauteur - 2][largeur / 2 - 2] = arrow_spaces;
-    }
-    // Sortie OUEST
-    if (x > 0) {
-        zone[hauteur / 2 - 1][0] = arrow_spaces; zone[hauteur / 2 - 1][1] = arrow_spaces; zone[hauteur / 2 - 1][2] = arrow_spaces;
-        zone[hauteur / 2][0] = '<';              zone[hauteur / 2][1] = arrow_spaces;     zone[hauteur / 2][2] = arrow_spaces;
-        zone[hauteur / 2 + 1][0] = arrow_spaces; zone[hauteur / 2 + 1][1] = arrow_spaces; zone[hauteur / 2 + 1][2] = arrow_spaces;
-    }
-    // Sortie EST
-    if (x < zone_l - 1) {
-        zone[hauteur / 2 - 1][largeur - 1] = arrow_spaces;     zone[hauteur / 2 - 1][largeur - 2] = arrow_spaces;     zone[hauteur / 2 - 1][largeur - 3] = arrow_spaces;
-        zone[hauteur / 2][largeur - 1] = '>';                  zone[hauteur / 2][largeur - 2] = arrow_spaces;         zone[hauteur / 2][largeur - 3] = arrow_spaces;
-        zone[hauteur / 2 + 1][largeur - 1] = arrow_spaces;     zone[hauteur / 2 + 1][largeur - 2] = arrow_spaces;     zone[hauteur / 2 + 1][largeur - 3] = arrow_spaces;
+            switch (type){
+                case ZoneType_GROTTE_NORD:
+                    if (y > 0) {
+                        Zone z_up = w->zones[y - 1][x];
+                        build_mur_bas(z_up, y - 1, x, w->zone_h, w->zone_l);
+                        build_fleche_bas(z_up);
+                    }
+                    if (x > 0) {
+                        Zone z_left = w->zones[y][x - 1];
+                        build_mur_droit(z_left, y, x - 1, w->zone_h, w->zone_l);
+                    }
+                    if (y < w->zone_h - 1) {
+                        Zone z_down = w->zones[y + 1][x];
+                        build_mur_haut(z_down, y + 1, x, w->zone_h, w->zone_l);
+                    }
+                    if (x < w->zone_l - 1) {
+                        Zone z_right = w->zones[y][x + 1];
+                        build_mur_gauche(z_right, y, x + 1, w->zone_h, w->zone_l);
+                    }
+                    break;
+                case ZoneType_GROTTE_SUD:
+                    if (y < w->zone_h - 1) {
+                        Zone z_down = w->zones[y + 1][x];
+                        build_mur_haut(z_down, y + 1, x, w->zone_h, w->zone_l);
+                        build_fleche_haut(z_down);
+                    }
+                    if (x > 0) {
+                        Zone z_left = w->zones[y][x - 1];
+                        build_mur_droit(z_left, y, x - 1, w->zone_h, w->zone_l);
+                    }
+                    if (y > 0) {
+                        Zone z_up = w->zones[y - 1][x];
+                        build_mur_bas(z_up, y - 1, x, w->zone_h, w->zone_l);
+                    }
+                    if (x < w->zone_l - 1) {
+                        Zone z_right = w->zones[y][x + 1];
+                        build_mur_gauche(z_right, y, x + 1, w->zone_h, w->zone_l);
+                    }
+                    break;
+                case ZoneType_GROTTE_OUEST:
+                    if (x > 0) {
+                        Zone z_left = w->zones[y][x - 1];
+                        build_mur_droit(z_left, y, x - 1, w->zone_h, w->zone_l);
+                        build_fleche_droit(z_left);
+                    }
+                    if (y > 0) {
+                        Zone z_up = w->zones[y - 1][x];
+                        build_mur_bas(z_up, y - 1, x, w->zone_h, w->zone_l);
+                    }
+                    if (y < w->zone_h - 1) {
+                        Zone z_down = w->zones[y + 1][x];
+                        build_mur_haut(z_down, y + 1, x, w->zone_h, w->zone_l);
+                    }
+                    if (x < w->zone_l - 1) {
+                        Zone z_right = w->zones[y][x + 1];
+                        build_mur_gauche(z_right, y, x + 1, w->zone_h, w->zone_l);
+                    }
+                    break;
+                case ZoneType_GROTTE_EST:
+                    if (x < w->zone_l - 1) {
+                        Zone z_right = w->zones[y][x + 1];
+                        build_mur_gauche(z_right, y, x + 1, w->zone_h, w->zone_l);
+                        build_fleche_gauche(z_right);
+                    }
+                    if (y > 0) {
+                        Zone z_up = w->zones[y - 1][x];
+                        build_mur_bas(z_up, y - 1, x, w->zone_h, w->zone_l);
+                    }
+                    if (y < w->zone_h - 1) {
+                        Zone z_down = w->zones[y + 1][x];
+                        build_mur_haut(z_down, y + 1, x, w->zone_h, w->zone_l);
+                    }
+                    if (x > 0) {
+                        Zone z_left = w->zones[y][x - 1];
+                        build_mur_droit(z_left, y, x - 1, w->zone_h, w->zone_l);
+                    }
+                    break;
+                default: break;
+            }
+        }
     }
 }
-*/
 
 // Creation quasi divine du monde
 World* init_world(int map_h, int map_l) {
     World *w = malloc(sizeof(World));
+    if (!w) return NULL;
 
     w->zone_h = map_h;
     w->zone_l = map_l;
@@ -362,20 +434,19 @@ World* init_world(int map_h, int map_l) {
             w->zones[y][x]   = init_screen();
             w->visited[y][x] = 0;
 
-            // --- Tres tres temporaire, changer ca par un jolie matrice beaucoup sympa a regarder
             ZoneType type = ZoneType_RECIF;
-            if (y == 0 && x == 3)             type = ZoneType_BATEAU; // surface bateau
-            else if (y == 0 && x == 0)        type = ZoneType_BASE;   // base
-            //else if (y == map_h-1 && x == 0) type = ZoneType_BOSS; // coin bas-gauche : boss
-            //else if ((y+x) % 3 == 0)          type = ZoneType_GROTTE; // quelques grottes éparses
-            else if (y == 1 && x == 1)          type = ZoneType_GROTTE_S_G; // quelques grottes éparses
+            if (y < MAP_H && x < MAP_L) {
+                type = map_to_type(MAP[y][x]);
+            }
 
             w->types[y][x] = type;
-
             // décor selon type
             decorate_zone_typed(w->zones[y][x], y, x, map_h, map_l, type);
         }
     }
+    //Faire une deuxieme passe sur les zones pour connecter les grottes
+    decorate_connect_zone_to_grotte(w);
+
     return w;
 }
 

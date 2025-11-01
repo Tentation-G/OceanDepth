@@ -28,4 +28,8 @@ add_executable(OceanDepth
         Code/utils/utils.h
         Code/world/world.c
         Code/world/world.h
-        Code/main.c)
+        Code/main.c
+        artTest/artTest.c
+        Code/world/map_lt.h
+        Code/world/map_lt.c
+)

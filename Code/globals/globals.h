@@ -1,9 +1,12 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
-// Variables globales (déclarées ici, définies dans globals.c)
+// Variables globales (def dans le .C)
 extern int largeur;
 extern int hauteur;
+
+extern int map_largeur;
+extern int map_hauteur;
 
 extern char fill;
 

@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "render.h"
 #include "../globals/globals.h"
 #include "../utils/utils.h"
 #include "../world/world.h"
+#include "../world/map_lt.h"
 #include "../player/player.h"
 #include "../combat/combat.h"
 
@@ -38,7 +40,11 @@ void print_screen(char **screen) {
     }
 }
 
-void screen_header(Plongeur *p, char* pv_bar, char* oxy_bar, char* fatigue_bar, char* info){
+void screen_header(World *w, Plongeur *p, char* pv_bar, char* oxy_bar, char* fatigue_bar, char* info){
+    ZoneType type = world_get_zone_type(w, p->map_pos_y, p->map_pos_x);
+
+    char* arme_equipe = "Harpon Rouille";
+
     int profondeur;
     switch(p->map_pos_y) {
         case 0 : profondeur = 0; break;
@@ -53,16 +59,16 @@ void screen_header(Plongeur *p, char* pv_bar, char* oxy_bar, char* fatigue_bar, 
     printf("  O₂: %s %3d%%  │", oxy_bar, p->niveau_oxygene);
     printf("  Fatigue: %s %3d%%  │\n", fatigue_bar, p->niveau_fatigue);
     printf("│  Profondeur: %4dm     ", profondeur);
-    printf("│  Arme équipé : Harpon Rouillé                      │\n");
+    printf("│  Arme équipé : %-36s│\n", arme_equipe);
     printf("├──────────────────────────────────────────────────────────────┬──────────────┤\n");
     printf("│  [Info] : %-49s  │  Zone[%d][%d]  │\n", info, p->map_pos_y, p->map_pos_x);
-    printf("├──────────────────────────────────────────────────────────────┴──────────────┤\n");
+    printf("├──────────────────────────────────────────────────────────────┤ type: %-6s │\n", zone_type_to_string(type));
 }
 
 void screen_main(World *w, Plongeur *p, CreatureMarine *c, char** screen){
     switch (screen_status) {
         case 0: { // Exploration
-            printf("│                                                                             │\n");
+            printf("│                                                              ╰──────────────┤\n");
             printf("│    0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!?@#$^&    │\n");
             printf("│   ╭──────────────────────────── Exploration ────────────────────────────╮   │\n");
 
@@ -85,7 +91,6 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *c, char** screen){
             ajout_joueur_combat_screen(screen_combat);
             ajout_creature_combat_screen(screen_combat, c);
             print_screen(screen_combat);
-            // (petite fuite volontaire comme dans ton code original)
             break;
         }
         case 2: { // Carte
@@ -160,11 +165,19 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *c, char** screen){
     printf("│                                                                             │\n");
 }
 
-void screen_footer(){
+void screen_footer(World *w, Plongeur *p){
+    ZoneType type = world_get_zone_type(w, p->map_pos_y, p->map_pos_x);
+
+    char* sauvegarde;
+    if(strcmp(zone_type_to_string(type), "Grotte") == 0){
+        sauvegarde = "[S] Sauvegarder";
+    } else{
+        sauvegarde = "";
+    }
     switch(screen_status){
         case 0:{
             printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
-            printf("│  [C] Carte  [I] Inventaire  [D] Se Deplacer                                 │\n");
+            printf("│  [C] Carte  [I] Inventaire  [D] Se Deplacer  %15s                │\n", sauvegarde);
             printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
             break;
         }
@@ -176,7 +189,7 @@ void screen_footer(){
         }
         case 2:{
             printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
-            printf("│  [Q]  Quitter                                                               │\n");
+            printf("│  [1] Carte I  [2] Carte II  [3] Carte III  [4] Carte IV  [Q]  Quitter       │\n");
             printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
             break;
         }
@@ -206,9 +219,9 @@ void full_screen(World *w, Plongeur *p, CreatureMarine *c, char** screen, char* 
     char* oxy_bar = convert_to_visual_bar(p->niveau_oxygene, p->niveau_oxygene_max);
     char* fatigue_bar = convert_to_visual_bar(p->niveau_fatigue, p->niveau_fatigue_max);
 
-    screen_header(p, pv_bar, oxy_bar, fatigue_bar, info);
+    screen_header(w, p, pv_bar, oxy_bar, fatigue_bar, info);
     screen_main(w, p, c, screen);
-    screen_footer();
+    screen_footer(w, p);
 
     free(pv_bar);
     free(oxy_bar);
