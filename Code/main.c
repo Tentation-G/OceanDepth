@@ -51,8 +51,8 @@ int main(void) {
 
     World *world = init_world(map_hauteur, map_largeur); // h, l
     marquer_zone_as_visited(world, plongeur.map_pos_y, plongeur.map_pos_x); // zone depart => visited
-
-    // ======= Boucle de gameplay =======
+    // Pas le top, mais j'ai fais comme ca au debut, et c'est trop tard pour changer.
+    // ────────── Boucle de gameplay ──────────
     int running = 1;
     while (running) {
 
@@ -94,7 +94,7 @@ int main(void) {
                 if (cmd == 'Q') {
                     screen_status = 0;
                 }
-                // (A,B,C,I,F...) à implémenter
+                // (A,B,C,I,F) à implémenter
                 break;
             }
 

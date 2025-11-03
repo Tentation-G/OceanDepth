@@ -8,6 +8,7 @@ typedef enum {
     ZoneType_BASE,
     ZoneType_PLAGE,
     ZoneType_BATEAU,
+    ZoneType_EPAVE,
 
     //Definie la dir de sortie/entrée de la grotte
     ZoneType_GROTTE,
@@ -17,6 +18,8 @@ typedef enum {
     ZoneType_GROTTE_EST,
 
     ZoneType_RECIF,
+    ZoneType_FORET_ALGUES,
+    ZoneType_JARDIN_CORALLIEN,
     ZoneType_BOSS
 } ZoneType;
 
@@ -27,7 +30,7 @@ typedef struct {
     int zone_l;            // nombre de zones en X
     Zone **zones;         // [zone_h][zone_l]
     char **visited;      // [zone_h][zone_l] : 0/1
-    ZoneType **types;   //[zone_h][zone_l] type de chaque zone
+    ZoneType **types;   // [zone_h][zone_l] type de chaque zone
 } World;
 
 typedef struct {

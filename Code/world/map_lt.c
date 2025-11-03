@@ -9,7 +9,7 @@ const char* MAP[MAP_H][MAP_L] = {
     { " "     ,  " "    , " "     , " "     , " "     , " "     , " "     , " "     , " "     , " "      },             // Depth 1     Y[2]
     //----------------------------------------------------------------------------------------------------------------------------------------
     { " "     ,  " "    , " "     , " "     , " "     , " "     , " "     , " "     , "GROT_E", " "      },           // Depth 2       Y[3]
-    { " "     ,  " "    , " "     , " "     , " "     , " "     , " "     , " "     , " "     , "BOSS"   },          // Depth 2        Y[4]
+    { " "     ,  " "    , " "     , " "     , " "     , " "     , " "     , " "     , " "     , " "      },          // Depth 2        Y[4]
     //----------------------------------------------------------------------------------------------------------------------------------------
     { " "     ,  " "    , " "     , " "     , " "     , " "     , " "     , " "     , " "     , " "      },        // Depth 3          Y[5]
     { "GROT_E",  " "    , " "     , " "     , " "     , " "     , " "     , " "     , " "     , " "      },       // Depth 3           Y[6]
@@ -35,8 +35,9 @@ ZoneType map_to_type(const char *map_info_type) {
     if (!map_info_type) return ZoneType_UNKNOWN;
 
     if      (strcmp(map_info_type, "BASE") == 0)    return ZoneType_BASE;
-    else if (strcmp(map_info_type, "BATEAU") == 0)  return ZoneType_BATEAU;
     else if (strcmp(map_info_type, "PLAGE") == 0)   return ZoneType_PLAGE;
+    else if (strcmp(map_info_type, "BATEAU") == 0)  return ZoneType_BATEAU;
+    else if (strcmp(map_info_type, "EPAVE") == 0)   return ZoneType_EPAVE;
 
     else if (strcmp(map_info_type, "GROTTE") == 0)  return ZoneType_GROTTE;
     else if (strcmp(map_info_type, "GROT_N") == 0)  return ZoneType_GROTTE_NORD;
@@ -45,9 +46,11 @@ ZoneType map_to_type(const char *map_info_type) {
     else if (strcmp(map_info_type, "GROT_E") == 0)  return ZoneType_GROTTE_EST;
 
     else if (strcmp(map_info_type, "RECIF") == 0)   return ZoneType_RECIF;
+    else if (strcmp(map_info_type, "F_ALGE") == 0)  return ZoneType_FORET_ALGUES;
+    else if (strcmp(map_info_type, "J_CORA") == 0)  return ZoneType_JARDIN_CORALLIEN;
     else if (strcmp(map_info_type, "BOSS") == 0)    return ZoneType_BOSS;
 
-    else if (strcmp(map_info_type, " ") == 0)  return ZoneType_VIDE;
+    else if (strcmp(map_info_type, " ") == 0)       return ZoneType_VIDE;
 
 
     return ZoneType_UNKNOWN;
@@ -55,20 +58,24 @@ ZoneType map_to_type(const char *map_info_type) {
 
 const char* zone_type_to_string(const ZoneType type) {
     switch (type) {
-    case ZoneType_BASE:       return "Base";
-    case ZoneType_PLAGE:      return "Plage";
-    case ZoneType_BATEAU:     return "Bateau";
+    case ZoneType_BASE:         return "Base";
+    case ZoneType_PLAGE:        return "Plage";
+    case ZoneType_BATEAU:       return "Bateau";
+    case ZoneType_EPAVE:        return "Bateau";
 
-    case ZoneType_GROTTE:     return "Grotte";
-    case ZoneType_GROTTE_NORD:     return "Grotte";
-    case ZoneType_GROTTE_SUD:     return "Grotte";
-    case ZoneType_GROTTE_OUEST:     return "Grotte";
-    case ZoneType_GROTTE_EST:     return "Grotte";
+    case ZoneType_GROTTE:       return "Grotte";
+    case ZoneType_GROTTE_NORD:  return "Grotte";
+    case ZoneType_GROTTE_SUD:   return "Grotte";
+    case ZoneType_GROTTE_OUEST: return "Grotte";
+    case ZoneType_GROTTE_EST:   return "Grotte";
 
-    case ZoneType_VIDE:       return "Rien";
+    case ZoneType_RECIF:            return "Recif";
+    case ZoneType_FORET_ALGUES:     return "Recif";
+    case ZoneType_JARDIN_CORALLIEN: return "Recif";
+    case ZoneType_BOSS:             return "Boss";
 
-    case ZoneType_RECIF:      return "Recif";
-    case ZoneType_BOSS:       return "Boss";
-    default:                  return "????";
+    case ZoneType_VIDE:             return "Rien";
+
+    default:                        return "????";
     }
 }

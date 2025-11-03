@@ -80,11 +80,11 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *c, char** screen){
         }
         case 1: { // Combat
             printf("│                                                              ╰──────────────┤\n");
-            char * creature_pv_bar = convert_to_visual_bar(c->points_de_vie_actuels, c->points_de_vie_max);
+            //char * creature_pv_bar = convert_to_visual_bar(c->points_de_vie_actuels, c->points_de_vie_max);
             printf("│   ╭───────────────────────────── Combat ────────────────────────────────╮   │\n");
             //printf("│   │  [%d]: %s %3d%%                                               │   │\n",
             //       c->id, creature_pv_bar, convert_to_percent(c->points_de_vie_actuels, c->points_de_vie_max));
-            printf("│   ├─────────────────────────────────────────────────────────────────────┤   │\n");
+            //printf("│   ├─────────────────────────────────────────────────────────────────────┤   │\n");
             printf("│   │                                                                     │   │\n");
             printf("│   │                                                                     │   │\n");
             printf("│   │                                                                     │   │\n");
@@ -105,7 +105,7 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *c, char** screen){
             printf("│   │   @@@@@@@@@@@@@@@@@                                                 │   │\n");
             printf("│   │ @@@@@@@@@@@@@@@@@@@@                                                │   │\n");
             printf("│   ╰─────────────────────────────────────────────────────────────────────╯   │\n");
-            free(creature_pv_bar);
+            //free(creature_pv_bar);
 
             //char** screen_combat = init_screen();
             //ajout_joueur_combat_screen(screen_combat);
