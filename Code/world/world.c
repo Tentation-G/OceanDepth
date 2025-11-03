@@ -175,6 +175,23 @@ void build_cailloux(Zone zone, int y, int x, int zone_h, int zone_l, int taille)
     }
 }
 
+void spawn_mob_on_zone(Zone zone, int number) {
+    int placed = 0;
+    int tries = 0;
+    int max_tries = number * 500;
+
+    while (placed < number && tries < max_tries) {
+        tries++;
+        int y = rand() % hauteur;
+        int x = rand() % largeur;
+
+        if (zone[y][x] == ' ') {
+            zone[y][x] = 'E';
+            placed++;
+        }
+    }
+}
+
 char** init_screen(){
     // Allocation dynamique du tab d'ecran — rempli de ' '
     char **screen = malloc(hauteur * sizeof(char*));
@@ -278,49 +295,61 @@ void decorate_zone_typed(Zone zone, int y, int x, int zone_h, int zone_l, ZoneTy
 
     // habillage selon le type
     switch (zone_type_Norm(type)) {
-    case ZoneType_BASE:
-        // Deco Base
-        break;
+        // Zones Chill
+        case ZoneType_BASE:
+            // Deco Base
+            break;
+        case ZoneType_BATEAU:
+            // Deco zone bateau
+            break;
+        // Les GROTTES
+        case ZoneType_GROTTE:
+            build_all_mur(zone, y, x, zone_h, zone_l);
 
-    case ZoneType_BATEAU:
-        // Deco zone bateau
-        break;
+            switch (type){
+                case ZoneType_GROTTE_NORD:
+                    build_all_mur(zone, y, x, zone_h, zone_l);
+                    build_fleche_haut(zone);
 
-    // Les GROTTES
-    case ZoneType_GROTTE:
-        build_all_mur(zone, y, x, zone_h, zone_l);
+                    break;
+                case ZoneType_GROTTE_SUD:
+                    build_all_mur(zone, y, x, zone_h, zone_l);
+                    build_fleche_bas(zone);
 
-        switch (type){
-            case ZoneType_GROTTE_NORD:
-                build_all_mur(zone, y, x, zone_h, zone_l);
-                build_fleche_haut(zone);
+                    break;
+                case ZoneType_GROTTE_OUEST:
+                    build_all_mur(zone, y, x, zone_h, zone_l);
+                    build_fleche_gauche(zone);
+                    break;
+                case ZoneType_GROTTE_EST:
+                    build_all_mur(zone, y, x, zone_h, zone_l);
+                    build_fleche_droit(zone);
+                    break;
+                default:;
+                }
 
-                break;
-            case ZoneType_GROTTE_SUD:
-                build_all_mur(zone, y, x, zone_h, zone_l);
-                build_fleche_bas(zone);
+            break;
 
-                break;
-            case ZoneType_GROTTE_OUEST:
-                build_all_mur(zone, y, x, zone_h, zone_l);
-                build_fleche_gauche(zone);
-                break;
-            case ZoneType_GROTTE_EST:
-                build_all_mur(zone, y, x, zone_h, zone_l);
-                build_fleche_droit(zone);
-                break;
-            default:;
-            }
+          // Zones pas chill
+         // Faire deco (alges, corail, cailloux)
+        // Mettre deco avant monstres
+        case ZoneType_RECIF:
+            spawn_mob_on_zone(zone, 3);
+            break;
 
-        break;
+        case ZoneType_FORET_ALGUES:
+            spawn_mob_on_zone(zone, 3);
+            break;
 
-    case ZoneType_BOSS:
+        case ZoneType_JARDIN_CORALLIEN:
+            spawn_mob_on_zone(zone, 3);
+            break;
+        // Zone pas Chill du tout
+        case ZoneType_BOSS:
 
-        break;
-
-    case ZoneType_RECIF:
-    default:
-        break;
+            break;
+        default:
+            break;
     }
 }
 

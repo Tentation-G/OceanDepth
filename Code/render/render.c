@@ -60,15 +60,15 @@ void screen_header(World *w, Plongeur *p, char* pv_bar, char* oxy_bar, char* fat
     printf("  Fatigue: %s %3d%%  │\n", fatigue_bar, p->niveau_fatigue);
     printf("│  Profondeur: %4dm     ", profondeur);
     printf("│  Arme équipé : %-36s│\n", arme_equipe);
-    printf("├──────────────────────────────────────────────────────────────┬──────────────┤\n");
-    printf("│  [Info] : %-49s  │  Zone[%d][%d]  │\n", info, p->map_pos_y, p->map_pos_x);
-    printf("├──────────────────────────────────────────────────────────────┤ type: %-6s │\n", zone_type_to_string(type));
+    printf("├─────────────────────────────────────────────────────────────┬───────────────┤\n");
+    printf("│  [Info] : %-48s  │  Zone-[%d][%d]  │\n", info, p->map_pos_y, p->map_pos_x);
+    printf("├─────────────────────────────────────────────────────────────┤ %-13s │\n", zone_type_to_string(type));
 }
 
 void screen_main(World *w, Plongeur *p, CreatureMarine *c, char** screen){
     switch (screen_status) {
         case 0: { // Exploration
-            printf("│                                                              ╰──────────────┤\n");
+            printf("│                                                             ╰───────────────┤\n");
             printf("│    0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!?@#$^&    │\n");
             printf("│   ╭──────────────────────────── Exploration ────────────────────────────╮   │\n");
 

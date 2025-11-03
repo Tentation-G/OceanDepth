@@ -5,21 +5,25 @@ typedef enum {
     ZoneType_UNKNOWN = 0,
     ZoneType_VIDE,
 
+    // Zone Chill
     ZoneType_BASE,
     ZoneType_PLAGE,
     ZoneType_BATEAU,
     ZoneType_EPAVE,
 
-    //Definie la dir de sortie/entrée de la grotte
+     // Definie la dir de
+    // sortie/entrée de la grotte
     ZoneType_GROTTE,
     ZoneType_GROTTE_NORD,
     ZoneType_GROTTE_SUD,
     ZoneType_GROTTE_OUEST,
     ZoneType_GROTTE_EST,
 
+    // Zone Pas chill
     ZoneType_RECIF,
     ZoneType_FORET_ALGUES,
     ZoneType_JARDIN_CORALLIEN,
+    // Zone pas Chill du tout
     ZoneType_BOSS
 } ZoneType;
 

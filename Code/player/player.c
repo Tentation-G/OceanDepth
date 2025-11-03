@@ -34,13 +34,13 @@ void layer_player(Plongeur *p, Zone zone) {
         }
     }
 
-    // Choper le contenu de la case actuelle avant de draw '@' (joueur)
+     // Choper le contenu de la case actuelle avant de draw '@' (joueur)
     // Dessiner le joueur si coordonnées valides
     if (p->pos_y >= 0 && p->pos_y < hauteur && p->pos_x >= 0 && p->pos_x < largeur) {
         char cur = zone[p->pos_y][p->pos_x];
 
-        // Patch bug :
-        // Ne pas écraser saved_tile avec '@' si on est sur meme case de meme zone
+          // Patch bug :
+         // Ne pas écraser saved_tile avec '@' si on est sur meme case de meme zone
         // que la dernière fois (Car probleme si deplacement sur meme case et changement d'ecran).
         if (!(cur == '@' && has_prev && zone == prev_zone &&
               prev_y == p->pos_y && prev_x == p->pos_x)) {
@@ -85,7 +85,7 @@ void demander_player_for_coords(char **screen, Plongeur *p, World *w) {
         }
 
         // Ordre: [↓][→]  => Y puis X
-        char y_char = to_upper_ascii(input[0]); // Y tolère min/maj
+        char y_char = to_upper_ascii(input[0]);  // Y tolère min/maj
         char x_char = input[1];                 // X est sensible à la casse
 
         int y = index_in_axis(y_char, Y_AXIS);

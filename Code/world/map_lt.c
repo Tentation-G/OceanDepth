@@ -2,10 +2,11 @@
 #include "map_lt.h"
 #include "../types/types.h"
 
+// De toute beauté
 const char* MAP[MAP_H][MAP_L] = {
-    { "BASE"  , "PLAGE" , " "     , " "     , " "     , " "     , " "     , "BATEAU", " "     , " "      },                // Surface  Y[0]
+    { "BASE"  , "PLAGE" , ""     , " "     , " "     , " "     , " "     , "BATEAU", " "     , " "      },                // Surface  Y[0]
     //----------------------------------------------------------------------------------------------------------------------------------------
-    { "GROT_S",  " "    , " "     , " "     , " "     , " "     , " "     , " "     , " "     , " "      },              // Depth 1    Y[1]
+    { "GROT_S", "F_ALGE", "J_CORA", " "     , " "     , " "     , " "     , " "     , " "     , " "      },              // Depth 1    Y[1]
     { " "     ,  " "    , " "     , " "     , " "     , " "     , " "     , " "     , " "     , " "      },             // Depth 1     Y[2]
     //----------------------------------------------------------------------------------------------------------------------------------------
     { " "     ,  " "    , " "     , " "     , " "     , " "     , " "     , " "     , "GROT_E", " "      },           // Depth 2       Y[3]
@@ -58,24 +59,24 @@ ZoneType map_to_type(const char *map_info_type) {
 
 const char* zone_type_to_string(const ZoneType type) {
     switch (type) {
-    case ZoneType_BASE:         return "Base";
-    case ZoneType_PLAGE:        return "Plage";
-    case ZoneType_BATEAU:       return "Bateau";
-    case ZoneType_EPAVE:        return "Bateau";
+    case ZoneType_BASE:         return "    Base";
+    case ZoneType_PLAGE:        return "    Plage";
+    case ZoneType_BATEAU:       return "   Bateau";
+    case ZoneType_EPAVE:        return "   Bateau";
 
-    case ZoneType_GROTTE:       return "Grotte";
-    case ZoneType_GROTTE_NORD:  return "Grotte";
-    case ZoneType_GROTTE_SUD:   return "Grotte";
-    case ZoneType_GROTTE_OUEST: return "Grotte";
-    case ZoneType_GROTTE_EST:   return "Grotte";
+    case ZoneType_GROTTE:       return "   Grotte";
+    case ZoneType_GROTTE_NORD:  return "   Grotte";
+    case ZoneType_GROTTE_SUD:   return "   Grotte";
+    case ZoneType_GROTTE_OUEST: return "   Grotte";
+    case ZoneType_GROTTE_EST:   return "   Grotte";
 
-    case ZoneType_RECIF:            return "Recif";
-    case ZoneType_FORET_ALGUES:     return "Recif";
-    case ZoneType_JARDIN_CORALLIEN: return "Recif";
-    case ZoneType_BOSS:             return "Boss";
+    case ZoneType_RECIF:            return "   Recif";
+    case ZoneType_FORET_ALGUES:     return "Foret d'Algue";
+    case ZoneType_JARDIN_CORALLIEN: return "Jardin Corail";
+    case ZoneType_BOSS:             return "    Boss";
 
-    case ZoneType_VIDE:             return "Rien";
+    case ZoneType_VIDE:             return "    Rien";
 
-    default:                        return "????";
+    default:                        return "    ????";
     }
 }

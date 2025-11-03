@@ -17,7 +17,7 @@ int zone_is_grotte(ZoneType type) {
 // Retourne la liste des touches valides selon l'écran courant
 char* saisies_utilisateur_autorise(int status) {
     switch (status) {
-    case 0:  return "CDIcdiSsE";          // Exploration  / [C] Carte | [I] Inv | [D] Depl | [E] Ecran combat pour test dev
+    case 0:  return "CDIcdiSsE";        // Exploration  / [C] Carte | [I] Inv | [D] Depl | [E] Ecran combat pour test dev
     case 1:  return "ABCIabciQ";       // Combat       / [A] Atq A | [B] Atq B | [C] Atq C | [D] Atq D | [Q] Sortie ecran combat pour test dev
     case 2:  return "1234Qq";         // Carte        / [1] Carte I | [2] Carte II | [3] Carte III | [4] Carte IV |[Q] Quitter
     case 3:  return "Qq";            // Inventaire   / [Q] Quitter

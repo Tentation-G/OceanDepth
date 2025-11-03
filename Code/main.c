@@ -32,7 +32,7 @@ int main(void) {
         .last_pos_y = 5,
         .last_pos_x = 10,
         .map_pos_y  = 1,
-        .map_pos_x  = 0
+        .map_pos_x  = 1
     };
 
     // Créa ennemi
