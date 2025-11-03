@@ -104,7 +104,7 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *c, char** screen){
             printf("│   │     @@@@@@@@@@@@@@                                                  │   │\n");
             printf("│   │   @@@@@@@@@@@@@@@@@                                                 │   │\n");
             printf("│   │ @@@@@@@@@@@@@@@@@@@@                                                │   │\n");
-            printf("│   ╰─────────────────────────────────────────────────────────────────────╯   │\n");
+            //printf("│   ╰─────────────────────────────────────────────────────────────────────╯   │\n");
             //free(creature_pv_bar);
 
             //char** screen_combat = init_screen();
