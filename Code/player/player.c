@@ -300,6 +300,16 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
             screen_status = 1;
             break;
 
+        case 'M':
+            printf("Ouvrir l'ecran du marchant\n");
+            screen_status = 99;
+            break;
+
+        case 'C':
+            printf("Ouvrir l'ecran du coffre\n");
+            screen_status = 88;
+            break;
+
         default:
             info = "Rien par ici";
             break;

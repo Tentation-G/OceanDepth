@@ -9,7 +9,7 @@ const char* MAP[MAP_H][MAP_L] = {
     { " "     ,  " "    , " "     , " "     , " "     , " "     , " "     , " "     , " "     , " "      },             // Depth 1     Y[2]
     //----------------------------------------------------------------------------------------------------------------------------------------
     { " "     ,  " "    , " "     , " "     , " "     , " "     , " "     , " "     , "GROT_E", " "      },           // Depth 2       Y[3]
-    { " "     ,  " "    , " "     , " "     , " "     , " "     , " "     , " "     , " "     , " "      },          // Depth 2        Y[4]
+    { " "     ,  " "    , " "     , " "     , " "     , " "     , " "     , " "     , " "     , "BOSS"   },          // Depth 2        Y[4]
     //----------------------------------------------------------------------------------------------------------------------------------------
     { " "     ,  " "    , " "     , " "     , " "     , " "     , " "     , " "     , " "     , " "      },        // Depth 3          Y[5]
     { "GROT_E",  " "    , " "     , " "     , " "     , " "     , " "     , " "     , " "     , " "      },       // Depth 3           Y[6]
@@ -53,7 +53,7 @@ ZoneType map_to_type(const char *map_info_type) {
     return ZoneType_UNKNOWN;
 }
 
-const char* zone_type_to_string(const ZoneType type) {s
+const char* zone_type_to_string(const ZoneType type) {
     switch (type) {
     case ZoneType_BASE:       return "Base";
     case ZoneType_PLAGE:      return "Plage";

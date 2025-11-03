@@ -79,18 +79,38 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *c, char** screen){
             break;
         }
         case 1: { // Combat
-            printf("│                                                                             │\n");
+            printf("│                                                              ╰──────────────┤\n");
             char * creature_pv_bar = convert_to_visual_bar(c->points_de_vie_actuels, c->points_de_vie_max);
             printf("│   ╭───────────────────────────── Combat ────────────────────────────────╮   │\n");
-            printf("│   │  [%d]: %s %3d%%                                               │   │\n",
-                   c->id, creature_pv_bar, convert_to_percent(c->points_de_vie_actuels, c->points_de_vie_max));
+            //printf("│   │  [%d]: %s %3d%%                                               │   │\n",
+            //       c->id, creature_pv_bar, convert_to_percent(c->points_de_vie_actuels, c->points_de_vie_max));
             printf("│   ├─────────────────────────────────────────────────────────────────────┤   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │          @@@@@@                                                     │   │\n");
+            printf("│   │        @@@@@@@@@                                                    │   │\n");
+            printf("│   │       @@@@@@@@@@@                                                   │   │\n");
+            printf("│   │       @@@@@@@@@@@@                                                  │   │\n");
+            printf("│   │        @@@@@@@@@@@                                                  │   │\n");
+            printf("│   │        @@@@@@@@@@                                                   │   │\n");
+            printf("│   │         @@@@@@@                                                     │   │\n");
+            printf("│   │         @@@@@@                                                      │   │\n");
+            printf("│   │       @@@@@@@@@@                                                    │   │\n");
+            printf("│   │     @@@@@@@@@@@@@@                                                  │   │\n");
+            printf("│   │   @@@@@@@@@@@@@@@@@                                                 │   │\n");
+            printf("│   │ @@@@@@@@@@@@@@@@@@@@                                                │   │\n");
+            printf("│   ╰─────────────────────────────────────────────────────────────────────╯   │\n");
             free(creature_pv_bar);
 
-            char** screen_combat = init_screen();
-            ajout_joueur_combat_screen(screen_combat);
-            ajout_creature_combat_screen(screen_combat, c);
-            print_screen(screen_combat);
+            //char** screen_combat = init_screen();
+            //ajout_joueur_combat_screen(screen_combat);
+            //ajout_creature_combat_screen(screen_combat, c);
+            //print_screen(screen_combat);
             break;
         }
         case 2: { // Carte

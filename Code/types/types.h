@@ -54,6 +54,8 @@ typedef struct {
     int last_pos_x;
     int map_pos_y;
     int map_pos_x;
+
+
 } Plongeur;
 
 typedef struct {
