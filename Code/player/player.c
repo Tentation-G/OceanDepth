@@ -8,6 +8,13 @@
 #include "../utils/utils.h"
 #include "../input/input.h"
 
+// Define MAX_LOG_LENGTH for log message buffer size
+#define MAX_LOG_LENGTH 256
+
+#include "../combat/combat.h"
+#include "../creature/creature.h"
+#include "../inventaire/inventaire.h"
+
 
 void layer_player(Plongeur *p, Zone zone) {
     // Mémoire persistante du dernier rendu du joueur
@@ -295,9 +302,28 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
         }
 
         case 'E':
-            printf("Declancher fonction combat\n");
-            info = "Combat";
+            printf("Declanchement du combat !\n");
+            info = "Combat !";
+            
+            // Créer les créatures pour le combat
+            int profondeur_actuelle = p->map_pos_y;
+            // int profondeur_actuelle = 3;
+            g_creatures_en_combat = cree_creatures(profondeur_actuelle);
+            
+            
+            // Déterminer le nombre de créatures selon la profondeur
+            if (profondeur_actuelle == 1){ g_nbr_creatures_en_combat = 1;}
+            else if (profondeur_actuelle == 2){ g_nbr_creatures_en_combat = 2;}
+            else if (profondeur_actuelle == 3) {g_nbr_creatures_en_combat = 3;}
+            else {g_nbr_creatures_en_combat = 4;}
+            
+            // Trier les créatures par vitesse
+            g_creatures_en_combat = trier_creatures(g_creatures_en_combat, g_nbr_creatures_en_combat);
+            
+            g_creature_tour_index = 0;
             screen_status = 1;
+            printf("HHAHAHAHHAHAHAHAHAHHA");
+            
             break;
 
         case 'M':
@@ -314,5 +340,78 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
             info = "Rien par ici";
             break;
         }
+    }
+}
+
+void player_use_item(Plongeur *p, int slot_index) {
+    InventorySlot* slot = &p->inventaire[slot_index];
+    if (slot->item_id == 0) {
+        info = "Ce slot est vide.";
+        return;
+    }
+    
+    ItemTemplate* item = get_item_template(slot->item_id);
+    if (item->type != ITEM_TYPE_CONSUMABLE) {
+        info = "Cet objet n'est pas utilisable.";
+        return;
+    }
+
+    // Appliquer l'effet
+    switch (item->effet) {
+    case EFFECT_HEAL_HP:
+        p->points_de_vie += item->puissance_effet;
+        if (p->points_de_vie > p->points_de_vie_max) p->points_de_vie = p->points_de_vie_max;
+        break;
+    case EFFECT_RESTORE_O2:
+        p->niveau_oxygene += item->puissance_effet;
+        if (p->niveau_oxygene > p->niveau_oxygene_max) p->niveau_oxygene = p->niveau_oxygene_max;
+        break;
+    case EFFECT_REDUCE_FATIGUE:
+        p->niveau_fatigue -= item->puissance_effet;
+        if (p->niveau_fatigue < 0) p->niveau_fatigue = 0;
+        break;
+    case EFFECT_CURE_POISON:
+
+        break;
+    default:
+        break;
+    }
+
+
+    char buffer[MAX_LOG_LENGTH];
+    sprintf(buffer, "Vous avez utilise: %s", item->nom);
+    info = buffer; 
+
+    // Décrémenter l'objet
+    slot->quantite--;
+    if (slot->quantite <= 0) {
+        slot->item_id = 0; // Vider le slot
+    }
+}
+
+void player_equip_item(Plongeur *p, int slot_index) {
+    InventorySlot* slot = &p->inventaire[slot_index];
+    if (slot->item_id == 0) {
+        info = "Ce slot est vide.";
+        return;
+    }
+    
+    ItemTemplate* item = get_item_template(slot->item_id);
+    
+    // Sauvegarde temporaire du slot de l'inventaire
+    InventorySlot temp_slot = *slot;
+    
+    if (item->type == ITEM_TYPE_WEAPON) {
+        *slot = p->equip_weapon;   
+        p->equip_weapon = temp_slot; 
+        info = "Nouvelle arme equipee.";
+    } 
+    else if (item->type == ITEM_TYPE_SUIT) {
+        *slot = p->equip_suit;        
+        p->equip_suit = temp_slot;   
+        info = "Nouvelle combinaison equipee.";
+    } 
+    else {
+        info = "Cet objet n'est pas equipable.";
     }
 }

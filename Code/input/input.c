@@ -4,6 +4,7 @@
 #include "../utils/utils.h"
 #include "../world/world.h"
 #include "../types/types.h"
+#include "../combat/combat.h"
 
 // bool
 int zone_is_grotte(ZoneType type) {
@@ -18,9 +19,9 @@ int zone_is_grotte(ZoneType type) {
 char* saisies_utilisateur_autorise(int status) {
     switch (status) {
     case 0:  return "CDIcdiSsE";        // Exploration  / [C] Carte | [I] Inv | [D] Depl | [E] Ecran combat pour test dev
-    case 1:  return "ABCIabciQ";       // Combat       / [A] Atq A | [B] Atq B | [C] Atq C | [D] Atq D | [Q] Sortie ecran combat pour test dev
+    case 1:  return "ABCIabciQqSsEe";       // Combat       / [A] Atq A | [B] Atq B | [C] Atq C | [D] Atq D | [Q] Sortie ecran combat pour test dev | [E] Economiser
     case 2:  return "1234Qq";         // Carte        / [1] Carte I | [2] Carte II | [3] Carte III | [4] Carte IV |[Q] Quitter
-    case 3:  return "Qq";            // Inventaire   / [Q] Quitter
+    case 3:  return "Qq12";            // Inventaire   / [Q] Quitter
     case 4:  return "Qq";           // Trésor       / [Q] Quitter
     default: return "";
     }
@@ -74,4 +75,34 @@ int ask_yes_no(char *question) {
         if (c == 'N') return 0;
         printf("Répondez par O ou N.\n");
     }
+}
+
+// Nouvelle fonction pour choisir une cible
+int prompt_for_target(int nbr_mobs, CreatureMarine *creatures){
+    int choix_mob;
+    printf("\nChoisissez la creature a attaquer: \n");
+    creatures_restants(creatures, nbr_mobs);
+    printf("> ");
+
+    while(scanf("%d", &choix_mob) != 1 || choix_mob < 1 || choix_mob < 1 || choix_mob > nbr_mobs || !creatures[choix_mob - 1].est_vivant){
+        printf("Choix invalide, entrez a nouveau : ");
+        // Vide le buffer d'entrée en cas d'erreur
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF);
+    }
+    return choix_mob - 1; // index de mob de (0 => nbr_mobs -1)
+}
+
+// pour inventaire
+int prompt_for_inventory_slot(const char* action_prompt) {
+    int slot;
+    printf("%s (1-8) : ", action_prompt);
+    
+    while (scanf("%d", &slot) != 1 || slot < 1 || slot > 8) {
+        printf("Choix invalide. Entrez un numero de 1 a 8 : ");
+        // Vide le buffer d'entrée
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF);
+    }
+    return slot - 1; // Retourne l'index (0-7)
 }

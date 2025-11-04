@@ -10,4 +10,9 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
 
 int distance_entre_pos(Plongeur *p);
 int sign_int(int v);
+
+//inventaire
+void player_use_item(Plongeur *p, int slot_index);
+void player_equip_item(Plongeur *p, int slot_index);
+
 #endif // PLAYER_H

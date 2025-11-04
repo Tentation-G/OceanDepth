@@ -8,6 +8,7 @@
 #include "../world/map_lt.h"
 #include "../player/player.h"
 #include "../combat/combat.h"
+#include "../inventaire/inventaire.h"
 
 void print_screen(char **screen) {
     switch (screen_status){
@@ -65,7 +66,7 @@ void screen_header(World *w, Plongeur *p, char* pv_bar, char* oxy_bar, char* fat
     printf("├─────────────────────────────────────────────────────────────┤ %-13s │\n", zone_type_to_string(type));
 }
 
-void screen_main(World *w, Plongeur *p, CreatureMarine *c, char** screen){
+void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen){
     switch (screen_status) {
         case 0: { // Exploration
             printf("│                                                             ╰───────────────┤\n");
@@ -168,9 +169,50 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *c, char** screen){
         }
         case 3: { // Inventaire
             printf("│                                                                             │\n");
-            printf("│    [Inventaire] (à implémenter)                                             │\n");
             printf("│   ╭──────────────────────────── Inventaire ─────────────────────────────╮   │\n");
-            print_screen(screen);
+            
+            char buffer[100]; // Buffer pour sprintf
+ 
+
+            // Équipement
+            printf("│   │%-69s│   │\n", "     EQUIPEMENT:");
+            
+            ItemTemplate* weapon = get_item_template(p->equip_weapon.item_id);
+            sprintf(buffer, "       Arme: %s (ATK: %d-%d)", weapon->nom, weapon->atk_min, weapon->atk_max);
+            printf("│   │%-69s│   │\n", buffer);
+
+            ItemTemplate* suit = get_item_template(p->equip_suit.item_id);
+            sprintf(buffer, "       Combi: %s (DEF: +%d)", suit->nom, suit->defense);
+            printf("│   │%-69s│   │\n", buffer);
+
+            printf("│   │%-69s│   │\n", " "); 
+
+            // Perles
+            sprintf(buffer, "     PERLES: %d", p->perles);
+            printf("│   │%-69s│   │\n", buffer);
+            printf("│   │%-69s│   │\n", " "); 
+
+            // Sac 
+            printf("│   │%-69s│   │\n", "     SAC A DOS:");
+
+            for (int i = 0; i < INVENTORY_SIZE; i++) {
+                ItemTemplate* item = get_item_template(p->inventaire[i].item_id);
+                
+                if (p->inventaire[i].item_id == 0) {
+                    sprintf(buffer, "       [%d] Vide", i + 1);
+                } else {
+                    sprintf(buffer, "       [%d] %s x%d - %s", 
+                        i + 1, 
+                        item->nom, 
+                        p->inventaire[i].quantite,
+                        item->description);
+                }
+                
+                printf("│   │%-69s│   │\n", buffer);
+            }
+            
+            printf("│   │%-69s│   │\n", " "); // Remplissage (ligne 19)
+            
             break;
         }
         default: {
@@ -203,7 +245,8 @@ void screen_footer(World *w, Plongeur *p){
         }
         case 1:{
             printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
-            printf("│  [A] Attaque légère  [B] Attaque Lourde  [C]  Méditation  [I] Inventaire    │\n");
+            printf("│  [A] Attaque légère  [B] Attaque Lourde  [C] Compétence  [E] Économiser     │\n");
+            printf("│  [I] Inventaire  [Q] Quitter                                                │\n");
             printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
             break;
         }
@@ -215,7 +258,7 @@ void screen_footer(World *w, Plongeur *p){
         }
         case 3:{
             printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
-            printf("│  [Q]  Quitter                                                               │\n");
+            printf("│  [1] Utiliser Objet  [2] Equiper Objet  [Q] Retour                          │\n");
             printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
             break;
         }
@@ -234,16 +277,18 @@ void screen_footer(World *w, Plongeur *p){
     }
 }
 
-void full_screen(World *w, Plongeur *p, CreatureMarine *c, char** screen, char* info){
+void full_screen(World *w, Plongeur *p, CreatureMarine *creatures, char** screen, char* info){
     char* pv_bar = convert_to_visual_bar(p->points_de_vie, p->points_de_vie_max);
     char* oxy_bar = convert_to_visual_bar(p->niveau_oxygene, p->niveau_oxygene_max);
     char* fatigue_bar = convert_to_visual_bar(p->niveau_fatigue, p->niveau_fatigue_max);
 
     screen_header(w, p, pv_bar, oxy_bar, fatigue_bar, info);
-    screen_main(w, p, c, screen);
+    screen_main(w, p, creatures, screen);
     screen_footer(w, p);
 
     free(pv_bar);
     free(oxy_bar);
     free(fatigue_bar);
 }
+
+ 

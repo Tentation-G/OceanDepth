@@ -1,6 +1,8 @@
 #ifndef TYPES_H
 #define TYPES_H
 
+#define INVENTORY_SIZE 8
+
 typedef enum {
     ZoneType_UNKNOWN = 0,
     ZoneType_VIDE,
@@ -37,6 +39,12 @@ typedef struct {
     ZoneType **types;   // [zone_h][zone_l] type de chaque zone
 } World;
 
+// Case d'inventaire (Slot)
+typedef struct {
+    int item_id;  // 0 = Vide, sinon ID de l'ItemTemplate
+    int quantite;
+} InventorySlot;
+
 typedef struct {
     int points_de_vie;
     int points_de_vie_max;
@@ -61,6 +69,11 @@ typedef struct {
     int last_pos_x;
     int map_pos_y;
     int map_pos_x;
+
+    InventorySlot equip_weapon;
+    InventorySlot equip_suit;
+
+    InventorySlot inventaire[INVENTORY_SIZE];
 
 
 } Plongeur;
@@ -102,5 +115,44 @@ typedef struct {
     int rarete;
     int defense;
 } Equipement;
+
+// types d'objets
+typedef enum {
+    ITEM_TYPE_NONE,
+    ITEM_TYPE_WEAPON,
+    ITEM_TYPE_SUIT,
+    ITEM_TYPE_CONSUMABLE,
+    ITEM_TYPE_MATERIAL // Pour les perles ou autres
+} ItemType;
+
+typedef enum {
+    EFFECT_NONE,
+    EFFECT_HEAL_HP,       // Soigne PV
+    EFFECT_RESTORE_O2,    // Restaure Oxygène
+    EFFECT_REDUCE_FATIGUE, // Réduit Fatigue
+    EFFECT_CURE_POISON    // Guérit poison
+} ItemEffect;
+
+// définir un objet
+typedef struct {
+    int id;
+    ItemType type;
+    const char* nom;
+    const char* description;
+    
+    // stats pour Armes
+    int atk_min;
+    int atk_max;
+    int o2_cost_atk;
+
+    // stats pour Combinaisons 
+    int defense;
+    int o2_cost_turn;
+
+    // stats pour Consommables 
+    ItemEffect effet;       
+    int puissance_effet; 
+    int max_stack;       
+} ItemTemplate;
 
 #endif // TYPES_H
