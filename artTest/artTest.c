@@ -11,7 +11,7 @@
  *
  * Faire Sauvegarde -> Flavien
  * Continuer faire Zone -> Flavien
- * Refaire Affichage carte -> Flavien
+ * Refaire Affichage carte -> Flavien || FAIT
  *
  * Faire shop consommable (bateau et sous marin)** -> //
  *
@@ -28,7 +28,7 @@ La c'est un exemple pour le 1v3, mais tu fais de meme avec le 1v2 et 1v1
 
 exemple visu en jeu
 printf("│   ╭───────────────────────────── Combat ────────────────────────────────╮   │\n");
-printf("│   │   █████████▓ 95%      █████████▓ 95%          █████████▓  95%     │   │\n");
+printf("│   │   █████████▓ 95%      █████████▓ 95%          █████████▓  95%       │   │\n");
 printf("│   │   [3] Crabe Geant      [3] Crabe Geant          [3] Crabe Geant     │   │\n");
 printf("│   │                                                                     │   │\n");
 printf("│   │    #########               ####                   ##########        │   │\n");
