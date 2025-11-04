@@ -10,7 +10,11 @@ int map_hauteur = 10;
 char fill = ' ';
 char fill_background[] = {'*','.','~',' ',' ', ' ',' ',' ', ' ',' ',' ', ' ',' ',' ', ' ',' ',' ', ' ',' ',' ', ' ',' ',' ', ' '};
 
-// 0 = Exploration | 1 = combat | 2 = map | 3 = inventaire | 4 = tresor
+    // 0 = Exploration
+   // 1 = combat
+  // 20 = Selection de la carte | 21 = Carte 1 | 22 = Carte 2 | 23 = Carte 3 | 24 = Carte 4
+ // 3 = inventaire
+// 4 = tresor
 int screen_status = 0;
 int previous_screen_status = 0;
 

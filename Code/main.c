@@ -71,7 +71,7 @@ int main(void) {
             // ── Exploration ─────────────────────────────────────────────
             case 0: {
                 if (cmd == 'C' || cmd == 'c') {
-                    screen_status = 2; // Carte
+                    screen_status = 20; // Carte
                 }
                 else if (cmd == 'I' || cmd == 'i') {
                     screen_status = 3; // Inventaire
@@ -99,7 +99,55 @@ int main(void) {
             }
 
             // ── Carte ──────────────────────────────────────────────────
-            case 2: {
+            case 20: { // ecran selection
+                if (cmd == 'Q' || cmd == 'q') {
+                    screen_status = 0; // retour exploration
+                }
+                if (cmd == '1') {
+                    screen_status = 21; // go Carte 1
+                }
+                if (cmd == '2') {
+                    screen_status = 22; // go Carte 2
+                }
+                if (cmd == '3') {
+                    screen_status = 23; // go Carte 3
+                }
+                if (cmd == '4') {
+                    screen_status = 24; // go Carte 4
+                }
+                break;
+            }
+            case 21: { // Carte 1
+                if (cmd == 'R' || cmd == 'r') {
+                    screen_status = 20; // retour Ecran selection carte
+                }
+                if (cmd == 'Q' || cmd == 'q') {
+                    screen_status = 0; // retour exploration
+                }
+                break;
+            }
+            case 22: { // Carte 2
+                if (cmd == 'R' || cmd == 'r') {
+                    screen_status = 20; // retour Ecran selection carte
+                }
+                if (cmd == 'Q' || cmd == 'q') {
+                    screen_status = 0; // retour exploration
+                }
+                break;
+            }
+            case 23: { // Carte 3
+                if (cmd == 'R' || cmd == 'r') {
+                    screen_status = 20; // retour Ecran selection carte
+                }
+                if (cmd == 'Q' || cmd == 'q') {
+                    screen_status = 0; // retour exploration
+                }
+                break;
+            }
+            case 24: { // Carte 4
+                if (cmd == 'R' || cmd == 'r') {
+                    screen_status = 20; // retour Ecran selection carte
+                }
                 if (cmd == 'Q' || cmd == 'q') {
                     screen_status = 0; // retour exploration
                 }
