@@ -81,37 +81,112 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
         }
         case 1: { // Combat
             printf("│                                                              ╰──────────────┤\n");
-            //char * creature_pv_bar = convert_to_visual_bar(c->points_de_vie_actuels, c->points_de_vie_max);
             printf("│   ╭───────────────────────────── Combat ────────────────────────────────╮   │\n");
-            //printf("│   │  [%d]: %s %3d%%                                               │   │\n",
-            //       c->id, creature_pv_bar, convert_to_percent(c->points_de_vie_actuels, c->points_de_vie_max));
-            //printf("│   ├─────────────────────────────────────────────────────────────────────┤   │\n");
-            printf("│   │                                                                     │   │\n");
-            printf("│   │                                                                     │   │\n");
-            printf("│   │                                                                     │   │\n");
-            printf("│   │                                                                     │   │\n");
-            printf("│   │                                                                     │   │\n");
-            printf("│   │                                                                     │   │\n");
-            printf("│   │                                                                     │   │\n");
-            printf("│   │          @@@@@@                                                     │   │\n");
-            printf("│   │        @@@@@@@@@                                                    │   │\n");
-            printf("│   │       @@@@@@@@@@@                                                   │   │\n");
-            printf("│   │       @@@@@@@@@@@@                                                  │   │\n");
-            printf("│   │        @@@@@@@@@@@                                                  │   │\n");
-            printf("│   │        @@@@@@@@@@                                                   │   │\n");
-            printf("│   │         @@@@@@@                                                     │   │\n");
-            printf("│   │         @@@@@@                                                      │   │\n");
-            printf("│   │       @@@@@@@@@@                                                    │   │\n");
-            printf("│   │     @@@@@@@@@@@@@@                                                  │   │\n");
-            printf("│   │   @@@@@@@@@@@@@@@@@                                                 │   │\n");
-            printf("│   │ @@@@@@@@@@@@@@@@@@@@                                                │   │\n");
-            //printf("│   ╰─────────────────────────────────────────────────────────────────────╯   │\n");
-            //free(creature_pv_bar);
-
-            //char** screen_combat = init_screen();
-            //ajout_joueur_combat_screen(screen_combat);
-            //ajout_creature_combat_screen(screen_combat, c);
-            //print_screen(screen_combat);
+            
+            if (g_nbr_creatures_en_combat == 1) {
+                CreatureMarine *c1 = &creatures[0];
+                char *creature1_pv_bar = convert_to_visual_bar(c1->points_de_vie_actuels, c1->points_de_vie_max);
+                
+                printf("│   │                                                   %10s  %3d%%       │   │\n", 
+                    creature1_pv_bar, 
+                    convert_to_percent(c1->points_de_vie_actuels, c1->points_de_vie_max));
+                printf("│   │                                                   [%d]%12s       │   │\n", 
+                    c1->id, c1->nom);
+                printf("│   │                                                                     │   │\n");
+                printf("│   │                                                   ##########        │   │\n");
+                printf("│   │                                                 ##############      │   │\n");
+                printf("│   │                                                   #########         │   │\n");
+                printf("│   │                                                                     │   │\n");
+                printf("│   │          @@@@@@                                                     │   │\n");
+                printf("│   │        @@@@@@@@@                                                    │   │\n");
+                printf("│   │       @@@@@@@@@@@                                                   │   │\n");
+                printf("│   │       @@@@@@@@@@@@                                                  │   │\n");
+                printf("│   │        @@@@@@@@@@@                                                  │   │\n");
+                printf("│   │        @@@@@@@@@@                                                   │   │\n");
+                printf("│   │         @@@@@@@                                                     │   │\n");
+                printf("│   │         @@@@@@                                                      │   │\n");
+                printf("│   │       @@@@@@@@@@                                                    │   │\n");
+                printf("│   │     @@@@@@@@@@@@@@                                                  │   │\n");
+                printf("│   │   @@@@@@@@@@@@@@@@@                                                 │   │\n");
+                printf("│   │ @@@@@@@@@@@@@@@@@@@@                                                │   │\n");
+                
+                free(creature1_pv_bar);
+            }
+            else if (g_nbr_creatures_en_combat == 2) {
+                CreatureMarine *c1 = &creatures[0];
+                CreatureMarine *c2 = &creatures[1];
+                char *creature1_pv_bar = convert_to_visual_bar(c1->points_de_vie_actuels, c1->points_de_vie_max);
+                char *creature2_pv_bar = convert_to_visual_bar(c2->points_de_vie_actuels, c2->points_de_vie_max);
+                
+                printf("│   │                        %10s  %3d%%               %10s  %3d%%        │   │\n", 
+                    creature1_pv_bar, 
+                    convert_to_percent(c1->points_de_vie_actuels, c1->points_de_vie_max),
+                    creature2_pv_bar, 
+                    convert_to_percent(c2->points_de_vie_actuels, c2->points_de_vie_max));
+                printf("│   |                             [%d]%12s                         [%d]%12s          │   │\n", 
+                    c1->id, c1->nom, c2->id, c2->nom);
+                printf("│   │                                                                     │   │\n");
+                printf("│   │                            ####                   ##########        │   │\n");
+                printf("│   │                          #########              ##############      │   │\n");
+                printf("│   │                            ####                   #########         │   │\n");
+                printf("│   │                                                                     │   │\n");
+                printf("│   │          @@@@@@                                                     │   │\n");
+                printf("│   │        @@@@@@@@@                                                    │   │\n");
+                printf("│   │       @@@@@@@@@@@                                                   │   │\n");
+                printf("│   │       @@@@@@@@@@@@                                                  │   │\n");
+                printf("│   │        @@@@@@@@@@@                                                  │   │\n");
+                printf("│   │        @@@@@@@@@@                                                   │   │\n");
+                printf("│   │         @@@@@@@                                                     │   │\n");
+                printf("│   │         @@@@@@                                                      │   │\n");
+                printf("│   │       @@@@@@@@@@                                                    │   │\n");
+                printf("│   │     @@@@@@@@@@@@@@                                                  │   │\n");
+                printf("│   │   @@@@@@@@@@@@@@@@@                                                 │   │\n");
+                printf("│   │ @@@@@@@@@@@@@@@@@@@@                                                │   │\n");
+                
+                free(creature1_pv_bar);
+                free(creature2_pv_bar);
+            }
+            else if (g_nbr_creatures_en_combat == 3) {
+                CreatureMarine *c1 = &creatures[0];
+                CreatureMarine *c2 = &creatures[1];
+                CreatureMarine *c3 = &creatures[2];
+                char *creature1_pv_bar = convert_to_visual_bar(c1->points_de_vie_actuels, c1->points_de_vie_max);
+                char *creature2_pv_bar = convert_to_visual_bar(c2->points_de_vie_actuels, c2->points_de_vie_max);
+                char *creature3_pv_bar = convert_to_visual_bar(c3->points_de_vie_actuels, c3->points_de_vie_max);
+                
+                printf("│   │   %10s  %3d%%      %10s  %3d%%          %10s  %3d%%     │   │\n", 
+                    creature1_pv_bar, 
+                    convert_to_percent(c1->points_de_vie_actuels, c1->points_de_vie_max),
+                    creature2_pv_bar, 
+                    convert_to_percent(c2->points_de_vie_actuels, c2->points_de_vie_max),
+                    creature3_pv_bar, 
+                    convert_to_percent(c3->points_de_vie_actuels, c3->points_de_vie_max));
+                printf("│   │   [%d]%12s      [%d]%12s          [%d]%12s     │   │\n", 
+                    c1->id, c1->nom, c2->id, c2->nom, c3->id, c3->nom);
+                printf("│   │                                                                     │   │\n");
+                printf("│   │    #########               ####                   ##########        │   │\n");
+                printf("│   │     ########             #########              ##############      │   │\n");
+                printf("│   │   ###########              ####                   #########         │   │\n");
+                printf("│   │                                                                     │   │\n");
+                printf("│   │          @@@@@@                                                     │   │\n");
+                printf("│   │        @@@@@@@@@                                                    │   │\n");
+                printf("│   │       @@@@@@@@@@@                                                   │   │\n");
+                printf("│   │       @@@@@@@@@@@@                                                  │   │\n");
+                printf("│   │        @@@@@@@@@@@                                                  │   │\n");
+                printf("│   │        @@@@@@@@@@                                                   │   │\n");
+                printf("│   │         @@@@@@@                                                     │   │\n");
+                printf("│   │         @@@@@@                                                      │   │\n");
+                printf("│   │       @@@@@@@@@@                                                    │   │\n");
+                printf("│   │     @@@@@@@@@@@@@@                                                  │   │\n");
+                printf("│   │   @@@@@@@@@@@@@@@@@                                                 │   │\n");
+                printf("│   │ @@@@@@@@@@@@@@@@@@@@                                                │   │\n");
+                
+                free(creature1_pv_bar);
+                free(creature2_pv_bar);
+                free(creature3_pv_bar);
+            }
+            
+            printf("│   ╰─────────────────────────────────────────────────────────────────────╯   │\n");
             break;
         }
         case 2: { // Carte

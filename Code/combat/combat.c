@@ -393,6 +393,14 @@ void gerer_tour_combat(Plongeur *p, char cmd, char **screen) {
         if (cible->points_de_vie_actuels <= 0) {
             cible->est_vivant = 0;
             info = "Vous avez vaincu une creature !";
+
+            // ici pour supprimer la creature de l'affichage (pas encore)
+            // g_nbr_creatures_en_combat--;
+            // if (g_nbr_creatures_en_combat < 0)
+            // {
+            //     g_nbr_creatures_en_combat = 0;
+            // }
+            
         }
         tour_joueur_effectue = 1;
 
