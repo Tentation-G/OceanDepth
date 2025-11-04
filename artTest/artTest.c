@@ -21,12 +21,14 @@
 */
 
 
-
 /*
 // ═ ║ ╔ ╗ ╚ ╝ ╠ ╣ ╦ ╩ ╬ ╚═══════╝
 
+La c'est un exemple pour le 1v3, mais tu fais de meme avec le 1v2 et 1v1
+
+exemple visu en jeu
 printf("│   ╭───────────────────────────── Combat ────────────────────────────────╮   │\n");
-printf("│   │                                                 █████████▓  95%     │   │\n");
+printf("│   │   █████████▓  95%      █████████▓  95%          █████████▓  95%     │   │\n");
 printf("│   │   [3] Crabe Geant      [3] Crabe Geant          [3] Crabe Geant     │   │\n");
 printf("│   │                                                                     │   │\n");
 printf("│   │    #########               ####                   ##########        │   │\n");
@@ -47,13 +49,17 @@ printf("│   │   @@@@@@@@@@@@@@@@@                                           
 printf("│   │ @@@@@@@@@@@@@@@@@@@@                                                │   │\n");
 printf("│   ╰─────────────────────────────────────────────────────────────────────╯   │\n");
 
+exemple de la gueule du code
+char * premiere_creature_pv_bar = convert_to_visual_bar(c->points_de_vie_actuels, c->points_de_vie_max) adapte pour que ca chope les pv du premier monstre
+char * deuxieme_creature_pv_bar = convert_to_visual_bar(c->points_de_vie_actuels, c->points_de_vie_max) de meme pour le 2em
+char * troisieme_creature_pv_bar = convert_to_visual_bar(c->points_de_vie_actuels, c->points_de_vie_max) et de meme pour le troisieme
 printf("│   ╭───────────────────────────── Combat ────────────────────────────────╮   │\n");
+printf("│   │   %10s  %3d%%      %10s  %3d%%          %10s  %3d%%     │   │\n", premiere_creature_pv_bar, convert_to_percent(c1->points_de_vie_actuels, c1->points_de_vie_max)), etc...;
+printf("│   │   [%d]%12s      [%d]%12s          [%d]%12s     │   │\n", id_premier_mob, nom_premier_mob,  id_deuxieme_mob, nom_deuxieme_mob,  id_troisieme_mob, nom_troisieme_mob,);
 printf("│   │                                                                     │   │\n");
-printf("│   │                                                                     │   │\n");
-printf("│   │                                                                     │   │\n");
-printf("│   │                                                                     │   │\n");
-printf("│   │                                                                     │   │\n");
-printf("│   │                                                                     │   │\n");
+printf("│   │    #########               ####                   ##########        │   │\n");
+printf("│   │     ########             #########              ##############      │   │\n");
+printf("│   │   ###########              ####                   #########         │   │\n");
 printf("│   │                                                                     │   │\n");
 printf("│   │          @@@@@@                                                     │   │\n");
 printf("│   │        @@@@@@@@@                                                    │   │\n");
@@ -68,6 +74,7 @@ printf("│   │     @@@@@@@@@@@@@@                                            
 printf("│   │   @@@@@@@@@@@@@@@@@                                                 │   │\n");
 printf("│   │ @@@@@@@@@@@@@@@@@@@@                                                │   │\n");
 printf("│   ╰─────────────────────────────────────────────────────────────────────╯   │\n");
+
 
 printf("│   ╭───────────────────────────── Combat ────────────────────────────────╮   │\n");
 printf("│   │                                                                     │   │\n");
@@ -90,6 +97,8 @@ printf("│   │     @@@@@@@@@@@@@@                                            
 printf("│   │   @@@@@@@@@@@@@@@@@                                                 │   │\n");
 printf("│   │ @@@@@@@@@@@@@@@@@@@@                                                │   │\n");
 printf("│   ╰─────────────────────────────────────────────────────────────────────╯   │\n");
+
+
 
     │                                                                             │
     │   ╭─────────────────────────────────────────────────────────────────────╮   │
