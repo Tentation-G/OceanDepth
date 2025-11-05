@@ -4,6 +4,9 @@
 #include "../player/player.h"
 #include "../input/input.h"
 
+//tempo
+#include <stdio.h>
+
 
 ItemTemplate g_item_database[] = {
     // ID 0 = Objet Vide
@@ -86,9 +89,20 @@ void ajouter_item(Plongeur *p, int item_id, int quantite) {
 
 // Logique inventaire
 void gerer_inventaire(char cmd, Plongeur *plongeur){
+    
+    printf("Previous screen en combat inventaire: %d", previous_screen_status);
     if(cmd == 'Q' || cmd == 'q'){
         screen_status = previous_screen_status;
-        info = "";
+        if (screen_status == 1)
+        {
+            info = "Combat!";
+        }else if(screen_status == 0){
+            info = "Exploration!";
+        }else{
+            info = "";
+        }
+        
+
     }
     else if(cmd == '1'){
         int slot = prompt_for_inventory_slot("Utiliser quel objet ?");

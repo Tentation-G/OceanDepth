@@ -19,6 +19,11 @@
 #define FATIGUE_REPOS 30
 #define LIMITE_FATIGUE 90
 
+#define COUT_OX_VAGUE 25
+#define COUT_OX_ELAN 15
+#define COUT_OX_CUIRASSE 20
+#define COUT_OX_SOUFLE 10
+
 // un peu foireux, mais jolie et temporaire (ca risque de rester)
 // draw en ascii la silouhete du plongeur de dos
 void ajout_joueur_combat_screen(char** screen){
@@ -37,63 +42,6 @@ void ajout_joueur_combat_screen(char** screen){
     for(int i = 10; i < 16; i++){ screen[7][i] = remp;}
 }
 
-// pour l'instant ça place le nom avec [id] de la creature
-// (fonctionne que pour une, à mettre à jour pour le 1 v n)
-void ajout_creature_combat_screen(char** screen, CreatureMarine *c) {
-    int taille_nom = (int)strlen(c->nom);
-    int indice_depart = largeur - 8 - taille_nom;
-    if (indice_depart < 0) indice_depart = 0;
-
-    screen[0][indice_depart] = '[';
-    screen[0][indice_depart+1] = (char)('0' + c->id);
-    screen[0][indice_depart+2] = ']';
-
-    int pos = indice_depart + 3;
-    for (int k = 0; k < taille_nom && (pos + k) < largeur; ++k) {
-        screen[0][pos + k] = c->nom[k];
-    }
-}
-
-// Affiche les créatures avec des barres de vie
-void ajout_creatures_combat_screen(char** screen, CreatureMarine *creatures, int nbr_creatures) {
-    int start_col = largeur - 20;
-    int ligne = 0;
-    
-    for (int i = 0; i < nbr_creatures && ligne < hauteur; i++) {
-        if (creatures[i].est_vivant) {
-            CreatureMarine *c = &creatures[i];
-            
-            // Nom
-            int pos = start_col;
-            for (int k = 0; c->nom[k] != '\0' && pos < largeur - 10; k++) {
-                screen[ligne][pos] = c->nom[k];
-                pos++;
-            }
-            
-            // " - PV:"
-            screen[ligne][pos] = ' '; pos++;
-            screen[ligne][pos] = '-'; pos++;
-            screen[ligne][pos] = ' '; pos++;
-            screen[ligne][pos] = 'P'; pos++;
-            screen[ligne][pos] = 'V'; pos++;
-            screen[ligne][pos] = ':'; pos++;
-            
-            // Points de vie
-            int pv = c->points_de_vie_actuels;
-            if (pv >= 100) {
-                screen[ligne][pos] = (pv / 100) + '0'; pos++;
-                pv %= 100;
-            }
-            if (pv >= 10) {
-                screen[ligne][pos] = (pv / 10) + '0'; pos++;
-                pv %= 10;
-            }
-            screen[ligne][pos] = pv + '0';
-            
-            ligne++;
-        }
-    }
-}
 
 // Fonction pour les calculs des degats
 int degats_infliges(int attaque_min, int attaque_max, int defense, char effet_mob[])
@@ -141,17 +89,27 @@ void attaquer_creature(Plongeur *p, CreatureMarine *c, int type)
     int degats;
     int cout_fatigue;
 
-    if (type == 1)
+    if (type == 1) // Attack legere
     {
         cout_fatigue = COUT_ATT_LEGERE;
+        if(souffle  && p->niveau_oxygene - COUT_OX_SOUFLE > 0){
+            printf("Competance utiliser, Fatigue diviser par 2\n");
+            cout_fatigue = cout_fatigue /2;
+            p->duree_souffle--;
+            p->niveau_oxygene -= COUT_OX_SOUFLE;
+            printf("competance consomme %d oxygen", COUT_OX_SOUFLE);
+        }
     }
     else if (type == 2)
     {
         cout_fatigue = COUT_ATT_LOURDE;
-    }
-    else if (type == 4)
-    {
-        cout_fatigue = COUT_ATT_COMPETENCE;
+        if(souffle  && p->niveau_oxygene - COUT_OX_SOUFLE > 0){
+            printf("Competance utiliser, Fatigue diviser par 2");
+            cout_fatigue = cout_fatigue /2;
+            p->duree_souffle--;
+            p->niveau_oxygene -= COUT_OX_SOUFLE;
+            printf("competance consomme %d oxygen", COUT_OX_SOUFLE);
+        }
     }
 
     if (type == 1)
@@ -170,22 +128,6 @@ void attaquer_creature(Plongeur *p, CreatureMarine *c, int type)
         printf("Vous effectuez une attaque competence.\n");
     }
 
-    //===========================================
-    // if (strcmp(arm, "gold") == 0)
-    // {
-    //     printf("degats avant: %d\n", degats);
-    //     printf("Plongeur est equiper d'une armure gold\n");
-    //     degats += 10;
-    //     printf("degats apres: %d\n", degats);
-    // }
-    // else if (strcmp(arm, "argent") == 0)
-    // {
-    //     degats += 5;
-    // }
-    // else if (strcmp(arm, "bronze") == 0)
-    // {
-    //     degats += 2;
-    // }
 
     p->niveau_fatigue += cout_fatigue; // ajout à chaque tour de la fatigue en fonction du type d'attaque (+10% si attaque legere ou +20% si attaque lourde)
 
@@ -209,12 +151,13 @@ void attaquer_plongeur(CreatureMarine *c, Plongeur *p)
     int degats;
     int chance_effet = rand() % 100; // 0 a 99
     int effet_active = 0;
+    
 
     if (chance_effet < 50)
     {
         effet_active = 1;
     }
-
+    
     // Requin : "Frénésie sanguinaire" → +30% dégâts si PV < 50%
     if (strcmp(c->effet_special, "Frenesie") == 0 && effet_active == 1)
     {
@@ -232,21 +175,17 @@ void attaquer_plongeur(CreatureMarine *c, Plongeur *p)
     else
     {
         degats = degats_infliges(c->attaque_minimale, c->attaque_maximale, 0, c->effet_special);
-        // if (strcmp(armure, "gold") == 0)
-        // {
-        //     printf("degats avant: %d\n", degats);
-        //     printf("Plongeur est equiper d'une armure gold\n");
-        //     degats -= 10;
-        //     printf("degats apres: %d\n", degats);
-        // }
-        // else if (strcmp(armure, "argent") == 0)
-        // {
-        //     degats -= 5;
-        // }
-        // else if (strcmp(armure, "bronze") == 0)
-        // {
-        //     degats -= 2;
-        // }
+    }
+    printf("Degats AVANT: %d\n", degats);
+    // si effet cuirasse
+    if(cuirasse && p->niveau_oxygene - COUT_OX_CUIRASSE > 0 && p->duree_cuirasse > 0){
+        
+        degats = degats - (int)(degats * 0.3);
+        p->duree_cuirasse--;
+        printf("Degats Apres: %d\n", degats);
+        p->niveau_oxygene -= COUT_OX_CUIRASSE;
+        printf("competance consomme %d oxygen", COUT_OX_CUIRASSE);
+
     }
 
     p->points_de_vie -= degats;
@@ -259,6 +198,7 @@ void attaquer_plongeur(CreatureMarine *c, Plongeur *p)
     int stress = rand() % 2 + 1;
     p->niveau_oxygene -= stress;
     printf("STRESS: -%d O2\n", stress);
+
 
     printf("%s vous attaque et inflige %d degats !\n", c->nom, degats);
 }
@@ -330,12 +270,187 @@ void creatures_restants(CreatureMarine *creatures, int nbr_mobs)
     printf("=========================================\n");
 }
 
+
+// 
+int choisir_competence() {
+    printf("\n=== Choisissez une compétence ===\n");
+    printf("1 - Élan marin (+3 vitesse pendant 2 tours)\n");
+    printf("2 - Cuirasse aquatique (-30%% dégâts reçus pendant 3 tours)\n"); // active ou pas active 
+    printf("3 - Souffle maîtrisé (Fatigue divisée par 2 pendant 3 tours)\n");
+    printf("4 - Vague régénérante (Soigne 25%% des PV max instantanément)\n");
+    printf("Votre choix : ");
+
+    int choix;
+    scanf("%d", &choix);
+    return choix;
+}
+
+
+void appliquer_competence(Plongeur *p, int choix) {
+    switch (choix) {
+        case 1: // Élan marin
+            // if (p->niveau_oxygene - COUT_OX_ELAN > 0)
+            // {
+            //     if (elan == 0)
+            //     {
+            //         elan = 1;
+            //         p->vitesse += 3;
+                    
+            //         info = "Vous activez Élan marin : +3 vitesse pour 2 tours !";
+            //     }else{
+            //         printf("Elan marin est deja active, ca vous reste %d tour\n", p->duree_elan);
+            //     }
+            // }else{
+            //     printf("Niveau d'oxygen insuffisant");
+            // }
+            // break;
+
+            if (p->duree_elan == 0 && elan == 1) {
+                elan = 0;  // Réinitialiser l'état
+                p->vitesse -= 3;  // Retirer le bonus de vitesse
+            }
+            
+            if (p->niveau_oxygene < COUT_OX_ELAN) {
+                printf("Niveau d'oxygene insuffisant (besoin: %d)\n", COUT_OX_ELAN);
+                info = "Pas assez d'O2 !";
+            }
+            else if (elan == 1) {
+                printf("Elan marin est deja actif, il reste %d tours\n", p->duree_elan);
+                info = "Elan marin deja actif !";
+            }
+            else {
+                elan = 1;
+                p->niveau_oxygene -= COUT_OX_ELAN;
+                p->duree_elan = 2;
+                p->vitesse += 3;
+                printf("Elan marin active : +3 vitesse pendant 2 tours !\n");
+                info = "Elan marin active !";
+            }
+            break;
+
+        case 2: 
+            // if (p->niveau_oxygene - COUT_OX_CUIRASSE > 0)
+            // {
+            //     if (cuirasse == 0)
+            //     {
+            //         cuirasse = 1;
+            //         info = "Vous activez Cuirasse aquatique : -30%% de dégâts reçus pendant 3 tours !";
+            //     }else{
+            //         printf("Cuirasse est deja active, ca vous reste %d tour\n", p->duree_cuirasse);
+            //     }
+
+            //     if (p->duree_cuirasse == 0)
+            //     {
+            //         // pour qu'on puisse activer apres
+            //         cuirasse = 0;
+            //         p->duree_cuirasse = 3;
+            //     }
+            // }else{
+            //     printf("Niveau d'oxygen insuffisant");
+            // }
+        
+            // break;
+
+            // Vérifier si la durée est expirée 
+            if (p->duree_cuirasse == 0 && cuirasse == 1) {
+                cuirasse = 0;  // Réinitialiser l'état
+            }
+            
+            if (p->niveau_oxygene < COUT_OX_CUIRASSE) {
+                printf("Niveau d'oxygene insuffisant (besoin: %d)\n", COUT_OX_CUIRASSE);
+                info = "Pas assez d'O2 !";
+            }
+            
+            else if (cuirasse == 1) {
+                printf("Cuirasse est deja active, il reste %d tours\n", p->duree_cuirasse);
+                info = "Cuirasse deja active !";
+            }
+
+            else {
+                cuirasse = 1;
+                p->niveau_oxygene -= COUT_OX_CUIRASSE;
+                p->duree_cuirasse = 3;
+                printf("Cuirasse aquatique activee : -30%% degats pendant 3 tours !\n");
+                info = "Cuirasse activee !";
+            }
+            break;
+
+        case 3: // Souffle maîtrisé
+            // if (p->niveau_oxygene - COUT_OX_SOUFLE > 0)
+            // {
+            //     if (souffle == 0)
+            //     {
+            //         souffle = 1;
+            //         info = "Souffle maîtrisé activé : fatigue divisée par 2 pendant 3 tours !";
+            //     }else{
+            //         printf("Souffle est deja active, ca vous reste %d tour", p->duree_souffle);
+            //     }
+            //     if (p->duree_souffle == 0)
+            //     {
+            //         souffle = 0;
+            //         p->duree_souffle = 3;
+            //     }
+            // }else{
+            //     printf("Niveau d'oxygen insuffisant");
+            // }
+        
+            // break;
+            
+            if (p->duree_souffle == 0 && souffle == 1) {
+                souffle = 0;  // Réinitialiser l'état
+            }
+            
+            
+            if (p->niveau_oxygene < COUT_OX_SOUFLE) {
+                printf("Niveau d'oxygene insuffisant (besoin: %d)\n", COUT_OX_SOUFLE);
+                info = "Pas assez d'O2 !";
+            }
+            else if (souffle == 1) {
+                printf("Souffle est deja actif, il reste %d tours\n", p->duree_souffle);
+                info = "Souffle deja actif !";
+            }
+            else {
+                souffle = 1;
+                p->niveau_oxygene -= COUT_OX_SOUFLE;
+                p->duree_souffle = 3;
+                printf("Souffle maitrise active : fatigue /2 pendant 3 tours !\n");
+                info = "Souffle active !";
+            }
+            break;
+
+        case 4: // Vague régénérante
+            {
+                if (p->niveau_oxygene - COUT_OX_VAGUE > 0)
+                {
+                    int soin = (int)(p->points_de_vie_max * 0.25);
+                    p->points_de_vie += soin;
+                    if (p->points_de_vie > p->points_de_vie_max)
+                    p->points_de_vie = p->points_de_vie_max;
+                    info = "Vague régénérante : +25%% PV restaurés instantanément !";
+
+                    p->niveau_oxygene -= COUT_OX_VAGUE;
+                    printf("competance consomme %d oxygen\n", COUT_OX_VAGUE);
+                }else{
+                    printf("Niveau d'oxygen insuffisant");
+                }
+                
+                
+            }
+            break;
+
+        default:
+            info = "Compétence invalide.";
+            break;
+    }
+}
+
 // LOGIQUE COMBAT GLOBAL
 void gerer_tour_combat(Plongeur *p, char cmd, char **screen) {
     extern CreatureMarine *g_creatures_en_combat;
     extern int g_nbr_creatures_en_combat;
     extern int g_creature_tour_index;
     extern char* info;
+    char *competence[4] = {"Elan marin", "Cuirasse aquatique", "Souffle maitrise", "Vague regerante"};
     
     int choix_action = 0;  // 1=légère, 2=lourde, 3=économiser, 4=compétence
     int tour_joueur_effectue = 0;
@@ -343,9 +458,16 @@ void gerer_tour_combat(Plongeur *p, char cmd, char **screen) {
 
     
     if (cmd == 'A' || cmd == 'a') choix_action = 1;
+    else if(cmd == 'I' || cmd == 'i'){
+        screen_status = 3;
+        info="Inventaire";
+    }
     else if (cmd == 'B' || cmd == 'b') choix_action = 2;
     else if (cmd == 'E' || cmd == 'e') choix_action = 3;
-    else if (cmd == 'C' || cmd == 'c') choix_action = 4;
+    else if (cmd == 'C' || cmd == 'c'){
+        choix_action = 4;
+        // 
+    } 
     else if (cmd == 'Q' || cmd == 'q') {
         // Fuite
         info = "Vous avez fui le combat.";
@@ -382,24 +504,23 @@ void gerer_tour_combat(Plongeur *p, char cmd, char **screen) {
     }
 
     // Action Plongeur
-    if (choix_action == 1 || choix_action == 2 || choix_action == 4) {
+    if (choix_action == 4){
+        int choix_comp = choisir_competence();
+        appliquer_competence(p, choix_comp);
+    }
+    else if (choix_action == 1 || choix_action == 2) {
         // Demander la cible
         int target_index = prompt_for_target(g_nbr_creatures_en_combat, g_creatures_en_combat);
         CreatureMarine* cible = &g_creatures_en_combat[target_index];
 
         attaquer_creature(p, cible, choix_action);
         consommation_o2(p, choix_action, profondeur);
+
+
         
         if (cible->points_de_vie_actuels <= 0) {
             cible->est_vivant = 0;
             info = "Vous avez vaincu une creature !";
-
-            // ici pour supprimer la creature de l'affichage (pas encore)
-            // g_nbr_creatures_en_combat--;
-            // if (g_nbr_creatures_en_combat < 0)
-            // {
-            //     g_nbr_creatures_en_combat = 0;
-            // }
             
         }
         tour_joueur_effectue = 1;
@@ -436,6 +557,14 @@ void gerer_tour_combat(Plongeur *p, char cmd, char **screen) {
         return;
         
     }
+    // si elan competance utilise => deminuer la duree apres chaque tour
+    if (elan == 1)
+    {
+        p->duree_elan--;
+        p->niveau_oxygene -= COUT_OX_ELAN;
+        printf("competance consomme %d oxygen", COUT_OX_ELAN);
+    }
+    
 
     // tour des creatures  
     if (tour_joueur_effectue) {

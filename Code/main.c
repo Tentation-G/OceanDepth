@@ -36,7 +36,10 @@ int main(void) {
         .last_pos_y = 5,
         .last_pos_x = 10,
         .map_pos_y  = 1,
-        .map_pos_x  = 1
+        .map_pos_x  = 1,
+        .duree_cuirasse = 3,
+        .duree_elan = 2,
+        .duree_souffle = 3
     };
 
     init_player_inventory(&plongeur);
@@ -59,9 +62,9 @@ int main(void) {
         char cmd = prompt_for_command(world, &plongeur, screen_status);
         if (cmd == '\0') break; // fin d'entrée
 
-        if (screen_status != 3) {
-            previous_screen_status = screen_status;
-        }
+        // if (screen_status != 3) {
+        //     previous_screen_status = screen_status;
+        // }
 
 
         switch (screen_status) {
@@ -72,6 +75,7 @@ int main(void) {
                     screen_status = 20; // Carte
                 }
                 else if (cmd == 'I' || cmd == 'i') {
+                    previous_screen_status = 0;
                     screen_status = 3; // Inventaire
                 }
                 else if (cmd == 'D' || cmd == 'd') {
@@ -91,6 +95,7 @@ int main(void) {
             // ── Combat ─────────────────────────────────────────────────
             case 1: {
                 // Logique combat
+                previous_screen_status = screen_status;
                 gerer_tour_combat(&plongeur, cmd, screen);
                 break;
             }

@@ -70,6 +70,11 @@ typedef struct {
     int map_pos_y;
     int map_pos_x;
 
+     // Duree Competance
+    int duree_elan;
+    int duree_cuirasse;
+    int duree_souffle;
+
     InventorySlot equip_weapon;
     InventorySlot equip_suit;
 

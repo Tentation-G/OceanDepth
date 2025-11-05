@@ -32,3 +32,7 @@ int g_nbr_creatures_en_combat = 0;
 int g_creature_tour_index = 0;
 
 
+// Variable Competance
+int cuirasse = 0; // pas active
+int souffle = 0;
+int elan = 0;
