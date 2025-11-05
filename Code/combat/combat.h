@@ -14,6 +14,8 @@ void consommation_o2(Plongeur *p, int type_attack, int profondeur);
 void seconomiser(Plongeur *p);
 void creatures_restants(CreatureMarine *creatures, int nbr_mobs);
 
+void verifier_oxygene_critique(Plongeur *p);
+
 
 // Tour Combat (tout)
 void gerer_tour_combat(Plongeur *p, char cmd, char **screen);
