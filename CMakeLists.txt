@@ -15,10 +15,14 @@ include_directories(Code/world)
 add_executable(OceanDepth
         Code/combat/combat.c
         Code/combat/combat.h
+        Code/creature/creature.c
+        Code/creature/creature.h
         Code/globals/globals.c
         Code/globals/globals.h
         Code/input/input.c
         Code/input/input.h
+        Code/inventaire/inventaire.c
+        Code/inventaire/inventaire.h
         Code/player/player.c
         Code/player/player.h
         Code/render/render.c

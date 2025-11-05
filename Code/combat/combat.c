@@ -469,8 +469,8 @@ void gerer_tour_combat(Plongeur *p, char cmd, char **screen) {
         info="Inventaire";
     }
     else if (cmd == 'B' || cmd == 'b') choix_action = 2;
-    else if (cmd == 'E' || cmd == 'e') choix_action = 3;
-    else if (cmd == 'C' || cmd == 'c'){
+    else if (cmd == 'C' || cmd == 'c') choix_action = 3;
+    else if (cmd == 'D' || cmd == 'd'){
         choix_action = 4; // Competence
     } 
     else if (cmd == 'Q' || cmd == 'q') {
