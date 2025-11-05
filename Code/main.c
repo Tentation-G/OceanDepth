@@ -12,6 +12,10 @@
 #include "input/input.h"
 #include "player/player.h"
 
+#include "creature/creature.h"
+#include "combat/combat.h"
+#include "inventaire/inventaire.h"
+
 int main(void) {
 #ifdef _WIN32
     SetConsoleOutputCP(CP_UTF8); // affichage console wd
@@ -32,22 +36,14 @@ int main(void) {
         .last_pos_y = 5,
         .last_pos_x = 10,
         .map_pos_y  = 1,
-        .map_pos_x  = 1
+        .map_pos_x  = 1,
+        .duree_cuirasse = 3,
+        .duree_elan = 2,
+        .duree_souffle = 3
     };
 
-    // Créa ennemi
-    CreatureMarine crabe = {
-        .id = 1,
-        .nom = "Poisson-Scie",
-        .points_de_vie_actuels = 13,
-        .points_de_vie_max = 25,
-        .attaque_minimale = 12,
-        .attaque_maximale = 20,
-        .defense = 0,
-        .vitesse = 0,
-        .effet_special = "aucun",
-        .est_vivant = 1
-    };
+    init_player_inventory(&plongeur);
+
 
     World *world = init_world(map_hauteur, map_largeur); // h, l
     marquer_zone_as_visited(world, plongeur.map_pos_y, plongeur.map_pos_x); // zone depart => visited
@@ -60,11 +56,16 @@ int main(void) {
         char **screen = world_current_zone(world, &plongeur);
 
         // Affichage
-        full_screen(world, &plongeur, &crabe, screen, info);
+        full_screen(world, &plongeur, g_creatures_en_combat, screen, info);
 
         // Récup input user validé selon l'écran courant
         char cmd = prompt_for_command(world, &plongeur, screen_status);
         if (cmd == '\0') break; // fin d'entrée
+
+        // if (screen_status != 3) {
+        //     previous_screen_status = screen_status;
+        // }
+
 
         switch (screen_status) {
 
@@ -74,27 +75,28 @@ int main(void) {
                     screen_status = 20; // Carte
                 }
                 else if (cmd == 'I' || cmd == 'i') {
+                    previous_screen_status = 0;
                     screen_status = 3; // Inventaire
                 }
                 else if (cmd == 'D' || cmd == 'd') {
                     demander_player_for_coords(screen, &plongeur, world);
-                    screen_status = 0;
+                    
                 }
                 else if (cmd == 'S' || cmd == 's') {
                     printf("Sauvegarde\n");
                 }
                 else if (cmd == 'E') {
                     screen_status = 1;
+                    
                 }
                 break;
             }
 
             // ── Combat ─────────────────────────────────────────────────
             case 1: {
-                if (cmd == 'Q') {
-                    screen_status = 0;
-                }
-                // (A,B,C,I,F) à implémenter
+                // Logique combat
+                previous_screen_status = screen_status;
+                gerer_tour_combat(&plongeur, cmd, screen);
                 break;
             }
 
@@ -156,9 +158,7 @@ int main(void) {
 
             // ── Inventaire ─────────────────────────────────────────────
             case 3: {
-                if (cmd == 'Q' || cmd == 'q') {
-                    screen_status = 0; // retour exploration
-                }
+                gerer_inventaire(cmd, &plongeur);
                 break;
             }
 
@@ -179,5 +179,6 @@ int main(void) {
     }
 
     free_world(world);
+    if (g_creatures_en_combat) free(g_creatures_en_combat);
     return 0;
 }

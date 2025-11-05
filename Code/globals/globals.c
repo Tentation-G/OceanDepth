@@ -1,4 +1,5 @@
 #include "globals.h"
+#include <stddef.h> // For NULL
 
 int largeur = 69;  // screen main
 int hauteur = 19;
@@ -25,4 +26,13 @@ const char *Y_AXIS = "0123456789ABCDEFGHI";
 // init info bull (str)
 char* info = " ";
 
+// Creatures
+CreatureMarine *g_creatures_en_combat = NULL;
+int g_nbr_creatures_en_combat = 0;
+int g_creature_tour_index = 0;
 
+
+// Variable Competance
+int cuirasse = 0; // pas active
+int souffle = 0;
+int elan = 0;
