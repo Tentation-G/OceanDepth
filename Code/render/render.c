@@ -81,7 +81,7 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
         case 1: { // Combat
             printf("│                                                             ╰───────────────┤\n");
             //char * creature_pv_bar = convert_to_visual_bar(c->points_de_vie_actuels, c->points_de_vie_max);
-            printf("│                                                              ╰──────────────┤\n");
+            //printf("│                                                              ╰──────────────┤\n");
             printf("│   ╭───────────────────────────── Combat ────────────────────────────────╮   │\n");
             
             if (g_nbr_creatures_en_combat == 1) {
@@ -535,7 +535,7 @@ void screen_footer(World *w, Plongeur *p){
         //Combat
         case 1:{
             printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
-            printf("│  [A] Attaque légère  [B] Attaque Lourde  [C] Compétence  [E] Économiser     │\n");
+            printf("│  [A] Attaque légère  [B] Attaque Lourde  [C] S'économiser  [D] Compétence   │\n");
             printf("│  [I] Inventaire  [Q] Quitter                                                │\n");
             printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
             break;
