@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "save/save.h"
+
 #ifdef _WIN32
 #include <windows.h>
 #endif
@@ -30,13 +32,17 @@ int main(void) {
         .niveau_oxygene_max = 100,
         .niveau_fatigue = 0,
         .niveau_fatigue_max = 100,
+
         .perles = 10,
+
         .pos_y      = 5,
         .pos_x      = 10,
         .last_pos_y = 5,
         .last_pos_x = 10,
+
         .map_pos_y  = 1,
-        .map_pos_x  = 1,
+        .map_pos_x  = 0,
+
         .duree_cuirasse = 3,
         .duree_elan = 2,
         .duree_souffle = 3
@@ -83,7 +89,8 @@ int main(void) {
                     
                 }
                 else if (cmd == 'S' || cmd == 's') {
-                    printf("Sauvegarde\n");
+                    info = "Sauvegarde";
+                    sauvegarder(&plongeur);
                 }
                 else if (cmd == 'E') {
                     screen_status = 1;

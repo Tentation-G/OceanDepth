@@ -27,6 +27,8 @@ add_executable(OceanDepth
         Code/player/player.h
         Code/render/render.c
         Code/render/render.h
+        Code/save/save.c
+        Code/save/save.h
         Code/types/types.h
         Code/utils/utils.c
         Code/utils/utils.h
@@ -36,6 +38,4 @@ add_executable(OceanDepth
         artTest/artTest.c
         Code/world/map_lt.h
         Code/world/map_lt.c
-        Code/Save/save.c
-        Code/Save/save.h
 )

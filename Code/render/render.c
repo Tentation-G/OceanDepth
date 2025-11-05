@@ -46,6 +46,7 @@ void screen_header(World *w, Plongeur *p, char* pv_bar, char* oxy_bar, char* fat
     char* arme_equipe = "Harpon Rouille";
 
     int profondeur;
+    // Ce truc la n'a plus de sens, a refaire
     switch(p->map_pos_y) {
         case 0 : profondeur = 0; break;
         case 1 : profondeur = -50; break;
@@ -519,7 +520,7 @@ void screen_footer(World *w, Plongeur *p){
     ZoneType type = world_get_zone_type(w, p->map_pos_y, p->map_pos_x);
 
     char* sauvegarde;
-    if(strcmp(zone_type_to_string(type), "Grotte") == 0){
+    if(strcmp(zone_type_to_string_four_char(type), "Grot") == 0){
         sauvegarde = "[S] Sauvegarder";
     } else{
         sauvegarde = "";
