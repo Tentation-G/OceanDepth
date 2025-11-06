@@ -368,7 +368,8 @@ void creatures_restants(CreatureMarine *creatures, int nbr_mobs)
 
 
 
-void appliquer_competence(Plongeur *p, int choix) {
+void appliquer_competence(Plongeur *p, char car) {
+    int choix = car - '0';
     switch (choix) {
         case 1: // Élan marin
 

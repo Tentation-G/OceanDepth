@@ -81,8 +81,6 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
         }
         case 1: { // Combat
             printf("│                                                             ╰───────────────┤\n");
-            //char * creature_pv_bar = convert_to_visual_bar(c->points_de_vie_actuels, c->points_de_vie_max);
-            //printf("│                                                              ╰──────────────┤\n");
             printf("│   ╭───────────────────────────── Combat ────────────────────────────────╮   │\n");
             
             if (g_nbr_creatures_en_combat == 1) {

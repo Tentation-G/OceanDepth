@@ -60,7 +60,7 @@ typedef struct {
 
     int perles;
 
-    int id_arme_equipe;
+    int id_arme_equipe; // a supprimer
     int id_equipement_equipe;
 
     int pos_y;

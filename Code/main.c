@@ -179,8 +179,7 @@ int main(void) {
                     info = "Retour au combat";
                 }
                 if (cmd >= '1' && cmd <= '4') {
-                    int choix_comp = cmd - '0'; // ici pour convertire char ver int (a changer apres)
-                    appliquer_competence(&plongeur, choix_comp);
+                    appliquer_competence(&plongeur, cmd);
                     screen_status = 1;  // Retour combat
                 }
                 break;
