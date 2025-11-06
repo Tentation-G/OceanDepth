@@ -89,6 +89,10 @@ int main(void) {
                     info = "Sauvegarde";
                     sauvegarder(&plongeur);
                 }
+                else if (cmd == 'G') {
+                    info = "Charger";
+                    charger(&plongeur);
+                }
                 else if (cmd == 'E') {
                     screen_status = 1;
                     
@@ -97,7 +101,7 @@ int main(void) {
             }
 
             // ── Combat ─────────────────────────────────────────────────
-            case 1: {
+            case 10: {
                 // Logique combat
                 previous_screen_status = screen_status;
                 gerer_tour_combat(&plongeur, cmd, screen);
@@ -172,15 +176,15 @@ int main(void) {
                     screen_status = 0;
                 }
                 break;
-            }case 5:{
+            }case 11:{ //Competences
             
                 if (cmd == 'Q' || cmd == 'q') {
-                    screen_status = 1;  // Retour combat
+                    screen_status = 10;  // Retour combat
                     info = "Retour au combat";
                 }
                 if (cmd >= '1' && cmd <= '4') {
                     appliquer_competence(&plongeur, cmd);
-                    screen_status = 1;  // Retour combat
+                    screen_status = 10;  // Retour combat
                 }
                 break;
             }

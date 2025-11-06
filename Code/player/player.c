@@ -321,7 +321,7 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
             g_creatures_en_combat = trier_creatures(g_creatures_en_combat, g_nbr_creatures_en_combat);
             
             g_creature_tour_index = 0;
-            screen_status = 1;
+            screen_status = 10;
             
             break;
 

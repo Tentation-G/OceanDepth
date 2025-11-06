@@ -18,17 +18,22 @@ int zone_is_grotte(ZoneType type) {
 // Retourne la liste des touches valides selon l'écran courant
 char* saisies_utilisateur_autorise(int status) {
     switch (status) {
-    case 0:  return "CDIcdiSsE";            // Exploration  / [C] Carte | [I] Inv | [D] Depl | [E] Ecran combat pour test dev
-    case 1:  return "ABCIabciQqEe";        // Combat       / [A] Atq A | [B] Atq B | [C] Atq C | [E] Econimiser| [I] Inventaire | [Q] Sortie ecran 
-    case 20:  return "1234Qq";            // Carte Ecran  / [1] Carte I | [2] Carte II | [3] Carte III | [4] Carte IV |[Q] Quitter
-    case 21:  return "RrQq";             // Carte 1      / [R] Retour | [Q] Quitter
-    case 22:  return "RrQq";            // Carte 2      / [R] Retour | [Q] Quitter
-    case 23:  return "RrQq";           // Carte 3      / [R] Retour | [Q] Quitter
-    case 24:  return "RrQq";          // Carte 4      / [R] Retour | [Q] Quitter
-    case 3:  return "Qq12";          // Inventaire   / [Q] Quitter | [1] Utiliser Objet | [2] Equiper Objet
+    case 0:  return "CDIcdiSsEG";              // Exploration | [C] Carte  | [I] Inv      | [D] Depl        | [S] Sauvegarde | [E] Ecran combat pour test dev
+    //-------------------------------------------------------------------------------------------------------------------------------------------------------  
+    case 10:  return "ABCDIabcdiQq";         // Combat        | [A] Atq A  | [B] Atq B    | [C] Atq Passive | [D] Competences | [I] Inventaire | [Q] Quitter
+    //-------------------------------------------------------------------------------------------------------------------------------------------------------     
+    case 20:  return "1234Qq";             // Carte Ecran    | [1] Carte I | [2] Carte II | [3] Carte III   | [4] Carte IV    |[Q] Quitter
+    case 21:  return "RrQq";              // Carte 1         | [R] Retour  | [Q] Quitter
+    case 22:  return "RrQq";             // Carte 2          | [R] Retour  | [Q] Quitter
+    case 23:  return "RrQq";            // Carte 3           | [R] Retour  | [Q] Quitter
+    case 24:  return "RrQq";           // Carte 4            | [R] Retour  | [Q] Quitter
+    //-------------------------------------------------------------------------------------------------------------------------------------------------------     
+    case 3:  return "Qq12";          // Inventaire           | [Q] Quitter | [1] Utiliser Objet | [2] Equiper Objet
     case 4:  return "Qq";           // Trésor                | [Q] Quitter
-    case 5: return "1234Qq";       // Competences  / [1] [2] [3] [4] [Q] Retour
+    case 11: return "1234Qq";       // Competences  / [1] [2] [3] [4] [Q] Retour
     default: return "";
+     // ton case 11 (anciennement case 5) tu me le cale ici (et tu changes case 1 par case 10)
+    // Tu ecrases pas cette fonction, laisses la en paix la pauvre
     }
 }
 
@@ -98,6 +103,7 @@ int prompt_for_target(int nbr_mobs, CreatureMarine *creatures){
     return choix_mob - 1; // index de mob de (0 => nbr_mobs -1)
 }
 
+// A modifier (pas crutial, a faire quand on aura le temps)
 // pour inventaire
 int prompt_for_inventory_slot(const char* action_prompt) {
     int slot;

@@ -55,12 +55,13 @@ void screen_header(World *w, Plongeur *p, char* pv_bar, char* oxy_bar, char* fat
         case 4 : profondeur = -500; break;
         default : profondeur = 0; break;
     }
+    ItemTemplate *weapon = get_item_template(p->equip_weapon.item_id);
     printf("╭─────────────────────────────── Ocean  Depth ────────────────────────────────╮\n");
     printf("│  Vie: %s %3d%%  │", pv_bar, p->points_de_vie);
     printf("  O₂: %s %3d%%  │", oxy_bar, p->niveau_oxygene);
     printf("  Fatigue: %s %3d%%  │\n", fatigue_bar, p->niveau_fatigue);
     printf("│  Profondeur: %4dm     ", profondeur);
-    printf("│  Arme équipé : %-36s│\n", arme_equipe);
+    printf("│  Arme équipé : %-36s│\n", weapon->nom);
     printf("├─────────────────────────────────────────────────────────────┬───────────────┤\n");
     printf("│  [Info] : %-48s  │  Zone-[%d][%d]  │\n", info, p->map_pos_y, p->map_pos_x);
     printf("├─────────────────────────────────────────────────────────────┤ %-13s │\n", zone_type_to_string(type));
@@ -79,7 +80,7 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             print_screen(screen);
             break;
         }
-        case 1: { // Combat
+        case 10: { // Combat
             printf("│                                                             ╰───────────────┤\n");
             printf("│   ╭───────────────────────────── Combat ────────────────────────────────╮   │\n");
             
@@ -145,6 +146,7 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
                 
                 free(creature1_pv_bar);
                 free(creature2_pv_bar);
+
             }
             else if (g_nbr_creatures_en_combat == 3) {
                 CreatureMarine *c1 = &creatures[0];
@@ -186,7 +188,7 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
                 free(creature3_pv_bar);
             }
             
-            printf("│   ╰─────────────────────────────────────────────────────────────────────╯   │\n");
+            //printf("│   ╰─────────────────────────────────────────────────────────────────────╯   │\n");
             break;
         }
         case 20:{
@@ -502,7 +504,7 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             
             break;
         }
-        case 5:{ // Competences
+        case 11:{ // Competences
             printf("│                                                                             │\n");
             printf("│   ╭─────────────────────── COMPETENCES MARINES ─────────────────────────╮   │\n");
             printf("│   │                                                                     │   │\n");
@@ -555,9 +557,9 @@ void screen_footer(World *w, Plongeur *p){
             break;
         }
         //Combat
-        case 1:{
+        case 10:{
             printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
-            printf("│  [A] Attaque légère  [B] Attaque Lourde  [C] Compétence  [E] Economiser     │\n");
+            printf("│  [A] Attaque légère  [B] Attaque Lourde  [C] S'économiser  [D] Compétence   │\n");
             printf("│  [I] Inventaire  [Q] Quitter                                                │\n");
             printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
             break;
@@ -607,9 +609,10 @@ void screen_footer(World *w, Plongeur *p){
             printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
             break;
         // Competence
-        }case 5:{
+        }case 11:{
             printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
-            printf("│  [1]    [2]    [3]    [4]     [Q] Retour                                    │\n");
+            printf("│  [1] Brume marine [2] Cuirasse Aquatique   [3] Souffle maitrise             │\n");
+            printf("│  [4] Vague regenerante [Q] Retour                                           │\n");
             printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
             break;
         }
