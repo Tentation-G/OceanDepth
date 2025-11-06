@@ -27,6 +27,6 @@ extern int g_creature_tour_index;
 // Variable Competance
 extern int cuirasse; // 0 ou 1
 extern int souffle;
-extern int elan;
-
+// extern int elan;
+extern int brume;
 #endif // GLOBALS_H

@@ -503,6 +503,29 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             
             break;
         }
+        case 5:{ // Competences
+            printf("│                                                                             │\n");
+            printf("│   ╭─────────────────────── COMPETENCES MARINES ─────────────────────────╮   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │  ╔════════════════════════════════════════════════════════════════╗ │   │\n");
+            printf("│   │  ║                                                                ║ │   │\n");
+            printf("│   │  ║  [1] Brume marine                 [2] Cuirasse Aquatique       ║ │   │\n");
+            printf("│   │  ║  ┌──────────────────────┐       ┌──────────────────────┐       ║ │   │\n");
+            printf("│   │  ║  │ Cout: 20%% oxygene   │       │ Cout: 20%% oxygene   │       ║ │   │\n");
+            printf("│   │  ║  │ Effet: 50%% esquive  │       │ Effet: -30%% degats  │       ║ │   │\n");
+            printf("│   │  ║  │ Cooldown: 2 tours    │       │ Cooldown: 3 tours    │       ║ │   │\n");
+            printf("│   │  ║  └──────────────────────┘       └──────────────────────┘       ║ │   │\n");
+            printf("│   │  ║                                                                ║ │   │\n");
+            printf("│   │  ║  [3] Souffle maitrise           [4] Vague regenerante          ║ │   │\n");
+            printf("│   │  ║  ┌──────────────────────┐       ┌──────────────────────┐       ║ │   │\n");
+            printf("│   │  ║  │ Cout: 10%% oxygene   │       │ Cout: 25%% oxygene   │       ║ │   │\n");
+            printf("│   │  ║  │ Effet: Fatigue/2     │       │ Effet: +25%% PV      │       ║ │   │\n");
+            printf("│   │  ║  │ Cooldown: 3 tours    │       │ Effet immediat       │       ║ │   │\n");
+            printf("│   │  ║  └──────────────────────┘       └──────────────────────┘       ║ │   │\n");
+            printf("│   │  ║                                                                ║ │   │\n");
+            printf("│   │  ╚════════════════════════════════════════════════════════════════╝ │   │\n");
+            break;
+        }   
         default: {
             printf("│                                                                             │\n");
             printf("│    [Écran 404]                                                              │\n");
@@ -582,6 +605,11 @@ void screen_footer(World *w, Plongeur *p){
         case 4:{
             printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
             printf("│  [Q]  Quitter                                                               │\n");
+            printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
+            break;
+        }case 5:{
+            printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
+            printf("│  [1]    [2]    [3]    [4]     [Q] Retour                                    │\n");
             printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
             break;
         }

@@ -306,7 +306,7 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
             info = "Combat !";
             
             // Créer les créatures pour le combat
-            //int profondeur_actuelle = p->map_pos_y;
+            // int profondeur_actuelle = p->map_pos_y;
             int profondeur_actuelle = 3;
             g_creatures_en_combat = cree_creatures(profondeur_actuelle);
             
@@ -322,7 +322,6 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
             
             g_creature_tour_index = 0;
             screen_status = 1;
-            printf("HHAHAHAHHAHAHAHAHAHHA");
             
             break;
 

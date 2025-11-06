@@ -25,8 +25,9 @@ char* saisies_utilisateur_autorise(int status) {
     case 22:  return "RrQq";            // Carte 2      / [R] Retour | [Q] Quitter
     case 23:  return "RrQq";           // Carte 3      / [R] Retour | [Q] Quitter
     case 24:  return "RrQq";          // Carte 4      / [R] Retour | [Q] Quitter
-    case 3:  return "Qq12";            // Inventaire   / [Q] Quitter
+    case 3:  return "Qq12";          // Inventaire   / [Q] Quitter
     case 4:  return "Qq";           // Trésor       / [Q] Quitter
+    case 5: return "1234Qq";       // Competences  / [1] [2] [3] [4] [Q] Retour
     default: return "";
     }
 }
@@ -109,4 +110,18 @@ int prompt_for_inventory_slot(const char* action_prompt) {
         while ((c = getchar()) != '\n' && c != EOF);
     }
     return slot - 1; // Retourne l'index (0-7)
+}
+
+// pour competence (a utiliser apres)
+int prompt_for_competence(const char* action_prompt) {
+    int competence;
+    printf("%s (1-4) : ", action_prompt);
+    
+    while (scanf("%d", &competence) != 1 || competence < 1 || competence > 4) {
+        printf("Choix invalide. Entrez un numero de 1 a 4 : ");
+        // Vide le buffer d'entrée
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF);
+    }
+    return competence; 
 }

@@ -37,9 +37,6 @@ int main(void) {
         .last_pos_x = 10,
         .map_pos_y  = 1,
         .map_pos_x  = 1,
-        .duree_cuirasse = 3,
-        .duree_elan = 2,
-        .duree_souffle = 3
     };
 
     init_player_inventory(&plongeur);
@@ -166,6 +163,18 @@ int main(void) {
             case 4: {
                 if (cmd == 'Q' || cmd == 'q') {
                     screen_status = 0;
+                }
+                break;
+            }case 5:{
+            
+                if (cmd == 'Q' || cmd == 'q') {
+                    screen_status = 1;  // Retour combat
+                    info = "Retour au combat";
+                }
+                if (cmd >= '1' && cmd <= '4') {
+                    int choix_comp = cmd - '0'; // ici pour convertire char ver int (a changer apres)
+                    appliquer_competence(&plongeur, choix_comp);
+                    screen_status = 1;  // Retour combat
                 }
                 break;
             }

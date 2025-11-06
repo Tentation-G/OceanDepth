@@ -20,9 +20,17 @@
 #define LIMITE_FATIGUE 90
 
 #define COUT_OX_VAGUE 25
-#define COUT_OX_ELAN 15
 #define COUT_OX_CUIRASSE 20
 #define COUT_OX_SOUFLE 10
+#define COUT_OX_BRUME 20
+
+
+
+// Duree competences
+int  duree_cuirasse = 3;
+int duree_souffle = 3;
+int duree_brume = 2;
+
 
 // un peu foireux, mais jolie et temporaire (ca risque de rester)
 // draw en ascii la silouhete du plongeur de dos
@@ -130,18 +138,18 @@ void attaquer_creature(Plongeur *p, CreatureMarine *c, int type)
     }
 
     // COMPÉTENCE SOUFFLE
-    if (souffle && p->duree_souffle > 0) {
+    if (souffle && duree_souffle > 0) {
         
         if (p->niveau_oxygene >= COUT_OX_SOUFLE) {
             printf("Competence active : Souffle maitrise (fatigue /2)\n");
             cout_fatigue = cout_fatigue / 2;
             
             p->niveau_oxygene -= COUT_OX_SOUFLE;
-            p->duree_souffle--;
+            duree_souffle--;
             
             printf("Souffle consomme %d oxygen\n", COUT_OX_SOUFLE);
             
-            if (p->duree_souffle == 0) {
+            if (duree_souffle == 0) {
                 souffle = 0;
                 printf("FIN Souffle\n");
             }
@@ -149,7 +157,7 @@ void attaquer_creature(Plongeur *p, CreatureMarine *c, int type)
         else {
             printf("Pas assez d'O2 pour Souffle ! (besoin: %d)\n", COUT_OX_SOUFLE);
             souffle = 0;
-            p->duree_souffle = 0;
+            duree_souffle = 0;
         }
     }
 
@@ -190,6 +198,35 @@ void attaquer_plongeur(CreatureMarine *c, Plongeur *p)
     int degats;
     int chance_effet = rand() % 100; // 0 a 99
     int effet_active = 0;
+
+    // COMPÉTENCE BRUME MARINE
+    if (brume && duree_brume > 0) {
+        if (p->niveau_oxygene >= COUT_OX_BRUME) {
+            int chance_esquive = rand() % 100;
+            if (chance_esquive < 50) { // 50% de chance d'éviter l'attaque
+                printf("Brume marine : vous esquivez l'attaque !\n");
+                p->niveau_oxygene -= COUT_OX_BRUME;
+                duree_brume--;
+                if (duree_brume == 0) {
+                    brume = 0;
+                    printf("Brume marine s'est desactive.\n");
+                }
+                return; // On esquive complètement, pas de dégâts
+            } else {
+                printf("Brume marine a echoue cette fois...\n");
+                p->niveau_oxygene -= COUT_OX_BRUME;
+                duree_brume--;
+                if (duree_brume == 0) {
+                    brume = 0;
+                    printf("Brume marine s'est dissipee.\n");
+                }
+            }
+        } else {
+            printf("Plus assez d'O2 pour Brume marine !\n");
+            brume = 0;
+            duree_brume = 0;
+        }
+    }
     
 
     if (chance_effet < 50)
@@ -218,19 +255,19 @@ void attaquer_plongeur(CreatureMarine *c, Plongeur *p)
     printf("Degats AVANT: %d\n", degats);
     
     // COMPÉTENCE CUIRASSE
-    if (cuirasse && p->duree_cuirasse > 0) {
+    if (cuirasse && duree_cuirasse > 0) {
         // Vérifier O2 AVANT de consommer
         if (p->niveau_oxygene >= COUT_OX_CUIRASSE) {
             printf("Competence active : Cuirasse aquatique (-30%% degats)\n");
             degats = degats - (int)(degats * 0.3);
             
             p->niveau_oxygene -= COUT_OX_CUIRASSE;
-            p->duree_cuirasse--;
+            duree_cuirasse--;
             
             printf("Cuirasse Degats Apres: %d\n", degats);
             printf("Cuirasse consomme %d oxygen\n", COUT_OX_CUIRASSE);
             
-            if (p->duree_cuirasse == 0) {
+            if (duree_cuirasse == 0) {
                 cuirasse = 0;
                 printf("Cuirasse aquatique s'est desactive.\n");
             }
@@ -239,7 +276,7 @@ void attaquer_plongeur(CreatureMarine *c, Plongeur *p)
             printf("Pas assez d'O2 pour Cuirasse ! (besoin: %d)\n", COUT_OX_CUIRASSE);
             // Désactiver la compétence si plus d'O2
             cuirasse = 0;
-            p->duree_cuirasse = 0;
+            duree_cuirasse = 0;
         }
     }
 
@@ -330,52 +367,36 @@ void creatures_restants(CreatureMarine *creatures, int nbr_mobs)
 }
 
 
-// Fonctions Competences:
-int choisir_competence() {
-    printf("\n--- Choisissez une compétence ---(1:Active, 0:Pas Active)\n");
-    printf("1 - Élan marin (+3 vitesse pendant 2 tours) | Activation: %d\n", elan);
-    printf("2 - Cuirasse aquatique (-30%% dégâts reçus pendant 3 tours) | Activation: %d\n", cuirasse); // active ou pas active 
-    printf("3 - Souffle maîtrisé (Fatigue divisée par 2 pendant 3 tours) | Activation: %d\n", souffle);
-    printf("4 - Vague régénérante (Soigne 25%% des PV max instantanément)\n");
-    printf("Votre choix : ");
-
-    int choix;
-    scanf("%d", &choix);
-    return choix;
-}
-
 
 void appliquer_competence(Plongeur *p, int choix) {
     switch (choix) {
         case 1: // Élan marin
 
-            if (p->duree_elan == 0 && elan == 1) {
-                elan = 0;  // Réinitialiser l'état
-                p->vitesse -= 3;  // Retirer le bonus de vitesse
+            if (duree_brume == 0 && brume == 1) {
+                brume = 0;
             }
-            
-            if (p->niveau_oxygene < COUT_OX_ELAN) {
-                printf("Niveau d'oxygene insuffisant (besoin: %d)\n", COUT_OX_ELAN);
+
+            if (p->niveau_oxygene < COUT_OX_BRUME) {
+                printf("Niveau d'oxygene insuffisant (besoin: %d)\n", COUT_OX_BRUME);
                 info = "Pas assez d'O2 !";
             }
-            else if (elan == 1) {
-                printf("Elan marin est deja actif, il reste %d tours\n", p->duree_elan);
-                info = "Elan marin deja actif !";
+            else if (brume == 1) {
+                printf("Brume marine est deja active, il reste %d tours\n", duree_brume);
+                info = "Brume deja active !";
             }
             else {
-                elan = 1;
-                p->niveau_oxygene -= COUT_OX_ELAN;
-                p->duree_elan = 2;
-                p->vitesse += 3;
-                printf("Elan marin active : +3 vitesse pendant 2 tours !\n");
-                info = "Elan marin active !";
+                brume = 1;
+                duree_brume = 2;
+                p->niveau_oxygene -= COUT_OX_BRUME;
+                printf("Brume marine activee : 50%% d'esquive pendant 2 tours !\n");
+                info = "Brume marine activee !";
             }
             break;
 
         case 2: 
 
             // Vérifier si la durée est expirée 
-            if (p->duree_cuirasse == 0 && cuirasse == 1) {
+            if (duree_cuirasse == 0 && cuirasse == 1) {
                 cuirasse = 0;  // Réinitialiser l'état
             }
             
@@ -385,14 +406,14 @@ void appliquer_competence(Plongeur *p, int choix) {
             }
             
             else if (cuirasse == 1) {
-                printf("Cuirasse est deja active, il reste %d tours\n", p->duree_cuirasse);
+                printf("Cuirasse est deja active, il reste %d tours\n", duree_cuirasse);
                 info = "Cuirasse deja active !";
             }
 
             else {
                 cuirasse = 1;
                 p->niveau_oxygene -= COUT_OX_CUIRASSE;
-                p->duree_cuirasse = 3;
+                duree_cuirasse = 3;
                 printf("Cuirasse aquatique activee : -30%% degats pendant 3 tours !\n");
                 info = "Cuirasse activee !";
             }
@@ -400,7 +421,7 @@ void appliquer_competence(Plongeur *p, int choix) {
 
         case 3: // Souffle maîtrisé
             
-            if (p->duree_souffle == 0 && souffle == 1) {
+            if (duree_souffle == 0 && souffle == 1) {
                 souffle = 0;  // Réinitialiser l'état
             }
             
@@ -410,13 +431,13 @@ void appliquer_competence(Plongeur *p, int choix) {
                 info = "Pas assez d'O2 !";
             }
             else if (souffle == 1) {
-                printf("Souffle est deja actif, il reste %d tours\n", p->duree_souffle);
+                printf("Souffle est deja actif, il reste %d tours\n", duree_souffle);
                 info = "Souffle deja actif !";
             }
             else {
                 souffle = 1;
                 p->niveau_oxygene -= COUT_OX_SOUFLE;
-                p->duree_souffle = 3;
+                duree_souffle = 3;
                 printf("Souffle maitrise active : fatigue /2 pendant 3 tours !\n");
                 info = "Souffle active !";
             }
@@ -471,7 +492,9 @@ void gerer_tour_combat(Plongeur *p, char cmd, char **screen) {
     else if (cmd == 'B' || cmd == 'b') choix_action = 2;
     else if (cmd == 'E' || cmd == 'e') choix_action = 3;
     else if (cmd == 'C' || cmd == 'c'){
-        choix_action = 4; // Competence
+        screen_status = 5;
+        info = "Choisissez une competence";
+        return;
     } 
     else if (cmd == 'Q' || cmd == 'q') {
         // Fuite
@@ -509,11 +532,12 @@ void gerer_tour_combat(Plongeur *p, char cmd, char **screen) {
     }
 
     // Action Plongeur
-    if (choix_action == 4){
-        int choix_comp = choisir_competence();
-        appliquer_competence(p, choix_comp);
-    }
-    else if (choix_action == 1 || choix_action == 2) {
+    // if (choix_action == 4){
+    //     int comp = prompt_for_competence("Entrer une competence");
+    //     // int choix_comp = choisir_competence();
+    //     appliquer_competence(p, comp);
+    // }
+    if (choix_action == 1 || choix_action == 2) {
         // Demander la cible
         int target_index = prompt_for_target(g_nbr_creatures_en_combat, g_creatures_en_combat);
         CreatureMarine* cible = &g_creatures_en_combat[target_index];
@@ -560,27 +584,6 @@ void gerer_tour_combat(Plongeur *p, char cmd, char **screen) {
         return;
         
     }
-    // si elan competance utilise => deminuer la duree apres chaque tour
-    if (elan == 1 && p->duree_elan > 0) {
-        if (p->niveau_oxygene >= COUT_OX_ELAN) {
-            p->duree_elan--;
-            p->niveau_oxygene -= COUT_OX_ELAN;
-            printf("Elan consomme %d oxygen (reste %d tours)\n", COUT_OX_ELAN, p->duree_elan);
-            
-            if (p->duree_elan == 0) {
-                elan = 0;
-                p->vitesse -= 3;
-                printf("Elan marin s'est desactiver.\n");
-            }
-        }
-        else {
-            printf("Plus assez d'O2 pour Elan !\n");
-            elan = 0;
-            p->duree_elan = 0;
-            p->vitesse -= 3;
-        }
-    }
-    
 
     // tour des creatures  
     if (tour_joueur_effectue) {

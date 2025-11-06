@@ -35,4 +35,5 @@ int g_creature_tour_index = 0;
 // Variable Competance
 int cuirasse = 0; // pas active
 int souffle = 0;
-int elan = 0;
+// int elan = 0;
+int brume = 0;
