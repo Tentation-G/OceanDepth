@@ -559,7 +559,7 @@ void screen_footer(World *w, Plongeur *p){
         //Combat
         case 1:{
             printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
-            printf("│  [A] Attaque légère  [B] Attaque Lourde  [C] S'économiser  [D] Compétence   │\n");
+            printf("│  [A] Attaque légère  [B] Attaque Lourde  [C] Compétence  [E] Economiser     │\n");
             printf("│  [I] Inventaire  [Q] Quitter                                                │\n");
             printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
             break;
@@ -608,6 +608,7 @@ void screen_footer(World *w, Plongeur *p){
             printf("│  [Q]  Quitter                                                               │\n");
             printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
             break;
+        // Competence
         }case 5:{
             printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
             printf("│  [1]    [2]    [3]    [4]     [Q] Retour                                    │\n");
