@@ -147,6 +147,7 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
                 
                 free(creature1_pv_bar);
                 free(creature2_pv_bar);
+
             }
             else if (g_nbr_creatures_en_combat == 3) {
                 CreatureMarine *c1 = &creatures[0];
@@ -188,7 +189,7 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
                 free(creature3_pv_bar);
             }
             
-            printf("│   ╰─────────────────────────────────────────────────────────────────────╯   │\n");
+            //printf("│   ╰─────────────────────────────────────────────────────────────────────╯   │\n");
             break;
         }
         case 20:{

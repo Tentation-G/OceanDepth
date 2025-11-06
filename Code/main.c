@@ -92,6 +92,10 @@ int main(void) {
                     info = "Sauvegarde";
                     sauvegarder(&plongeur);
                 }
+                else if (cmd == 'G') {
+                    info = "Charger";
+                    charger(&plongeur);
+                }
                 else if (cmd == 'E') {
                     screen_status = 1;
                     

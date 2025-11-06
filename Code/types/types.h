@@ -60,9 +60,6 @@ typedef struct {
 
     int perles;
 
-    int id_arme_equipe;
-    int id_equipement_equipe;
-
     int pos_y;
     int pos_x;
     int last_pos_y;
@@ -99,27 +96,6 @@ typedef struct {
     char effet_special[20];
     int est_vivant;
 } CreatureMarine;
-
-typedef struct {
-    int id;
-    int id_type;
-    char nom[30];
-
-    int rarete;
-
-    int degats_min;
-    int degats_max;
-    int consomation;
-
-    int special;
-} Arme;
-
-typedef struct {
-    int id;
-    char nom[30];
-    int rarete;
-    int defense;
-} Equipement;
 
 // types d'objets
 typedef enum {
