@@ -20,7 +20,7 @@ char* saisies_utilisateur_autorise(int status) {
     switch (status) {
     case 0:  return "CDIcdiSsE";               // Exploration | [C] Carte  | [I] Inv      | [D] Depl        | [E] Ecran combat pour test dev
     //-------------------------------------------------------------------------------------------------------------------------------------------------------  
-    case 1:  return "ABCDIabcdiQq";          // Combat        | [A] Atq A  | [B] Atq B    | [C] Competences | [D] Atq Passive | [I] Inventaire | [Q] Quitter
+    case 1:  return "ABCDIabcdiQq";          // Combat        | [A] Atq A  | [B] Atq B    | [C] Atq Passive | [D] Competences | [I] Inventaire | [Q] Quitter
     //-------------------------------------------------------------------------------------------------------------------------------------------------------     
     case 20:  return "1234Qq";             // Carte Ecran    | [1] Carte I | [2] Carte II | [3] Carte III   | [4] Carte IV    |[Q] Quitter
     case 21:  return "RrQq";              // Carte 1         | [R] Retour  | [Q] Quitter
@@ -32,6 +32,8 @@ char* saisies_utilisateur_autorise(int status) {
     case 4:  return "Qq";           // Trésor                | [Q] Quitter
     //-------------------------------------------------------------------------------------------------------------------------------------------------------     
     default: return "";
+     // ton case 11 (anciennement case 5) tu me le cale ici (et tu changes case 1 par case 10)
+    // Tu ecrases pas cette fonction, laisses la en paix la pauvre
     }
 }
 
@@ -101,6 +103,7 @@ int prompt_for_target(int nbr_mobs, CreatureMarine *creatures){
     return choix_mob - 1; // index de mob de (0 => nbr_mobs -1)
 }
 
+// A modifier (pas crutial, a faire quand on aura le temps)
 // pour inventaire
 int prompt_for_inventory_slot(const char* action_prompt) {
     int slot;

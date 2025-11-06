@@ -1,9 +1,6 @@
 #include <string.h>
-#include "combat.h"
-#include "../globals/globals.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #ifdef _WIN32
 #include <windows.h>
 #endif
@@ -23,24 +20,6 @@
 #define COUT_OX_ELAN 15
 #define COUT_OX_CUIRASSE 20
 #define COUT_OX_SOUFLE 10
-
-// un peu foireux, mais jolie et temporaire (ca risque de rester)
-// draw en ascii la silouhete du plongeur de dos
-void ajout_joueur_combat_screen(char** screen){
-    char remp = '@';
-    for(int i = 1; i < 21; i++){ screen[18][i] = remp;}
-    for(int i = 3; i < 20; i++){ screen[17][i] = remp;}
-    for(int i = 5; i < 19; i++){ screen[16][i] = remp;}
-    for(int i = 7; i < 17; i++){ screen[15][i] = remp;}
-    for(int i = 9; i < 15; i++){ screen[14][i] = remp;}
-    for(int i = 9; i < 16; i++){ screen[13][i] = remp;}
-    for(int i = 8; i < 18; i++){ screen[12][i] = remp;}
-    for(int i = 8; i < 19; i++){ screen[11][i] = remp;}
-    for(int i = 7; i < 19; i++){ screen[10][i] = remp;}
-    for(int i = 7; i < 18; i++){ screen[9][i]  = remp;}
-    for(int i = 8; i < 17; i++){ screen[8][i]  = remp;}
-    for(int i = 10; i < 16; i++){ screen[7][i] = remp;}
-}
 
 // Verification O2 (Alerte ou -PV)
 void verifier_oxygene_critique(Plongeur *p) {
@@ -464,15 +443,15 @@ void gerer_tour_combat(Plongeur *p, char cmd, char **screen) {
 
     
     if (cmd == 'A' || cmd == 'a') choix_action = 1;
-    else if(cmd == 'I' || cmd == 'i'){
-        screen_status = 3;
-        info="Inventaire";
-    }
     else if (cmd == 'B' || cmd == 'b') choix_action = 2;
     else if (cmd == 'C' || cmd == 'c') choix_action = 3;
     else if (cmd == 'D' || cmd == 'd'){
         choix_action = 4; // Competence
-    } 
+    }
+    else if(cmd == 'I' || cmd == 'i'){
+        screen_status = 3;
+        info="Inventaire";
+    }
     else if (cmd == 'Q' || cmd == 'q') {
         // Fuite
         info = "Vous avez fui le combat.";
