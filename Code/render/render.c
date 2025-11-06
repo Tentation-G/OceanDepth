@@ -46,6 +46,7 @@ void screen_header(World *w, Plongeur *p, char* pv_bar, char* oxy_bar, char* fat
     char* arme_equipe = "Harpon Rouille";
 
     int profondeur;
+    // Ce truc la n'a plus de sens, a refaire
     switch(p->map_pos_y) {
         case 0 : profondeur = 0; break;
         case 1 : profondeur = -50; break;
@@ -81,22 +82,22 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
         case 1: { // Combat
             printf("│                                                             ╰───────────────┤\n");
             //char * creature_pv_bar = convert_to_visual_bar(c->points_de_vie_actuels, c->points_de_vie_max);
-            printf("│                                                              ╰──────────────┤\n");
+            //printf("│                                                              ╰──────────────┤\n");
             printf("│   ╭───────────────────────────── Combat ────────────────────────────────╮   │\n");
             
             if (g_nbr_creatures_en_combat == 1) {
                 CreatureMarine *c1 = &creatures[0];
                 char *creature1_pv_bar = convert_to_visual_bar(c1->points_de_vie_actuels, c1->points_de_vie_max);
                 
-                printf("│   │                                                   %10s  %3d%%       │   │\n", 
+                printf("│   │                         %10s  %3d%%                            │   │\n",
                     creature1_pv_bar, 
                     convert_to_percent(c1->points_de_vie_actuels, c1->points_de_vie_max));
-                printf("│   │                                                   [%d]%12s       │   │\n", 
+                printf("│   │                         [%d]%12s                             │   │\n",
                     c1->id, c1->nom);
                 printf("│   │                                                                     │   │\n");
-                printf("│   │                                                   ##########        │   │\n");
-                printf("│   │                                                 ##############      │   │\n");
-                printf("│   │                                                   #########         │   │\n");
+                printf("│   │                            ####                                     │   │\n");
+                printf("│   │                          #########                                  │   │\n");
+                printf("│   │                            ####                                     │   │\n");
                 printf("│   │                                                                     │   │\n");
                 printf("│   │          @@@@@@                                                     │   │\n");
                 printf("│   │        @@@@@@@@@                                                    │   │\n");
@@ -119,12 +120,12 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
                 char *creature1_pv_bar = convert_to_visual_bar(c1->points_de_vie_actuels, c1->points_de_vie_max);
                 char *creature2_pv_bar = convert_to_visual_bar(c2->points_de_vie_actuels, c2->points_de_vie_max);
                 
-                printf("│   │                        %10s  %3d%%               %10s  %3d%%        │   │\n", 
+                printf("│   │                         %10s  %3d%%         %10s  %3d%%   │   │\n",
                     creature1_pv_bar, 
                     convert_to_percent(c1->points_de_vie_actuels, c1->points_de_vie_max),
                     creature2_pv_bar, 
                     convert_to_percent(c2->points_de_vie_actuels, c2->points_de_vie_max));
-                printf("│   |                             [%d]%12s                         [%d]%12s          │   │\n", 
+                printf("│   │                         [%d]%12s          [%d]%12s    │   │\n",
                     c1->id, c1->nom, c2->id, c2->nom);
                 printf("│   │                                                                     │   │\n");
                 printf("│   │                            ####                   ##########        │   │\n");
@@ -155,7 +156,7 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
                 char *creature2_pv_bar = convert_to_visual_bar(c2->points_de_vie_actuels, c2->points_de_vie_max);
                 char *creature3_pv_bar = convert_to_visual_bar(c3->points_de_vie_actuels, c3->points_de_vie_max);
                 
-                printf("│   │   %10s  %3d%%      %10s  %3d%%          %10s  %3d%%     │   │\n", 
+                printf("│   │   %10s  %3d%%     %10s  %3d%%         %10s  %3d%%    │   │\n",
                     creature1_pv_bar, 
                     convert_to_percent(c1->points_de_vie_actuels, c1->points_de_vie_max),
                     creature2_pv_bar, 
@@ -317,7 +318,7 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             const char* c58 = zone_already_visited(w, 5, 8) ? zone_type_to_string_four_char(world_get_zone_type(w, 5, 8)) : " ?? ";
             const char* c59 = zone_already_visited(w, 5, 9) ? zone_type_to_string_four_char(world_get_zone_type(w, 5, 9)) : " ?? ";
 
-            printf("│                                                                             │\n");
+            printf("│                                                             ╰───────────────┤\n");
             printf("│   ╭─────────────────────────────────────────────────────────────────────╮   │\n");
             printf("│   │                                                                     │   │\n");
             printf("│   │                                                                     │   │\n");
@@ -380,7 +381,7 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             const char* c88 = zone_already_visited(w, 8, 8) ? zone_type_to_string_four_char(world_get_zone_type(w, 8, 8)) : " ?? ";
             const char* c89 = zone_already_visited(w, 8, 9) ? zone_type_to_string_four_char(world_get_zone_type(w, 8, 9)) : " ?? ";
 
-            printf("│                                                                             │\n");
+            printf("│                                                             ╰───────────────┤\n");
             printf("│   ╭─────────────────────────────────────────────────────────────────────╮   │\n");
             printf("│   │                                                                     │   │\n");
             printf("│   │                                                                     │   │\n");
@@ -430,7 +431,7 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             const char* c98 = zone_already_visited(w, 9, 8) ? zone_type_to_string_four_char(world_get_zone_type(w, 9, 8)) : " ?? ";
             const char* c99 = zone_already_visited(w, 9, 9) ? zone_type_to_string_four_char(world_get_zone_type(w, 9, 9)) : " ?? ";
 
-            printf("│                                                                             │\n");
+            printf("│                                                             ╰───────────────┤\n");
             printf("│   ╭─────────────────────────────────────────────────────────────────────╮   │\n");
             printf("│   │                                                                     │   │\n");
             printf("│   │                                                                     │   │\n");
@@ -542,7 +543,7 @@ void screen_footer(World *w, Plongeur *p){
     ZoneType type = world_get_zone_type(w, p->map_pos_y, p->map_pos_x);
 
     char* sauvegarde;
-    if(strcmp(zone_type_to_string(type), "Grotte") == 0){
+    if(strcmp(zone_type_to_string_four_char(type), "Grot") == 0){
         sauvegarde = "[S] Sauvegarder";
     } else{
         sauvegarde = "";
@@ -558,7 +559,7 @@ void screen_footer(World *w, Plongeur *p){
         //Combat
         case 1:{
             printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
-            printf("│  [A] Attaque légère  [B] Attaque Lourde  [C] Compétence  [E] Économiser     │\n");
+            printf("│  [A] Attaque légère  [B] Attaque Lourde  [C] S'économiser  [D] Compétence   │\n");
             printf("│  [I] Inventaire  [Q] Quitter                                                │\n");
             printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
             break;

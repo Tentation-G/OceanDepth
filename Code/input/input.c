@@ -25,8 +25,7 @@ char* saisies_utilisateur_autorise(int status) {
     case 22:  return "RrQq";            // Carte 2      / [R] Retour | [Q] Quitter
     case 23:  return "RrQq";           // Carte 3      / [R] Retour | [Q] Quitter
     case 24:  return "RrQq";          // Carte 4      / [R] Retour | [Q] Quitter
-    case 3:  return "Qq12";          // Inventaire   / [Q] Quitter
-    case 4:  return "Qq";           // Trésor       / [Q] Quitter
+    case 3:  return "Qq12";          // Inventaire   / [Q] Quitter | [1] Utiliser Objet | [2] Equiper Objet
     case 5: return "1234Qq";       // Competences  / [1] [2] [3] [4] [Q] Retour
     default: return "";
     }
