@@ -43,9 +43,6 @@ int main(void) {
         .map_pos_y  = 1,
         .map_pos_x  = 0,
 
-        .duree_cuirasse = 3,
-        .duree_elan = 2,
-        .duree_souffle = 3
     };
 
     init_player_inventory(&plongeur);
@@ -104,7 +101,7 @@ int main(void) {
             }
 
             // ── Combat ─────────────────────────────────────────────────
-            case 1: {
+            case 10: {
                 // Logique combat
                 previous_screen_status = screen_status;
                 gerer_tour_combat(&plongeur, cmd, screen);
@@ -177,6 +174,17 @@ int main(void) {
             case 4: {
                 if (cmd == 'Q' || cmd == 'q') {
                     screen_status = 0;
+                }
+                break;
+            }case 11:{ //Competences
+            
+                if (cmd == 'Q' || cmd == 'q') {
+                    screen_status = 10;  // Retour combat
+                    info = "Retour au combat";
+                }
+                if (cmd >= '1' && cmd <= '4') {
+                    appliquer_competence(&plongeur, cmd);
+                    screen_status = 10;  // Retour combat
                 }
                 break;
             }

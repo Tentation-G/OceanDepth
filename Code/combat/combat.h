@@ -21,7 +21,7 @@ void verifier_oxygene_critique(Plongeur *p);
 void gerer_tour_combat(Plongeur *p, char cmd, char **screen);
 
 // competences
-void appliquer_competence(Plongeur *p, int choix);
+void appliquer_competence(Plongeur *p, char car);
 int choisir_competence();
 
 #endif // COMBAT_H

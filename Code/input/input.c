@@ -20,7 +20,7 @@ char* saisies_utilisateur_autorise(int status) {
     switch (status) {
     case 0:  return "CDIcdiSsEG";              // Exploration | [C] Carte  | [I] Inv      | [D] Depl        | [S] Sauvegarde | [E] Ecran combat pour test dev
     //-------------------------------------------------------------------------------------------------------------------------------------------------------  
-    case 1:  return "ABCDIabcdiQq";          // Combat        | [A] Atq A  | [B] Atq B    | [C] Atq Passive | [D] Competences | [I] Inventaire | [Q] Quitter
+    case 10:  return "ABCDIabcdiQq";         // Combat        | [A] Atq A  | [B] Atq B    | [C] Atq Passive | [D] Competences | [I] Inventaire | [Q] Quitter
     //-------------------------------------------------------------------------------------------------------------------------------------------------------     
     case 20:  return "1234Qq";             // Carte Ecran    | [1] Carte I | [2] Carte II | [3] Carte III   | [4] Carte IV    |[Q] Quitter
     case 21:  return "RrQq";              // Carte 1         | [R] Retour  | [Q] Quitter
@@ -30,7 +30,7 @@ char* saisies_utilisateur_autorise(int status) {
     //-------------------------------------------------------------------------------------------------------------------------------------------------------     
     case 3:  return "Qq12";          // Inventaire           | [Q] Quitter | [1] Utiliser Objet | [2] Equiper Objet
     case 4:  return "Qq";           // Trésor                | [Q] Quitter
-    //-------------------------------------------------------------------------------------------------------------------------------------------------------     
+    case 11: return "1234Qq";       // Competences  / [1] [2] [3] [4] [Q] Retour
     default: return "";
      // ton case 11 (anciennement case 5) tu me le cale ici (et tu changes case 1 par case 10)
     // Tu ecrases pas cette fonction, laisses la en paix la pauvre
@@ -117,3 +117,4 @@ int prompt_for_inventory_slot(const char* action_prompt) {
     }
     return slot - 1; // Retourne l'index (0-7)
 }
+

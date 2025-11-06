@@ -55,12 +55,13 @@ void screen_header(World *w, Plongeur *p, char* pv_bar, char* oxy_bar, char* fat
         case 4 : profondeur = -500; break;
         default : profondeur = 0; break;
     }
+    ItemTemplate *weapon = get_item_template(p->equip_weapon.item_id);
     printf("╭─────────────────────────────── Ocean  Depth ────────────────────────────────╮\n");
     printf("│  Vie: %s %3d%%  │", pv_bar, p->points_de_vie);
     printf("  O₂: %s %3d%%  │", oxy_bar, p->niveau_oxygene);
     printf("  Fatigue: %s %3d%%  │\n", fatigue_bar, p->niveau_fatigue);
     printf("│  Profondeur: %4dm     ", profondeur);
-    printf("│  Arme équipé : %-36s│\n", arme_equipe);
+    printf("│  Arme équipé : %-36s│\n", weapon->nom);
     printf("├─────────────────────────────────────────────────────────────┬───────────────┤\n");
     printf("│  [Info] : %-48s  │  Zone-[%d][%d]  │\n", info, p->map_pos_y, p->map_pos_x);
     printf("├─────────────────────────────────────────────────────────────┤ %-13s │\n", zone_type_to_string(type));
@@ -79,10 +80,8 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             print_screen(screen);
             break;
         }
-        case 1: { // Combat
+        case 10: { // Combat
             printf("│                                                             ╰───────────────┤\n");
-            //char * creature_pv_bar = convert_to_visual_bar(c->points_de_vie_actuels, c->points_de_vie_max);
-            //printf("│                                                              ╰──────────────┤\n");
             printf("│   ╭───────────────────────────── Combat ────────────────────────────────╮   │\n");
             
             if (g_nbr_creatures_en_combat == 1) {
@@ -505,6 +504,29 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             
             break;
         }
+        case 11:{ // Competences
+            printf("│                                                                             │\n");
+            printf("│   ╭─────────────────────── COMPETENCES MARINES ─────────────────────────╮   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │  ╔════════════════════════════════════════════════════════════════╗ │   │\n");
+            printf("│   │  ║                                                                ║ │   │\n");
+            printf("│   │  ║  [1] Brume marine                 [2] Cuirasse Aquatique       ║ │   │\n");
+            printf("│   │  ║  ┌──────────────────────┐       ┌──────────────────────┐       ║ │   │\n");
+            printf("│   │  ║  │ Cout: 20%% oxygene   │       │ Cout: 20%% oxygene   │       ║ │   │\n");
+            printf("│   │  ║  │ Effet: 50%% esquive  │       │ Effet: -30%% degats  │       ║ │   │\n");
+            printf("│   │  ║  │ Cooldown: 2 tours    │       │ Cooldown: 3 tours    │       ║ │   │\n");
+            printf("│   │  ║  └──────────────────────┘       └──────────────────────┘       ║ │   │\n");
+            printf("│   │  ║                                                                ║ │   │\n");
+            printf("│   │  ║  [3] Souffle maitrise           [4] Vague regenerante          ║ │   │\n");
+            printf("│   │  ║  ┌──────────────────────┐       ┌──────────────────────┐       ║ │   │\n");
+            printf("│   │  ║  │ Cout: 10%% oxygene   │       │ Cout: 25%% oxygene   │       ║ │   │\n");
+            printf("│   │  ║  │ Effet: Fatigue/2     │       │ Effet: +25%% PV      │       ║ │   │\n");
+            printf("│   │  ║  │ Cooldown: 3 tours    │       │ Effet immediat       │       ║ │   │\n");
+            printf("│   │  ║  └──────────────────────┘       └──────────────────────┘       ║ │   │\n");
+            printf("│   │  ║                                                                ║ │   │\n");
+            printf("│   │  ╚════════════════════════════════════════════════════════════════╝ │   │\n");
+            break;
+        }   
         default: {
             printf("│                                                                             │\n");
             printf("│    [Écran 404]                                                              │\n");
@@ -535,7 +557,7 @@ void screen_footer(World *w, Plongeur *p){
             break;
         }
         //Combat
-        case 1:{
+        case 10:{
             printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
             printf("│  [A] Attaque légère  [B] Attaque Lourde  [C] S'économiser  [D] Compétence   │\n");
             printf("│  [I] Inventaire  [Q] Quitter                                                │\n");
@@ -584,6 +606,13 @@ void screen_footer(World *w, Plongeur *p){
         case 4:{
             printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
             printf("│  [Q]  Quitter                                                               │\n");
+            printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
+            break;
+        // Competence
+        }case 11:{
+            printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
+            printf("│  [1] Brume marine [2] Cuirasse Aquatique   [3] Souffle maitrise             │\n");
+            printf("│  [4] Vague regenerante [Q] Retour                                           │\n");
             printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
             break;
         }
