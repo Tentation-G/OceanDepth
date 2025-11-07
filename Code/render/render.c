@@ -504,8 +504,8 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             
             break;
         }
-        case 11:{ // Competences
-            printf("│                                                                             │\n");
+        case 11: { // Competences
+            printf("│                                                             ╰───────────────┤\n");
             printf("│   ╭─────────────────────── COMPETENCES MARINES ─────────────────────────╮   │\n");
             printf("│   │                                                                     │   │\n");
             printf("│   │  ╔════════════════════════════════════════════════════════════════╗ │   │\n");
@@ -526,7 +526,36 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             printf("│   │  ║                                                                ║ │   │\n");
             printf("│   │  ╚════════════════════════════════════════════════════════════════╝ │   │\n");
             break;
-        }   
+        }
+        case 50 : {
+            char* var  = "Save 0";
+            char* var1 = "Save 1";
+            char* var2 = "Save 2";
+
+            printf("│                                                             ╰───────────────┤\n");
+            printf("│   ╭──────────────────────── Nouvelle Exploration ───────────────────────╮   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │              Sélectionnez un emplacement de sauvegarde              │   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │       ╔═══╦═══════════════════╗                                     │   │\n");
+            printf("│   │       ║ 1 ║ %-17s ║                                     │   │\n", var);
+            printf("│   │       ╚═══╩═══════════════════╝                                     │   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │                      ╔═══╦═══════════════════╗                      │   │\n");
+            printf("│   │                      ║ 2 ║ %-17s ║                      │   │\n", var1);
+            printf("│   │                      ╚═══╩═══════════════════╝                      │   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │                                     ╔═══╦═══════════════════╗       │   │\n");
+            printf("│   │                                     ║ 3 ║ %-17s ║       │   │\n", var2);
+            printf("│   │                                     ╚═══╩═══════════════════╝       │   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │                                                                     │   │\n");
+
+            break;
+        }
         default: {
             printf("│                                                                             │\n");
             printf("│    [Écran 404]                                                              │\n");
@@ -556,6 +585,7 @@ void screen_footer(World *w, Plongeur *p){
             printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
             break;
         }
+
         //Combat
         case 10:{
             printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
@@ -564,6 +594,15 @@ void screen_footer(World *w, Plongeur *p){
             printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
             break;
         }
+        // Competence
+        case 11:{
+            printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
+            printf("│  [1] Brume marine [2] Cuirasse Aquatique   [3] Souffle maitrise             │\n");
+            printf("│  [4] Vague regenerante [Q] Retour                                           │\n");
+            printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
+            break;
+        }
+
         //Carte
         case 20:{
             printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
@@ -595,6 +634,7 @@ void screen_footer(World *w, Plongeur *p){
             printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
             break;
         }
+
         // Inventaire
         case 3:{
             printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
@@ -608,11 +648,12 @@ void screen_footer(World *w, Plongeur *p){
             printf("│  [Q]  Quitter                                                               │\n");
             printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
             break;
-        // Competence
-        }case 11:{
+
+        }
+
+        case 50: {
             printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
-            printf("│  [1] Brume marine [2] Cuirasse Aquatique   [3] Souffle maitrise             │\n");
-            printf("│  [4] Vague regenerante [Q] Retour                                           │\n");
+            printf("│  [1] [2] [3] Choisir un Emplacement  [R] Retour                             │\n");
             printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
             break;
         }

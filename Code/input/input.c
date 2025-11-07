@@ -18,21 +18,24 @@ int zone_is_grotte(ZoneType type) {
 // Retourne la liste des touches valides selon l'écran courant
 char* saisies_utilisateur_autorise(int status) {
     switch (status) {
-    case 0:  return "CDIcdiSsEG";              // Exploration | [C] Carte  | [I] Inv      | [D] Depl        | [S] Sauvegarde | [E] Ecran combat pour test dev
-    //-------------------------------------------------------------------------------------------------------------------------------------------------------  
-    case 10:  return "ABCDIabcdiQq";         // Combat        | [A] Atq A  | [B] Atq B    | [C] Atq Passive | [D] Competences | [I] Inventaire | [Q] Quitter
-    //-------------------------------------------------------------------------------------------------------------------------------------------------------     
-    case 20:  return "1234Qq";             // Carte Ecran    | [1] Carte I | [2] Carte II | [3] Carte III   | [4] Carte IV    |[Q] Quitter
-    case 21:  return "RrQq";              // Carte 1         | [R] Retour  | [Q] Quitter
-    case 22:  return "RrQq";             // Carte 2          | [R] Retour  | [Q] Quitter
-    case 23:  return "RrQq";            // Carte 3           | [R] Retour  | [Q] Quitter
-    case 24:  return "RrQq";           // Carte 4            | [R] Retour  | [Q] Quitter
-    //-------------------------------------------------------------------------------------------------------------------------------------------------------     
-    case 3:  return "Qq12";          // Inventaire           | [Q] Quitter | [1] Utiliser Objet | [2] Equiper Objet
-    case 4:  return "Qq";           // Trésor                | [Q] Quitter
-    case 11: return "1234Qq";       // Competences  / [1] [2] [3] [4] [Q] Retour
+    case 0:  return "CDIcdiSsEG";               // Exploration | [C] Carte  | [I] Inv       | [D] Depl        | [S] Sauvegarde  | [E] Ecran combat pour test dev
+    //----------------------------------------------------------------------------------------------------------------------------------------------------------
+    case 10:  return "ABCDIabcdiQq";          // Combat        | [A] Atq A  | [B] Atq B     | [C] Atq Passive | [D] Competences | [I] Inventaire | [Q] Quitter
+    case 11: return "1234Qq";                // Competences    | [1] [2] [3] [4] [Q] Retour
+    //----------------------------------------------------------------------------------------------------------------------------------------------------------
+    case 20:  return "1234Qq";             // Carte Ecran      | [1] Carte I | [2] Carte II | [3] Carte III   | [4] Carte IV    |[Q] Quitter
+    case 21:  return "RrQq";              // Carte 1           | [R] Retour  | [Q] Quitter
+    case 22:  return "RrQq";             // Carte 2            | [R] Retour  | [Q] Quitter
+    case 23:  return "RrQq";            // Carte 3             | [R] Retour  | [Q] Quitter
+    case 24:  return "RrQq";           // Carte 4              | [R] Retour  | [Q] Quitter
+    //----------------------------------------------------------------------------------------------------------------------------------------------------------
+    case 3:  return "Qq12";          // Inventaire             | [Q] Quitter | [1] Utiliser Objet | [2] Equiper Objet
+    //----------------------------------------------------------------------------------------------------------------------------------------------------------
+    case 4:  return "Qq";          // Trésor                   | [Q] Quitter
+    //----------------------------------------------------------------------------------------------------------------------------------------------------------
+    case 50:  return "123Qq";    // Selection Empl Sav         | [1] Emplacement 1 [2] Emplacement 2 [3] Emplacement 3 [Q] Retour
+
     default: return "";
-     // ton case 11 (anciennement case 5) tu me le cale ici (et tu changes case 1 par case 10)
     // Tu ecrases pas cette fonction, laisses la en paix la pauvre
     }
 }
@@ -86,6 +89,9 @@ int ask_yes_no(char *question) {
         printf("Répondez par O ou N.\n");
     }
 }
+
+ // -------------------- Limite de la civilisation --------------------
+// (en dessous de cette limite c'est obscure)
 
 // Nouvelle fonction pour choisir une cible
 int prompt_for_target(int nbr_mobs, CreatureMarine *creatures){

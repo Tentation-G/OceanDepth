@@ -18,6 +18,32 @@
 #include "combat/combat.h"
 #include "inventaire/inventaire.h"
 
+/**
+ *  Info screen_status :
+ *
+ *  1 : Combat
+ *      10 : Combat Actif
+ *      11 : Competences
+ *
+ *  2 : Cartes
+ *      20 : Choix Carte
+ *      21 : Carte 1
+ *      22 : Carte 2
+ *      23 : Carte 3
+ *      24 : Carte 4
+ *
+ *  3 :
+ *      3 : Inventaire
+ *
+ *  4 :
+ *      4 : Tresor
+ *
+ *  5 :
+ *      50 :
+ *      51 :
+ *
+ *
+ */
 int main(void) {
 #ifdef _WIN32
     SetConsoleOutputCP(CP_UTF8); // affichage console wd
@@ -86,12 +112,14 @@ int main(void) {
                     
                 }
                 else if (cmd == 'S' || cmd == 's') {
-                    info = "Sauvegarde";
-                    sauvegarder(&plongeur);
+                    info = "Progression sauvegarde";
+                    sauvegarder(world, &plongeur, 1);
+                    //screen_status = 50;
+
                 }
                 else if (cmd == 'G') {
                     info = "Charger";
-                    charger(&plongeur);
+                    //charger(&plongeur);
                 }
                 else if (cmd == 'E') {
                     screen_status = 1;
@@ -107,22 +135,34 @@ int main(void) {
                 gerer_tour_combat(&plongeur, cmd, screen);
                 break;
             }
+            case 11:{ //Competences
+                if (cmd == 'Q' || cmd == 'q') {
+                    screen_status = 10;  // Retour combat
+                    info = "Retour au combat";
+                }
+                // c'est quoi ce raffut que vous me pondez encore
+                else if (cmd >= '1' && cmd <= '4') {
+                    appliquer_competence(&plongeur, cmd);
+                    screen_status = 10;  // Retour combat
+                }
+                break;
+            }
 
             // ── Carte ──────────────────────────────────────────────────
             case 20: { // ecran selection
                 if (cmd == 'Q' || cmd == 'q') {
                     screen_status = 0; // retour exploration
                 }
-                if (cmd == '1') {
+                else if (cmd == '1') {
                     screen_status = 21; // go Carte 1
                 }
-                if (cmd == '2') {
+                else if (cmd == '2') {
                     screen_status = 22; // go Carte 2
                 }
-                if (cmd == '3') {
+                else if (cmd == '3') {
                     screen_status = 23; // go Carte 3
                 }
-                if (cmd == '4') {
+                else if (cmd == '4') {
                     screen_status = 24; // go Carte 4
                 }
                 break;
@@ -131,7 +171,7 @@ int main(void) {
                 if (cmd == 'R' || cmd == 'r') {
                     screen_status = 20; // retour Ecran selection carte
                 }
-                if (cmd == 'Q' || cmd == 'q') {
+                else if (cmd == 'Q' || cmd == 'q') {
                     screen_status = 0; // retour exploration
                 }
                 break;
@@ -140,7 +180,7 @@ int main(void) {
                 if (cmd == 'R' || cmd == 'r') {
                     screen_status = 20; // retour Ecran selection carte
                 }
-                if (cmd == 'Q' || cmd == 'q') {
+                else if (cmd == 'Q' || cmd == 'q') {
                     screen_status = 0; // retour exploration
                 }
                 break;
@@ -149,7 +189,7 @@ int main(void) {
                 if (cmd == 'R' || cmd == 'r') {
                     screen_status = 20; // retour Ecran selection carte
                 }
-                if (cmd == 'Q' || cmd == 'q') {
+                else if (cmd == 'Q' || cmd == 'q') {
                     screen_status = 0; // retour exploration
                 }
                 break;
@@ -158,7 +198,7 @@ int main(void) {
                 if (cmd == 'R' || cmd == 'r') {
                     screen_status = 20; // retour Ecran selection carte
                 }
-                if (cmd == 'Q' || cmd == 'q') {
+                else if (cmd == 'Q' || cmd == 'q') {
                     screen_status = 0; // retour exploration
                 }
                 break;
@@ -170,21 +210,28 @@ int main(void) {
                 break;
             }
 
-            // ── Trésor / autres écrans ────────────────────────────────
+            // ── Trésor ─────────────────────────────────────────────────
             case 4: {
                 if (cmd == 'Q' || cmd == 'q') {
                     screen_status = 0;
                 }
                 break;
-            }case 11:{ //Competences
-            
+            }
+
+            // ── Sauvegarde ─────────────────────────────────────────────
+            case 50: {
+
                 if (cmd == 'Q' || cmd == 'q') {
-                    screen_status = 10;  // Retour combat
-                    info = "Retour au combat";
+                    screen_status = 0;
                 }
-                if (cmd >= '1' && cmd <= '4') {
-                    appliquer_competence(&plongeur, cmd);
-                    screen_status = 10;  // Retour combat
+                else if (cmd == '1') {
+                    sauvegarder(world, &plongeur , 1);
+                }
+                else if (cmd == '2') {
+                    sauvegarder(world, &plongeur , 2);
+                }
+                else if (cmd == '3') {
+                    sauvegarder(world, &plongeur , 3);
                 }
                 break;
             }

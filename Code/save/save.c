@@ -1,11 +1,31 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "save.h"
+
+#include "../globals/globals.h"
 #include "../types/types.h"
+#include "../input/input.h"
 
-void sauvegarder(Plongeur *p) {
-    FILE *f = fopen("../Code/saveGameFiles/save.txt", "w");
+ // slot => 1 / 2 / 3
+// mode => w / r
+FILE* open_slot(int slot, char* mode){
+    switch (slot) {
+    case 1: return fopen("../Code/saveGameFiles/save1.txt", mode);
+    case 2: return fopen("../Code/saveGameFiles/save2.txt", mode);
+    case 3: return fopen("../Code/saveGameFiles/save3.txt", mode);
+    default: return NULL;
+    }
+}
 
+void sauvegarder(World *w, Plongeur *p, int slot) {
+       // Change ecran pour celui de selection
+      // d'emplacement de save
+     //screen_status = 50;
+    // Select la bonne file
+    FILE *f = open_slot(slot, "w");
+
+    fprintf(f, "-------------------------\n");
+    fprintf(f, "Numero de Save      : %d\n", slot);
     fprintf(f, "-------------------------\n");
     fprintf(f, "points_de_vie       : %d\n", p->points_de_vie);
     fprintf(f, "points_de_vie_max   : %d\n", p->points_de_vie_max);
@@ -30,10 +50,13 @@ void sauvegarder(Plongeur *p) {
     fclose(f);
 }
 
-void charger(Plongeur *p) {
-    FILE *f = fopen("../Code/saveGameFiles/save.txt", "r");
+void charger(Plongeur *p, int slot) {
 
-    // On saute les lignes de séparation et on lit précisément dans ton format
+    // Select la bonne file
+    FILE *f = open_slot(slot, "r");
+
+    fscanf(f, "-------------------------\n");
+    fscanf(f, "Numero de Save      : %d\n", &slot);
     fscanf(f, "-------------------------\n");
     fscanf(f, "points_de_vie       : %d\n", &p->points_de_vie);
     fscanf(f, "points_de_vie_max   : %d\n", &p->points_de_vie_max);
