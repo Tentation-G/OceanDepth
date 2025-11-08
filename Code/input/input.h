@@ -10,6 +10,5 @@ int char_in(char *liste, char c);
 
 int prompt_for_target(int nbr_mobs, CreatureMarine *creatures);
 int prompt_for_inventory_slot(const char* action_prompt);
-int prompt_for_competence(const char* action_prompt);
 
 #endif // INPUT_H

@@ -191,12 +191,7 @@ int main(void) {
             
             // ── Marchand ────────────────────────────────
             }case 99:{
-                afficher_marchand(&plongeur);
-                if (cmd == 'Q' || cmd == 'q') {
-                    screen_status = 0;  // Retour Exploration
-                    info = "Retour Exploration";
-                }
-                
+                afficher_marchand(&plongeur, cmd);
                 break;
             }
             default:
