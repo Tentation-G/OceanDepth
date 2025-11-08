@@ -33,7 +33,8 @@ char* saisies_utilisateur_autorise(int status) {
     //----------------------------------------------------------------------------------------------------------------------------------------------------------
     case 4:  return "Qq";          // Trésor                   | [Q] Quitter
     //----------------------------------------------------------------------------------------------------------------------------------------------------------
-    case 50:  return "123Qq";    // Selection Empl Sav         | [1] Emplacement 1 [2] Emplacement 2 [3] Emplacement 3 [Q] Retour
+    case 50:  return "PpCcQq0";  // Ecran D'accueil            | [P] Plonger | [C] Charger        | [Q] Quitter  | [0] Go Ecran explo (temp pour test dev)
+    case 52:  return "123Rr";   // Selection Empl Sav          | [1] Empl 1  | [2] Emplacement 2  | [3] Emplacement 3 | [R] Retour
 
     default: return "";
     // Tu ecrases pas cette fonction, laisses la en paix la pauvre

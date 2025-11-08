@@ -3,6 +3,7 @@
 #include <string.h>
 #include "render.h"
 #include "../globals/globals.h"
+#include "../save/save.h"
 #include "../utils/utils.h"
 #include "../world/world.h"
 #include "../world/map_lt.h"
@@ -42,29 +43,41 @@ void print_screen(char **screen) {
 }
 
 void screen_header(World *w, Plongeur *p, char* pv_bar, char* oxy_bar, char* fatigue_bar, char* info){
-    ZoneType type = world_get_zone_type(w, p->map_pos_y, p->map_pos_x);
-    char* arme_equipe = "Harpon Rouille";
 
-    int profondeur;
-    // Ce truc la n'a plus de sens, a refaire
-    switch(p->map_pos_y) {
-        case 0 : profondeur = 0; break;
-        case 1 : profondeur = -50; break;
-        case 2 : profondeur = -150; break;
-        case 3 : profondeur = -300; break;
-        case 4 : profondeur = -500; break;
-        default : profondeur = 0; break;
+    switch (screen_status){
+        case 50:
+        case 52: {
+            printf("╭─────────────────────────────── Ocean  Depth ────────────────────────────────╮\n");
+            printf("│                                                                             │\n");
+            break;
+        }
+        default:{
+            ZoneType type = world_get_zone_type(w, p->map_pos_y, p->map_pos_x);
+            char* arme_equipe = "Harpon Rouille";
+
+            int profondeur;
+            // Ce truc la n'a plus de sens, a refaire
+            switch(p->map_pos_y) {
+            case 0 : profondeur = 0; break;
+            case 1 : profondeur = -50; break;
+            case 2 : profondeur = -150; break;
+            case 3 : profondeur = -300; break;
+            case 4 : profondeur = -500; break;
+            default : profondeur = 0; break;
+            }
+            ItemTemplate *weapon = get_item_template(p->equip_weapon.item_id);
+            printf("╭─────────────────────────────── Ocean  Depth ────────────────────────────────╮\n");
+            printf("│  Vie: %s %3d%%  │", pv_bar, p->points_de_vie);
+            printf("  O₂: %s %3d%%  │", oxy_bar, p->niveau_oxygene);
+            printf("  Fatigue: %s %3d%%  │\n", fatigue_bar, p->niveau_fatigue);
+            printf("│  Profondeur: %4dm     ", profondeur);
+            printf("│  Arme équipé : %-36s│\n", weapon->nom);
+            printf("├─────────────────────────────────────────────────────────────┬───────────────┤\n");
+            printf("│  [Info] : %-48s  │  Zone-[%d][%d]  │\n", info, p->map_pos_y, p->map_pos_x);
+            printf("├─────────────────────────────────────────────────────────────┤ %-13s │\n", zone_type_to_string(type));
+            break;
+        }
     }
-    ItemTemplate *weapon = get_item_template(p->equip_weapon.item_id);
-    printf("╭─────────────────────────────── Ocean  Depth ────────────────────────────────╮\n");
-    printf("│  Vie: %s %3d%%  │", pv_bar, p->points_de_vie);
-    printf("  O₂: %s %3d%%  │", oxy_bar, p->niveau_oxygene);
-    printf("  Fatigue: %s %3d%%  │\n", fatigue_bar, p->niveau_fatigue);
-    printf("│  Profondeur: %4dm     ", profondeur);
-    printf("│  Arme équipé : %-36s│\n", weapon->nom);
-    printf("├─────────────────────────────────────────────────────────────┬───────────────┤\n");
-    printf("│  [Info] : %-48s  │  Zone-[%d][%d]  │\n", info, p->map_pos_y, p->map_pos_x);
-    printf("├─────────────────────────────────────────────────────────────┤ %-13s │\n", zone_type_to_string(type));
 }
 
 void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen){
@@ -189,6 +202,29 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             }
             
             //printf("│   ╰─────────────────────────────────────────────────────────────────────╯   │\n");
+            break;
+        }
+        case 11: { // Competences
+            printf("│                                                             ╰───────────────┤\n");
+            printf("│   ╭─────────────────────── COMPETENCES MARINES ─────────────────────────╮   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │  ╔════════════════════════════════════════════════════════════════╗ │   │\n");
+            printf("│   │  ║                                                                ║ │   │\n");
+            printf("│   │  ║  [1] Brume marine                 [2] Cuirasse Aquatique       ║ │   │\n");
+            printf("│   │  ║  ┌──────────────────────┐       ┌──────────────────────┐       ║ │   │\n");
+            printf("│   │  ║  │ Cout: 20%% oxygene   │       │ Cout: 20%% oxygene   │      ║ │   │\n");
+            printf("│   │  ║  │ Effet: 50%% esquive  │       │ Effet: -30%% degats  │      ║ │   │\n");
+            printf("│   │  ║  │ Cooldown: 2 tours    │       │ Cooldown: 3 tours    │       ║ │   │\n");
+            printf("│   │  ║  └──────────────────────┘       └──────────────────────┘       ║ │   │\n");
+            printf("│   │  ║                                                                ║ │   │\n");
+            printf("│   │  ║  [3] Souffle maitrise           [4] Vague regenerante          ║ │   │\n");
+            printf("│   │  ║  ┌──────────────────────┐       ┌──────────────────────┐       ║ │   │\n");
+            printf("│   │  ║  │ Cout: 10%% oxygene   │       │ Cout: 25%% oxygene   │      ║ │   │\n");
+            printf("│   │  ║  │ Effet: Fatigue/2     │       │ Effet: +25%% PV      │      ║ │   │\n");
+            printf("│   │  ║  │ Cooldown: 3 tours    │       │ Effet immediat       │       ║ │   │\n");
+            printf("│   │  ║  └──────────────────────┘       └──────────────────────┘       ║ │   │\n");
+            printf("│   │  ║                                                                ║ │   │\n");
+            printf("│   │  ╚════════════════════════════════════════════════════════════════╝ │   │\n");
             break;
         }
         case 20:{
@@ -504,55 +540,58 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             
             break;
         }
-        case 11: { // Competences
-            printf("│                                                             ╰───────────────┤\n");
-            printf("│   ╭─────────────────────── COMPETENCES MARINES ─────────────────────────╮   │\n");
+        case 50: {
+            //printf("╭─────────────────────────────── Ocean  Depth ────────────────────────────────╮\n");
+            //printf("│                                                                             │\n");
+            printf("│   ╭─────────────────────────────────────────────────────────────────────╮   │\n");
             printf("│   │                                                                     │   │\n");
-            printf("│   │  ╔════════════════════════════════════════════════════════════════╗ │   │\n");
-            printf("│   │  ║                                                                ║ │   │\n");
-            printf("│   │  ║  [1] Brume marine                 [2] Cuirasse Aquatique       ║ │   │\n");
-            printf("│   │  ║  ┌──────────────────────┐       ┌──────────────────────┐       ║ │   │\n");
-            printf("│   │  ║  │ Cout: 20%% oxygene   │       │ Cout: 20%% oxygene   │       ║ │   │\n");
-            printf("│   │  ║  │ Effet: 50%% esquive  │       │ Effet: -30%% degats  │       ║ │   │\n");
-            printf("│   │  ║  │ Cooldown: 2 tours    │       │ Cooldown: 3 tours    │       ║ │   │\n");
-            printf("│   │  ║  └──────────────────────┘       └──────────────────────┘       ║ │   │\n");
-            printf("│   │  ║                                                                ║ │   │\n");
-            printf("│   │  ║  [3] Souffle maitrise           [4] Vague regenerante          ║ │   │\n");
-            printf("│   │  ║  ┌──────────────────────┐       ┌──────────────────────┐       ║ │   │\n");
-            printf("│   │  ║  │ Cout: 10%% oxygene   │       │ Cout: 25%% oxygene   │       ║ │   │\n");
-            printf("│   │  ║  │ Effet: Fatigue/2     │       │ Effet: +25%% PV      │       ║ │   │\n");
-            printf("│   │  ║  │ Cooldown: 3 tours    │       │ Effet immediat       │       ║ │   │\n");
-            printf("│   │  ║  └──────────────────────┘       └──────────────────────┘       ║ │   │\n");
-            printf("│   │  ║                                                                ║ │   │\n");
-            printf("│   │  ╚════════════════════════════════════════════════════════════════╝ │   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │           ,---.                  .-,--.          .  .               │   │\n");
+            printf("│   │           |   | ,-. ,-. ,-. ,-.  ' |   \\ ,-. ,-. |- |-.             │   │\n");
+            printf("│   │           |   | |   |-' ,-| | |  , |   / |-' | | |  | |             │   │\n");
+            printf("│   │           `---' `-' `-' `-^ ' '  `-^--'  `-' |-' `' ' '             │   │\n");
+            printf("│   │                                              |                      │   │\n");
+            printf("│   │                                              '                      │   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │                             [P] Plonger                             │   │\n");
+            printf("│   │                             [C] Charger                             │   │\n");
+            printf("│   │                             [Q] Quitter                             │   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │                                                                     │   │\n");
+            //printf("│   ╰─────────────────────────────────────────────────────────────────────╯   │\n");
+            //printf("│                                                                             │\n");
+            //printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
+            //printf("│  [P] Plonger  [C] Charger [Q] Quitter                                       │\n");
+            //printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
             break;
         }
-        case 50 : {
-            char* var  = "Save 0";
-            char* var1 = "Save 1";
-            char* var2 = "Save 2";
+        case 52: {
 
-            printf("│                                                             ╰───────────────┤\n");
             printf("│   ╭──────────────────────── Nouvelle Exploration ───────────────────────╮   │\n");
-            printf("│   │                                                                     │   │\n");
-            printf("│   │              Sélectionnez un emplacement de sauvegarde              │   │\n");
-            printf("│   │                                                                     │   │\n");
-            printf("│   │                                                                     │   │\n");
+            printf("│   │#########                                                            │   │\n");
+            printf("│   │###               Demarrez une nouvelle exploration                  │   │\n");
+            printf("│   │#                                                                    │   │\n");
+            printf("│   │                                                      <°(((><        │   │\n");
+            printf("│   │                                         <°(((><                     │   │\n");
             printf("│   │       ╔═══╦═══════════════════╗                                     │   │\n");
-            printf("│   │       ║ 1 ║ %-17s ║                                     │   │\n", var);
+            printf("│   │       ║ 1 ║ %-17s ║                                     │   │\n", saveName1);
             printf("│   │       ╚═══╩═══════════════════╝                                     │   │\n");
-            printf("│   │                                                                     │   │\n");
+            printf("│   │  ><>                                                                │   │\n");
             printf("│   │                      ╔═══╦═══════════════════╗                      │   │\n");
-            printf("│   │                      ║ 2 ║ %-17s ║                      │   │\n", var1);
-            printf("│   │                      ╚═══╩═══════════════════╝                      │   │\n");
-            printf("│   │                                                                     │   │\n");
-            printf("│   │                                     ╔═══╦═══════════════════╗       │   │\n");
-            printf("│   │                                     ║ 3 ║ %-17s ║       │   │\n", var2);
-            printf("│   │                                     ╚═══╩═══════════════════╝       │   │\n");
-            printf("│   │                                                                     │   │\n");
-            printf("│   │                                                                     │   │\n");
-            printf("│   │                                                                     │   │\n");
-            printf("│   │                                                                     │   │\n");
+            printf("│   │     \\\\   ><>         ║ 2 ║ %-17s ║                      │   │\n", saveName2);
+            printf("│   │  \\\\ //            \\\\ ╚═══╩═══════════════════╝                      │   │\n");
+            printf("│   │  || \\\\     ><>     \\\\                                               │   │\n");
+            printf("│   │  \\\\ //  ><>        //               ╔═══╦═══════════════════╗       │   │\n");
+            printf("│   │   \\Y/             //   ><>          ║ 3 ║ %-17s ║       │   │\n", saveName3);
+            printf("│   │   // ><>          ||                ╚═══╩═══════════════════╝       │   │\n");
+            printf("│   │##############     ||                                                │   │\n");
+            printf("│   │##############################                          <*)))==<     │   │\n");
+            printf("│   │###################################                                  │   │\n");
 
             break;
         }
@@ -648,10 +687,15 @@ void screen_footer(World *w, Plongeur *p){
             printf("│  [Q]  Quitter                                                               │\n");
             printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
             break;
-
         }
-
-        case 50: {
+        case 50:{
+            printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
+            printf("│  [P] Plonger  [C] Charger [Q] Quitter                                       │\n");
+            printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
+            printf("[0] Go Ecran explo\n");
+            break;
+        }
+        case 52: {
             printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
             printf("│  [1] [2] [3] Choisir un Emplacement  [R] Retour                             │\n");
             printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");

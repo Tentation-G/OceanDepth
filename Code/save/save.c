@@ -6,6 +6,11 @@
 #include "../types/types.h"
 #include "../input/input.h"
 
+// Save name | default
+char saveName1[18] = "Vide";
+char saveName2[18] = "Vide";
+char saveName3[18] = "Vide";
+
  // slot => 1 / 2 / 3
 // mode => w / r
 FILE* open_slot(int slot, char* mode){
@@ -17,12 +22,41 @@ FILE* open_slot(int slot, char* mode){
     }
 }
 
+ // Recup ce qu'il y a dans le fichier saveNames
+// Et le met dans les variables
+void open_names_slot(){
+    FILE *f = fopen("../Code/save/saveNames.txt", "r");
+
+        fscanf(f, "-------------------------\n");
+        fscanf(f, "Save 1 : %17s\n", saveName1);
+        fscanf(f, "-------------------------\n");
+        fscanf(f, "Save 2 : %17s\n", saveName2);
+        fscanf(f, "-------------------------\n");
+        fscanf(f, "Save 3 : %17s\n", saveName3);
+        fscanf(f, "-------------------------\n");
+}
+
+ // Recup ce qu'il y a dans les variables
+// Et le met dans le fichier saveNames
+void save_names_slot() {
+    FILE *f = fopen("saveNames.txt", "w");
+
+    fprintf(f, "-------------------------\n");
+    fprintf(f, "Save 1 : %s\n", saveName1);
+    fprintf(f, "-------------------------\n");
+    fprintf(f, "Save 2 : %s\n", saveName2);
+    fprintf(f, "-------------------------\n");
+    fprintf(f, "Save 3 : %s\n", saveName3);
+    fprintf(f, "-------------------------\n");
+
+    fclose(f);
+}
+
+
 void sauvegarder(World *w, Plongeur *p, int slot) {
-       // Change ecran pour celui de selection
-      // d'emplacement de save
-     //screen_status = 50;
     // Select la bonne file
     FILE *f = open_slot(slot, "w");
+
 
     fprintf(f, "-------------------------\n");
     fprintf(f, "Numero de Save      : %d\n", slot);

@@ -18,37 +18,13 @@
 #include "combat/combat.h"
 #include "inventaire/inventaire.h"
 
-/**
- *  Info screen_status :
- *
- *  1 : Combat
- *      10 : Combat Actif
- *      11 : Competences
- *
- *  2 : Cartes
- *      20 : Choix Carte
- *      21 : Carte 1
- *      22 : Carte 2
- *      23 : Carte 3
- *      24 : Carte 4
- *
- *  3 :
- *      3 : Inventaire
- *
- *  4 :
- *      4 : Tresor
- *
- *  5 :
- *      50 :
- *      51 :
- *
- *
- */
 int main(void) {
 #ifdef _WIN32
     SetConsoleOutputCP(CP_UTF8); // affichage console wd
 #endif
     srand((unsigned)time(NULL));  // rand
+
+    open_names_slot();
 
     // Créa plongeur
     Plongeur plongeur = {
@@ -218,20 +194,34 @@ int main(void) {
                 break;
             }
 
-            // ── Sauvegarde ─────────────────────────────────────────────
+            // ── Accueil & Sauvegarde ─────────────────────────────────────────────
             case 50: {
-
-                if (cmd == 'Q' || cmd == 'q') {
+                if (cmd == 'P' || cmd == 'p') {
+                    screen_status = 52;
+                }
+                else if (cmd == 'C' || cmd == 'c') {
+                    screen_status = 50;
+                }
+                else if (cmd == 'Q' || cmd == 'q') {
+                    exit(0);
+                }
+                else if (cmd == '0'){
                     screen_status = 0;
                 }
-                else if (cmd == '1') {
-                    sauvegarder(world, &plongeur , 1);
+            }
+            case 52: {
+
+                if (cmd == '1') {
+
                 }
                 else if (cmd == '2') {
-                    sauvegarder(world, &plongeur , 2);
+
                 }
                 else if (cmd == '3') {
-                    sauvegarder(world, &plongeur , 3);
+
+                }
+                else if (cmd == 'R' || cmd == 'r') {
+                    screen_status = 50;
                 }
                 break;
             }
