@@ -131,4 +131,11 @@ typedef struct {
     int max_stack;       
 } ItemTemplate;
 
+
+typedef struct {
+    int item_id;
+    int prix_perles;
+    int stock; 
+} MarchandItem;
+
 #endif // TYPES_H

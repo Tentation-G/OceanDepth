@@ -31,6 +31,7 @@ char* saisies_utilisateur_autorise(int status) {
     case 3:  return "Qq12";          // Inventaire           | [Q] Quitter | [1] Utiliser Objet | [2] Equiper Objet
     case 4:  return "Qq";           // Trésor                | [Q] Quitter
     case 11: return "1234Qq";       // Competences  / [1] [2] [3] [4] [Q] Retour
+    case 99: return "123456789Qq";  // Marchand              | [1] [2] [3] [4] [5] [6] [7] [8] [9] [Q] Retour
     default: return "";
      // ton case 11 (anciennement case 5) tu me le cale ici (et tu changes case 1 par case 10)
     // Tu ecrases pas cette fonction, laisses la en paix la pauvre

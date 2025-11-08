@@ -13,17 +13,23 @@ ItemTemplate g_item_database[] = {
     {0, ITEM_TYPE_NONE, "Vide", "", 0, 0, 0, 0, 0, EFFECT_NONE, 0, 0},
     
     
-    {1, ITEM_TYPE_WEAPON, "Harpon Rouille", "ATK: 12-18", 12, 18, 2, 0, 0, EFFECT_NONE, 0, 1},
-    {2, ITEM_TYPE_WEAPON, "Couteau de P.", "ATK: 8-14", 8, 14, 1, 0, 0, EFFECT_NONE, 0, 1},
+    {1, ITEM_TYPE_WEAPON, "Harpon Rouille", "ATK: 12-18", 12, 18, 2, 0, 0, EFFECT_NONE, 0, 100},
+    {2, ITEM_TYPE_WEAPON, "Couteau de P.", "ATK: 8-14", 8, 14, 1, 0, 0, EFFECT_NONE, 0, 100},
+    {3, ITEM_TYPE_WEAPON, "Harpon Titane", "ATK: 25-35", 25, 35, 2, 0, 0, EFFECT_NONE, 0, 100},
 
     
-    {100, ITEM_TYPE_SUIT, "Neoprene Basic", "DEF: +5", 0, 0, 0, 5, 1, EFFECT_NONE, 0, 1},
+    {100, ITEM_TYPE_SUIT, "Neoprene Basic", "DEF: +5", 0, 0, 0, 5, 1, EFFECT_NONE, 0, 100},
+    {101, ITEM_TYPE_SUIT, "Combinaison Ren.", "DEF: +15", 0, 0, 0, 15, 1, EFFECT_NONE, 0, 100},
 
     
-    {200, ITEM_TYPE_CONSUMABLE, "Capsule O2", "+50 O2", 0, 0, 0, 0, 0, EFFECT_RESTORE_O2, 50, 5},
-    {201, ITEM_TYPE_CONSUMABLE, "Trousse Soin", "+25 PV", 0, 0, 0, 0, 0, EFFECT_HEAL_HP, 25, 5},
-    {202, ITEM_TYPE_CONSUMABLE, "Stimulant", "-20 Fatigue", 0, 0, 0, 0, 0, EFFECT_REDUCE_FATIGUE, 20, 5},
-    {203, ITEM_TYPE_CONSUMABLE, "Antidote", "Guerit poison", 0, 0, 0, 0, 0, EFFECT_CURE_POISON, 0, 5}
+    {200, ITEM_TYPE_CONSUMABLE, "Capsule O2", "+50 O2", 0, 0, 0, 0, 0, EFFECT_RESTORE_O2, 50, 100},
+    {201, ITEM_TYPE_CONSUMABLE, "Trousse Soin", "+25 PV", 0, 0, 0, 0, 0, EFFECT_HEAL_HP, 25, 100},
+    {202, ITEM_TYPE_CONSUMABLE, "Stimulant", "-20 Fatigue", 0, 0, 0, 0, 0, EFFECT_REDUCE_FATIGUE, 20, 100},
+    {203, ITEM_TYPE_CONSUMABLE, "Antidote", "Guerit poison", 0, 0, 0, 0, 0, EFFECT_CURE_POISON, 0, 100},
+    // Nouveau dans g_item_database
+
+    {204, ITEM_TYPE_CONSUMABLE, "Carte Tresor", "Revele epave", 0, 0, 0, 0, 0, EFFECT_NONE, 0, 1}
+
 };
 
 // taille de bd
@@ -63,28 +69,33 @@ void init_player_inventory(Plongeur *p) {
 }
 
 
-void ajouter_item(Plongeur *p, int item_id, int quantite) {
-    ItemTemplate* item = get_item_template(item_id);
-    
-    // 1. Essayer d'empiler sur un slot existant
-    for (int i = 0; i < INVENTORY_SIZE; i++) {
-        if (p->inventaire[i].item_id == item_id) {
-            if (p->inventaire[i].quantite + quantite <= item->max_stack) {
-                p->inventaire[i].quantite += quantite;
-                return;
+    void ajouter_item(Plongeur *p, int item_id, int quantite) {
+        ItemTemplate* item = get_item_template(item_id);
+        
+        // 1. Essayer d'empiler sur un slot existant
+        for (int i = 0; i < INVENTORY_SIZE; i++) {
+            if (p->inventaire[i].item_id == item_id) {
+                int total = p->inventaire[i].quantite + quantite; 
+
+                if (p->inventaire[i].quantite + quantite <= item->max_stack) {
+                    p->inventaire[i].quantite += quantite;
+                    return;
+                }
+                // else{ // si la quantite + la quantite qu'on a deja depasse la limite max_stack => ca va pas l'ajouter dans une autre case
+                //     return;
+                // }
             }
         }
-    }
-    // 2. Trouver un slot vide
-    for (int i = 0; i < INVENTORY_SIZE; i++) {
-        if (p->inventaire[i].item_id == 0) {
-            p->inventaire[i].item_id = item_id;
-            p->inventaire[i].quantite = quantite;
-            return; 
+        // 2. Trouver un slot vide
+        for (int i = 0; i < INVENTORY_SIZE; i++) {
+            if (p->inventaire[i].item_id == 0) {
+                p->inventaire[i].item_id = item_id;
+                p->inventaire[i].quantite = quantite;
+                return; 
+            }
         }
+        
     }
-    
-}
 
 
 // Logique inventaire

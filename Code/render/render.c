@@ -9,6 +9,7 @@
 #include "../player/player.h"
 #include "../combat/combat.h"
 #include "../inventaire/inventaire.h"
+#include "../marchand/marchand.h"
 
 void print_screen(char **screen) {
     switch (screen_status){
@@ -526,7 +527,32 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             printf("│   │  ║                                                                ║ │   │\n");
             printf("│   │  ╚════════════════════════════════════════════════════════════════╝ │   │\n");
             break;
-        }   
+        }
+        // marchand
+        case 99:{
+                printf("\n╔═══════════════════════════════════════════════════════════════════════╗\n");
+                printf("║                        🦑  MARCHAND SOUS-MARIN  🦑                    ║\n");
+                printf("╠═══════════════════════════════════════════════════════════════════════╣\n");
+                printf("║ Vous avez actuellement 💠 %d perles.                                 ║\n", p->perles);
+                printf("╠═══════════════════════════════════════════════════════════════════════╣\n");
+
+                // Affichage des objets disponibles
+                for (int i = 0; i < g_item_marchand_db_size; i++) {
+                    ItemTemplate *obj = get_item_template(g_item_marchand_db[i].item_id);
+                    printf("║ [%2d] ID:%3d | %s |Prix:%3d perles | Stock:%2d │\n",
+                        i + 1,
+                        g_item_marchand_db[i].item_id,
+                        obj->nom,
+                        g_item_marchand_db[i].prix_perles,
+                        g_item_marchand_db[i].stock);
+                }
+
+                printf("║ [0] Quitter la boutique                                               ║\n");
+                printf("╚═══════════════════════════════════════════════════════════════════════╝\n");
+            break;
+        }
+
+
         default: {
             printf("│                                                                             │\n");
             printf("│    [Écran 404]                                                              │\n");

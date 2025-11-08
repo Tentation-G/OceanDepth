@@ -17,6 +17,7 @@
 #include "creature/creature.h"
 #include "combat/combat.h"
 #include "inventaire/inventaire.h"
+#include "marchand/marchand.h"
 
 int main(void) {
 #ifdef _WIN32
@@ -33,7 +34,7 @@ int main(void) {
         .niveau_fatigue = 0,
         .niveau_fatigue_max = 100,
 
-        .perles = 10,
+        .perles = 500,
 
         .pos_y      = 5,
         .pos_x      = 10,
@@ -187,8 +188,17 @@ int main(void) {
                     screen_status = 10;  // Retour combat
                 }
                 break;
+            
+            // ── Marchand ────────────────────────────────
+            }case 99:{
+                afficher_marchand(&plongeur);
+                if (cmd == 'Q' || cmd == 'q') {
+                    screen_status = 0;  // Retour Exploration
+                    info = "Retour Exploration";
+                }
+                
+                break;
             }
-
             default:
                 screen_status = 0;
                 break;

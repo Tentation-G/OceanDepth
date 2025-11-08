@@ -14,6 +14,7 @@
 #include "../combat/combat.h"
 #include "../creature/creature.h"
 #include "../inventaire/inventaire.h"
+#include "../marchand/marchand.h"
 
 
 void layer_player(Plongeur *p, Zone zone) {
@@ -325,8 +326,9 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
             
             break;
 
-        case 'M':
+        case 'M': // Fonction du Marchand
             printf("Ouvrir l'ecran du marchant\n");
+            info="Marchand !";
             screen_status = 99;
             break;
 
