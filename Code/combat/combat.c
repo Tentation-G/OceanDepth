@@ -449,6 +449,55 @@ void appliquer_competence(Plongeur *p, char car) {
     }
 }
 
+// BOSS
+// Appliquer effet boss
+void appliquer_effet_boss(CreatureMarine *boss, Plongeur *p){
+    if(!boss->est_vivant){
+        return;
+    }
+
+    // 50% d'activer l'effet du Boss
+    if(rand() % 100 >= 50){
+        printf("Effet special Boss desactive pour ce tour..\n");
+        return;
+    }
+
+    printf("BOSS ACTIVE %s !\n", boss->effet_special);
+
+    if (strcmp(boss->effet_special, "RAGE") == 0) {
+        boss->attaque_minimale += 8;
+        boss->attaque_maximale += 8;
+        printf("RAGE : ATK +8 ! (total: %d-%d)\n", boss->attaque_minimale, boss->attaque_maximale);
+    }
+    else if (strcmp(boss->effet_special, "MULTI") == 0) {
+        printf("MULTI : 2e attaque !\n");
+        attaquer_plongeur(boss, p);
+    }
+    else if (strcmp(boss->effet_special, "VENOM") == 0) {
+
+        p->niveau_fatigue += 35;
+        if (p->niveau_fatigue > FATIGUE_MAX) p->niveau_fatigue = FATIGUE_MAX;
+        p->niveau_oxygene -= 15;
+        if (p->niveau_oxygene < 0) p->niveau_oxygene = 0;
+        
+        printf("ABYSSAL GRIP : +35%% fatigue + -15 O2 !\n");
+    }
+    else if (strcmp(boss->effet_special, "VORTEX") == 0) {
+        p->defense = p->defense / 2;
+        if (p->defense < 1) p->defense = 1;
+        printf("VORTEX : Defense divisee par 2 !\n");
+    }
+    else if (strcmp(boss->effet_special, "CHAOS") == 0) {
+
+        int heal = 100;
+        boss->points_de_vie_actuels += heal;
+        if (boss->points_de_vie_actuels > boss->points_de_vie_max)
+            boss->points_de_vie_actuels = boss->points_de_vie_max;
+        printf("CHAOS : +100 PV !\n");
+    }
+}
+
+
 // LOGIQUE COMBAT GLOBAL
 void gerer_tour_combat(Plongeur *p, char cmd, char **screen) {
     extern CreatureMarine *g_creatures_en_combat;

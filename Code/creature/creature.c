@@ -127,3 +127,68 @@ CreatureMarine *trier_creatures(CreatureMarine *creatures, int nbr_mobs)
 
     return creatures;
 }
+
+// Fonction pour generation des bosses
+CreatureMarine cree_boss(int profondeur) {
+    CreatureMarine boss;
+    boss.est_vivant = 1;
+    boss.id = prochain_id++;
+    boss.defense = 4 + profondeur * 3;  // 7 -> 19
+
+    switch (profondeur) {
+        case 1:
+            strcpy(boss.nom, "CETUS");
+            boss.points_de_vie_max = 200 + rand() % 50;  // 200-249 
+            boss.attaque_minimale = 18;
+            boss.attaque_maximale = 28;
+            boss.vitesse = 7;
+            strcpy(boss.effet_special, "RAGE");
+            break;
+
+        case 2:
+            strcpy(boss.nom, "SCYLLA");
+            boss.points_de_vie_max = 300 + rand() % 50;   // 300-349
+            boss.attaque_minimale = 25;
+            boss.attaque_maximale = 40;
+            boss.vitesse = 6;
+            strcpy(boss.effet_special, "MULTI");
+            break;
+
+        case 3:
+            strcpy(boss.nom, "JORMUNGAND");
+            boss.points_de_vie_max = 400 + rand() % 50;   // 400-449
+            boss.attaque_minimale = 35;
+            boss.attaque_maximale = 55;
+            boss.vitesse = 8;
+            strcpy(boss.effet_special, "VENOM");
+            break;
+
+        case 4:
+            strcpy(boss.nom, "CHARYBDE");
+            boss.points_de_vie_max = 500 + rand() % 50;   // 500-549
+            boss.attaque_minimale = 45;
+            boss.attaque_maximale = 70;
+            boss.vitesse = 4;
+            boss.defense += 10;
+            strcpy(boss.effet_special, "VORTEX");
+            break;
+
+        case 5:
+            strcpy(boss.nom, "TIAMAT");
+            boss.points_de_vie_max = 600 + rand() % 50;   // 600-649
+            boss.attaque_minimale = 60;
+            boss.attaque_maximale = 95;
+            boss.vitesse = 7;
+            boss.defense += 15;
+            strcpy(boss.effet_special, "CHAOS");
+            break;
+
+        default:
+            strcpy(boss.nom, "ERROR");
+            boss.points_de_vie_max = 100;
+            break;
+    }
+
+    boss.points_de_vie_actuels = boss.points_de_vie_max;
+    return boss;
+}

@@ -22,7 +22,8 @@ void gerer_tour_combat(Plongeur *p, char cmd, char **screen);
 
 // competences
 void appliquer_competence(Plongeur *p, char car);
-int choisir_competence();
+//Boss
+void appliquer_effet_boss(CreatureMarine *boss, Plongeur *p);
 
 #endif // COMBAT_H
  
