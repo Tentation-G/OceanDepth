@@ -305,6 +305,8 @@ void decorate_zone_typed(Zone zone, int y, int x, int zone_h, int zone_l, ZoneTy
         // Les GROTTES
         case ZoneType_GROTTE:
             build_all_mur(zone, y, x, zone_h, zone_l);
+            // === TEST : placer un marchand (M) au centre de la zone ===
+            zone[hauteur / 2][largeur / 2] = 'M';
 
             switch (type){
                 case ZoneType_GROTTE_NORD:

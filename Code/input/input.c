@@ -37,6 +37,7 @@ char* saisies_utilisateur_autorise(int status) {
     case 51:                    // Selection Empl Sav Init     | [1] Empl 1  | [2] Emplacement 2  | [3] Emplacement 3 | [R] Retour
     case 52:  return "123Rr";  // Selection Empl Sav Charger   | [1] Empl 1  | [2] Emplacement 2  | [3] Emplacement 3 | [R] Retour
 
+    case 99: return "123456789IiQq";  // Marchand              | [1-9] Sélectionner item [I] inventaire [Q] Quitter
     default: return "";
     // Tu ecrases pas cette fonction, laisses la en paix la pauvre
     }

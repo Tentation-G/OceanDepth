@@ -10,6 +10,7 @@
 #include "../player/player.h"
 #include "../combat/combat.h"
 #include "../inventaire/inventaire.h"
+#include "../marchand/marchand.h"
 
 void print_screen(char **screen) {
     switch (screen_status){
@@ -619,6 +620,33 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
 
             break;
         }
+        // Marchand
+        case 99:{
+                printf("│                                                             ╰───────────────┤\n");
+                printf("│   ╭───────────────────────────── Marchand ──────────────────────────────╮   │\n");
+                printf("|   | Perles: %d                                                          |   |\n", p->perles);
+                printf("│   │ ID | %-20s | %-20s | Prix | Stock      │   │\n", "Nom", "Description");
+                printf("│   │─────────────────────────────────────────────────────────────────────│   │\n");
+                
+                // Afficher les 10 items
+                for (int i = 0; i < g_item_marchand_db_size; i++) {
+                    MarchandItem *obj = &g_item_marchand_db[i];
+                    ItemTemplate *item = get_item_template(obj->item_id);
+                    int display_id = (i + 1) % 10; // 1-9 puis 0 pour le 10ème
+                    printf("│   │ %2d | %-20s | %-20s | %4d | %5d      │   │\n", 
+                        display_id == 0 ? 0 : display_id, 
+                        item->nom, item->description, obj->prix_perles, obj->stock);
+                }
+                
+                // Remplir les lignes restantes avec des espaces pour atteindre 19 lignes
+                for (int i = g_item_marchand_db_size; i < hauteur - 2; i++) { 
+                    printf("│   │                                                                     │   │\n");
+                }
+                
+                printf("│   ╰─────────────────────────────────────────────────────────────────────╯   │\n");
+                break;
+        }
+
 
         default: {
             printf("│                                                                             │\n");
@@ -710,6 +738,13 @@ void screen_footer(World *w, Plongeur *p){
             printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
             printf("│  [1] %-17s  [2] %-17s  [3] %-17s        │\n", saveName1, saveName2, saveName3);
             printf("│  [R] Retour                                                                 │\n");
+            printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
+            break;
+        }
+        // Marchand
+        case 99:{
+            printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
+            printf("│  [1-9] Sélectionner item  [I] Inventaire  [Q] Quitter                       │\n");
             printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
             break;
         }
