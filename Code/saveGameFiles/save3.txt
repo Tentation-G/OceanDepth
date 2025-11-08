@@ -1,7 +1,7 @@
 -------------------------
 Numero de Save      : 3
 -------------------------
-points_de_vie       : 100
+points_de_vie       : 30
 points_de_vie_max   : 100
 -------------------------
 niveau_oxygene      : 100

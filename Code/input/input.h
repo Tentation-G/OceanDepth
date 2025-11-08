@@ -5,6 +5,7 @@
 
 char* saisies_utilisateur_autorise(int status);
 char prompt_for_command(World *w, Plongeur *p, int status);
+char* prompt_for_save_name();
 int ask_yes_no(char *question);
 int char_in(char *liste, char c);
 

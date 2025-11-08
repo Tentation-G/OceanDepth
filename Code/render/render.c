@@ -46,6 +46,7 @@ void screen_header(World *w, Plongeur *p, char* pv_bar, char* oxy_bar, char* fat
 
     switch (screen_status){
         case 50:
+        case 51:
         case 52: {
             printf("╭─────────────────────────────── Ocean  Depth ────────────────────────────────╮\n");
             printf("│                                                                             │\n");
@@ -71,7 +72,7 @@ void screen_header(World *w, Plongeur *p, char* pv_bar, char* oxy_bar, char* fat
             printf("  O₂: %s %3d%%  │", oxy_bar, p->niveau_oxygene);
             printf("  Fatigue: %s %3d%%  │\n", fatigue_bar, p->niveau_fatigue);
             printf("│  Profondeur: %4dm     ", profondeur);
-            printf("│  Arme équipé : %-36s│\n", weapon->nom);
+            printf("│  Arme équipé : %-24s | Save : %d │\n", weapon->nom, active_save);
             printf("├─────────────────────────────────────────────────────────────┬───────────────┤\n");
             printf("│  [Info] : %-48s  │  Zone-[%d][%d]  │\n", info, p->map_pos_y, p->map_pos_x);
             printf("├─────────────────────────────────────────────────────────────┤ %-13s │\n", zone_type_to_string(type));
@@ -570,8 +571,7 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             //printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
             break;
         }
-        case 52: {
-
+        case 51: {
             printf("│   ╭──────────────────────── Nouvelle Exploration ───────────────────────╮   │\n");
             printf("│   │#########                                                            │   │\n");
             printf("│   │###               Demarrez une nouvelle exploration                  │   │\n");
@@ -595,6 +595,31 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
 
             break;
         }
+        case 52: {
+            printf("│   ╭───────────────────── Continuer une Exploration ─────────────────────╮   │\n");
+            printf("│   │#########                                                            │   │\n");
+            printf("│   │###                     Choisir une sauvegarde                       │   │\n");
+            printf("│   │#                                                                    │   │\n");
+            printf("│   │                                                      <°(((><        │   │\n");
+            printf("│   │                                         <°(((><                     │   │\n");
+            printf("│   │       ╔═══╦═══════════════════╗                                     │   │\n");
+            printf("│   │       ║ 1 ║ %-17s ║                                     │   │\n", saveName1);
+            printf("│   │       ╚═══╩═══════════════════╝                                     │   │\n");
+            printf("│   │  ><>                                                                │   │\n");
+            printf("│   │                      ╔═══╦═══════════════════╗                      │   │\n");
+            printf("│   │     \\\\   ><>         ║ 2 ║ %-17s ║                      │   │\n", saveName2);
+            printf("│   │  \\\\ //            \\\\ ╚═══╩═══════════════════╝                      │   │\n");
+            printf("│   │  || \\\\     ><>     \\\\                                               │   │\n");
+            printf("│   │  \\\\ //  ><>        //               ╔═══╦═══════════════════╗       │   │\n");
+            printf("│   │   \\Y/             //   ><>          ║ 3 ║ %-17s ║       │   │\n", saveName3);
+            printf("│   │   // ><>          ||                ╚═══╩═══════════════════╝       │   │\n");
+            printf("│   │##############     ||                                                │   │\n");
+            printf("│   │##############################                          <*)))==<     │   │\n");
+            printf("│   │###################################                                  │   │\n");
+
+            break;
+        }
+
         default: {
             printf("│                                                                             │\n");
             printf("│    [Écran 404]                                                              │\n");
@@ -636,7 +661,7 @@ void screen_footer(World *w, Plongeur *p){
         // Competence
         case 11:{
             printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
-            printf("│  [1] Brume marine [2] Cuirasse Aquatique   [3] Souffle maitrise             │\n");
+            printf("│  [1] Brume marine  [2] Cuirasse Aquatique  [3] Souffle maitrise             │\n");
             printf("│  [4] Vague regenerante [Q] Retour                                           │\n");
             printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
             break;
@@ -649,27 +674,12 @@ void screen_footer(World *w, Plongeur *p){
             printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
             break;
         }
-        case 21:{
-            printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
-            printf("│  [R]  Retour  [Q]  Quitter                                                  │\n");
-            printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
-            break;
-        }
-        case 22:{
-            printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
-            printf("│  [R]  Retour  [Q]  Quitter                                                  │\n");
-            printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
-            break;
-        }
-        case 23:{
-            printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
-            printf("│  [R]  Retour  [Q]  Quitter                                                  │\n");
-            printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
-            break;
-        }
+        case 21:
+        case 22:
+        case 23:
         case 24:{
             printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
-            printf("│  [R]  Retour  [Q]  Quitter                                                  │\n");
+            printf("│  [R] Retour  [Q] Quitter                                                    │\n");
             printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
             break;
         }
@@ -684,20 +694,22 @@ void screen_footer(World *w, Plongeur *p){
         // Coffre
         case 4:{
             printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
-            printf("│  [Q]  Quitter                                                               │\n");
+            printf("│  [Q] Quitter                                                                │\n");
             printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
             break;
         }
         case 50:{
             printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
-            printf("│  [P] Plonger  [C] Charger [Q] Quitter                                       │\n");
+            printf("│  [P] Plonger  [C] Charger  [Q] Quitter                                      │\n");
             printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
             printf("[0] Go Ecran explo\n");
             break;
         }
+        case 51:
         case 52: {
             printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
-            printf("│  [1] [2] [3] Choisir un Emplacement  [R] Retour                             │\n");
+            printf("│  [1] %-17s  [2] %-17s  [3] %-17s        │\n", saveName1, saveName2, saveName3);
+            printf("│  [R] Retour                                                                 │\n");
             printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
             break;
         }

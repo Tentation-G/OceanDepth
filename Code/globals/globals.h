@@ -11,6 +11,9 @@ extern int map_largeur;
 extern int map_hauteur;
 
 extern char fill;
+extern char fill_background[];
+
+extern int active_save;
 
 extern int screen_status;
 extern int previous_screen_status;

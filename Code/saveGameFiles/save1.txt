@@ -1,10 +1,10 @@
 -------------------------
 Numero de Save      : 1
 -------------------------
-points_de_vie       : 95
+points_de_vie       : 100
 points_de_vie_max   : 100
 -------------------------
-niveau_oxygene      : 89
+niveau_oxygene      : 67
 niveau_oxygene_max  : 100
 -------------------------
 niveau_fatigue      : 0
@@ -12,10 +12,10 @@ niveau_fatigue_max  : 100
 -------------------------
 perles              : 10
 -------------------------
-pos_y               : 15
-pos_x               : 65
-last_pos_y          : 15
-last_pos_x          : 65
+pos_y               : 17
+pos_x               : 34
+last_pos_y          : 17
+last_pos_x          : 34
 -------------------------
 map_pos_y           : 1
 map_pos_x           : 0

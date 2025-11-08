@@ -1,4 +1,5 @@
 #include <string.h>
+#include  <stdio.h>
 #include <stdlib.h>
 #include "utils.h"
 
@@ -49,4 +50,10 @@ char* convert_to_visual_bar(int stat, int stat_max){
 int sign_int(int v)
 {
     return (v>0) - (v<0);
+}
+
+// Purge salvatrice (trop de temps perdu pour ca, les larmes)
+void clear_stdin(void) {
+    int ch;
+    while ((ch = getchar()) != '\n' && ch != EOF) {}
 }

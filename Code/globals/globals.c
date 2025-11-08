@@ -21,7 +21,7 @@ int active_save = 0; // 0 = pas de save (default) | 1, 2, 3
    // 4 = tresor
   // 50 = Ecran d'accueil
  // 51 = Ecran de creation de sauvegarde
-// 52 = Select emplacement de sauvegarde
+// 52 = Select de sauvegarde
 int screen_status = 50;
 int previous_screen_status = 0;
 

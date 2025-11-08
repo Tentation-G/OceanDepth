@@ -26,7 +26,7 @@ int main(void) {
 
     open_names_slot();
 
-    // Créa plongeur
+    // Créa plongeur | Valeur par default
     Plongeur plongeur = {
         .points_de_vie = 100,
         .points_de_vie_max = 100,
@@ -42,7 +42,7 @@ int main(void) {
         .last_pos_y = 5,
         .last_pos_x = 10,
 
-        .map_pos_y  = 1,
+        .map_pos_y  = 0,
         .map_pos_x  = 0,
 
     };
@@ -89,7 +89,7 @@ int main(void) {
                 }
                 else if (cmd == 'S' || cmd == 's') {
                     info = "Progression sauvegarde";
-                    sauvegarder(world, &plongeur, 1);
+                    sauvegarder(world, &plongeur, active_save);
                     //screen_status = 50;
 
                 }
@@ -194,13 +194,13 @@ int main(void) {
                 break;
             }
 
-            // ── Accueil & Sauvegarde ─────────────────────────────────────────────
+            // ── Accueil & Sauvegarde ───────────────────────────────────
             case 50: {
                 if (cmd == 'P' || cmd == 'p') {
-                    screen_status = 52;
+                    screen_status = 51;
                 }
                 else if (cmd == 'C' || cmd == 'c') {
-                    screen_status = 50;
+                    screen_status = 52;
                 }
                 else if (cmd == 'Q' || cmd == 'q') {
                     exit(0);
@@ -209,16 +209,42 @@ int main(void) {
                     screen_status = 0;
                 }
             }
-            case 52: {
+            case 51:{
 
                 if (cmd == '1') {
-
+                    new_save_slot(1, &plongeur);
+                    info = "Une nouvelle exploration commence !";
+                    // Gerer dans la fonction new_save_slot
+                    //screen_status = 0;
                 }
                 else if (cmd == '2') {
-
+                    new_save_slot(2, &plongeur);
+                    info = "Une nouvelle exploration commence !";
                 }
                 else if (cmd == '3') {
+                    new_save_slot(3, &plongeur);
+                    info = "Une nouvelle exploration commence !";
+                }
+                else if (cmd == 'R' || cmd == 'r') {
+                    screen_status = 50;
+                }
+                break;
+            }
 
+            case 52: {
+                if (cmd == '1') {
+                    charger(&plongeur, 1);
+                    info = "Exploration 1";
+                    // Gerer dans la fonction new_save_slot
+                    //screen_status = 0;
+                }
+                else if (cmd == '2') {
+                    charger(&plongeur, 2);
+                    info = "Exploration 2";
+                }
+                else if (cmd == '3') {
+                    charger(&plongeur, 3);
+                    info = "Exploration 3";
                 }
                 else if (cmd == 'R' || cmd == 'r') {
                     screen_status = 50;
