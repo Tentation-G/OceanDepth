@@ -1,23 +1,22 @@
 -------------------------
-Numero de Save      : dft
+Numero de Save      : 2
 -------------------------
-points_de_vie       : 100
+points_de_vie       : 80
 points_de_vie_max   : 100
 -------------------------
-niveau_oxygene      : 100
+niveau_oxygene      : 65
 niveau_oxygene_max  : 100
 -------------------------
 niveau_fatigue      : 0
 niveau_fatigue_max  : 100
 -------------------------
-perles              : 0
+perles              : 10
 -------------------------
-pos_y               : 15
-pos_x               : 65
-last_pos_y          : 15
-last_pos_x          : 65
+pos_y               : 2
+pos_x               : 2
+last_pos_y          : 2
+last_pos_x          : 2
 -------------------------
-map_pos_y           : 0
+map_pos_y           : 1
 map_pos_x           : 0
 -------------------------
-

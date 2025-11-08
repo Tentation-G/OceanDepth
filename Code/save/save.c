@@ -1,11 +1,133 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "save.h"
+
+#include "../globals/globals.h"
 #include "../types/types.h"
+#include "../input/input.h"
 
-void sauvegarder(Plongeur *p) {
-    FILE *f = fopen("../Code/saveGameFiles/save.txt", "w");
+// Save name | default
+char saveName1[18] = "Vide";
+char saveName2[18] = "Vide";
+char saveName3[18] = "Vide";
 
+ // slot => 1 / 2 / 3
+// mode => w / r
+FILE* open_slot(int slot, char* mode){
+    switch (slot) {
+    case 1: return fopen("../Code/saveGameFiles/save1.txt", mode);
+    case 2: return fopen("../Code/saveGameFiles/save2.txt", mode);
+    case 3: return fopen("../Code/saveGameFiles/save3.txt", mode);
+    default: return NULL;
+    }
+}
+
+ // Recup ce qu'il y a dans le fichier saveNames
+// Et le met dans les variables
+void open_names_slot(){
+    FILE *f = fopen("../Code/save/saveNames.txt", "r");
+    if (!f) {
+         // Si pas de fichier, on en creer un (c'est au cazou)
+        // fwd -> file write default
+        FILE *fwd = fopen("../Code/save/saveNames.txt", "w");
+
+        fprintf(fwd, "-------------------------\n");
+        fprintf(fwd, "Save 1 : Vide\n");
+        fprintf(fwd, "-------------------------\n");
+        fprintf(fwd, "Save 2 : Vide\n");
+        fprintf(fwd, "-------------------------\n");
+        fprintf(fwd, "Save 3 : Vide\n");
+        fprintf(fwd, "-------------------------\n");
+        fclose(fwd);
+
+        return;
+    }
+
+    fscanf(f, "-------------------------\n");
+    fscanf(f, "Save 1 : %17s\n", saveName1);
+    fscanf(f, "-------------------------\n");
+    fscanf(f, "Save 2 : %17s\n", saveName2);
+    fscanf(f, "-------------------------\n");
+    fscanf(f, "Save 3 : %17s\n", saveName3);
+    fscanf(f, "-------------------------\n");
+
+    fclose(f);
+}
+
+ // Recup ce qu'il y a dans les variables
+// Et le met dans le fichier saveNames
+void save_names_slot() {
+
+    FILE *f = fopen("../Code/save/saveNames.txt", "w");
+    if (!f) return;
+
+    fprintf(f, "-------------------------\n");
+    fprintf(f, "Save 1 : %s\n", saveName1);
+    fprintf(f, "-------------------------\n");
+    fprintf(f, "Save 2 : %s\n", saveName2);
+    fprintf(f, "-------------------------\n");
+    fprintf(f, "Save 3 : %s\n", saveName3);
+    fprintf(f, "-------------------------\n");
+
+    fclose(f);
+}
+
+void new_save_slot(int slot, Plongeur *p){
+
+    // Verif si il y a une save sur le slot choisi
+    const char *currentName = NULL;
+    switch (slot) {
+    case 1: currentName = saveName1; break;
+    case 2: currentName = saveName2; break;
+    case 3: currentName = saveName3; break;
+    default: return;
+    }
+
+    // Si pas "Vide"
+    if (strcmp(currentName, "Vide") != 0) {
+        printf("La sauvegarde '%s' sera effacé.\n", currentName);
+
+        // Demande de confirmation
+        if (!ask_yes_no("Continuer ?")) {
+            printf("Nouvelle sauvegarde annulée.\n");
+            return;
+        }
+    }
+
+    char *name = prompt_for_save_name();
+
+    switch (slot) {
+    case 1:
+        strncpy(saveName1, name, sizeof(saveName1) - 1);
+        saveName1[sizeof(saveName1) - 1] = '\0';
+        break;
+    case 2:
+        strncpy(saveName2, name, sizeof(saveName2) - 1);
+        saveName2[sizeof(saveName2) - 1] = '\0';
+        break;
+    case 3:
+        strncpy(saveName3, name, sizeof(saveName3) - 1);
+        saveName3[sizeof(saveName3) - 1] = '\0';
+        break;
+    default:break;
+    }
+
+    save_names_slot();
+
+
+    active_save = slot;
+
+    screen_status = 0;
+}
+
+void sauvegarder(World *w, Plongeur *p, int slot) {
+    // Select la bonne file
+    FILE *f = open_slot(slot, "w");
+
+
+    fprintf(f, "-------------------------\n");
+    fprintf(f, "Numero de Save      : %d\n", slot);
     fprintf(f, "-------------------------\n");
     fprintf(f, "points_de_vie       : %d\n", p->points_de_vie);
     fprintf(f, "points_de_vie_max   : %d\n", p->points_de_vie_max);
@@ -30,10 +152,36 @@ void sauvegarder(Plongeur *p) {
     fclose(f);
 }
 
-void charger(Plongeur *p) {
-    FILE *f = fopen("../Code/saveGameFiles/save.txt", "r");
+void charger(Plongeur *p, int slot) {
 
-    // On saute les lignes de séparation et on lit précisément dans ton format
+    // Verif si il y a une save sur le slot choisi
+    const char *currentName = NULL;
+    switch (slot) {
+    case 1: currentName = saveName1; break;
+    case 2: currentName = saveName2; break;
+    case 3: currentName = saveName3; break;
+    default: return;
+    }
+
+    // Si "Vide"
+    if (strcmp(currentName, "Vide") == 0) {
+        printf("La sauvegarde %d est vide.\n", slot);
+        if (ask_yes_no("Voulez vous creer une nouvelle sauvegarde ?")) {
+
+            new_save_slot(slot, p);
+
+            return;
+        }
+        // Retour à l'écran de charge de save
+        screen_status = 52;
+        return;
+    }
+
+    // Select la bonne file
+    FILE *f = open_slot(slot, "r");
+
+    fscanf(f, "-------------------------\n");
+    fscanf(f, "Numero de Save      : %d\n", &slot);
     fscanf(f, "-------------------------\n");
     fscanf(f, "points_de_vie       : %d\n", &p->points_de_vie);
     fscanf(f, "points_de_vie_max   : %d\n", &p->points_de_vie_max);
@@ -56,4 +204,6 @@ void charger(Plongeur *p) {
     fscanf(f, "-------------------------\n");
 
     fclose(f);
+    active_save = slot;
+    screen_status = 0;
 }

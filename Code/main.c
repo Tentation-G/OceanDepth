@@ -25,7 +25,9 @@ int main(void) {
 #endif
     srand((unsigned)time(NULL));  // rand
 
-    // Créa plongeur
+    open_names_slot();
+
+    // Créa plongeur | Valeur par default
     Plongeur plongeur = {
         .points_de_vie = 100,
         .points_de_vie_max = 100,
@@ -41,7 +43,7 @@ int main(void) {
         .last_pos_y = 5,
         .last_pos_x = 10,
 
-        .map_pos_y  = 1,
+        .map_pos_y  = 0,
         .map_pos_x  = 0,
 
     };
@@ -87,12 +89,14 @@ int main(void) {
                     
                 }
                 else if (cmd == 'S' || cmd == 's') {
-                    info = "Sauvegarde";
-                    sauvegarder(&plongeur);
+                    info = "Progression sauvegarde";
+                    sauvegarder(world, &plongeur, active_save);
+                    //screen_status = 50;
+
                 }
                 else if (cmd == 'G') {
                     info = "Charger";
-                    charger(&plongeur);
+                    //charger(&plongeur);
                 }
                 else if (cmd == 'E') {
                     screen_status = 1;
@@ -108,22 +112,34 @@ int main(void) {
                 gerer_tour_combat(&plongeur, cmd, screen);
                 break;
             }
+            case 11:{ //Competences
+                if (cmd == 'Q' || cmd == 'q') {
+                    screen_status = 10;  // Retour combat
+                    info = "Retour au combat";
+                }
+                // c'est quoi ce raffut que vous me pondez encore
+                else if (cmd >= '1' && cmd <= '4') {
+                    appliquer_competence(&plongeur, cmd);
+                    screen_status = 10;  // Retour combat
+                }
+                break;
+            }
 
             // ── Carte ──────────────────────────────────────────────────
             case 20: { // ecran selection
                 if (cmd == 'Q' || cmd == 'q') {
                     screen_status = 0; // retour exploration
                 }
-                if (cmd == '1') {
+                else if (cmd == '1') {
                     screen_status = 21; // go Carte 1
                 }
-                if (cmd == '2') {
+                else if (cmd == '2') {
                     screen_status = 22; // go Carte 2
                 }
-                if (cmd == '3') {
+                else if (cmd == '3') {
                     screen_status = 23; // go Carte 3
                 }
-                if (cmd == '4') {
+                else if (cmd == '4') {
                     screen_status = 24; // go Carte 4
                 }
                 break;
@@ -132,7 +148,7 @@ int main(void) {
                 if (cmd == 'R' || cmd == 'r') {
                     screen_status = 20; // retour Ecran selection carte
                 }
-                if (cmd == 'Q' || cmd == 'q') {
+                else if (cmd == 'Q' || cmd == 'q') {
                     screen_status = 0; // retour exploration
                 }
                 break;
@@ -141,7 +157,7 @@ int main(void) {
                 if (cmd == 'R' || cmd == 'r') {
                     screen_status = 20; // retour Ecran selection carte
                 }
-                if (cmd == 'Q' || cmd == 'q') {
+                else if (cmd == 'Q' || cmd == 'q') {
                     screen_status = 0; // retour exploration
                 }
                 break;
@@ -150,7 +166,7 @@ int main(void) {
                 if (cmd == 'R' || cmd == 'r') {
                     screen_status = 20; // retour Ecran selection carte
                 }
-                if (cmd == 'Q' || cmd == 'q') {
+                else if (cmd == 'Q' || cmd == 'q') {
                     screen_status = 0; // retour exploration
                 }
                 break;
@@ -159,7 +175,7 @@ int main(void) {
                 if (cmd == 'R' || cmd == 'r') {
                     screen_status = 20; // retour Ecran selection carte
                 }
-                if (cmd == 'Q' || cmd == 'q') {
+                else if (cmd == 'Q' || cmd == 'q') {
                     screen_status = 0; // retour exploration
                 }
                 break;
@@ -171,21 +187,68 @@ int main(void) {
                 break;
             }
 
-            // ── Trésor / autres écrans ────────────────────────────────
+            // ── Trésor ─────────────────────────────────────────────────
             case 4: {
                 if (cmd == 'Q' || cmd == 'q') {
                     screen_status = 0;
                 }
                 break;
-            }case 11:{ //Competences
-            
-                if (cmd == 'Q' || cmd == 'q') {
-                    screen_status = 10;  // Retour combat
-                    info = "Retour au combat";
+            }
+
+            // ── Accueil & Sauvegarde ───────────────────────────────────
+            case 50: {
+                if (cmd == 'P' || cmd == 'p') {
+                    screen_status = 51;
                 }
-                if (cmd >= '1' && cmd <= '4') {
-                    appliquer_competence(&plongeur, cmd);
-                    screen_status = 10;  // Retour combat
+                else if (cmd == 'C' || cmd == 'c') {
+                    screen_status = 52;
+                }
+                else if (cmd == 'Q' || cmd == 'q') {
+                    exit(0);
+                }
+                else if (cmd == '0'){
+                    screen_status = 0;
+                }
+            }
+            case 51:{
+
+                if (cmd == '1') {
+                    new_save_slot(1, &plongeur);
+                    info = "Une nouvelle exploration commence !";
+                    // Gerer dans la fonction new_save_slot
+                    //screen_status = 0;
+                }
+                else if (cmd == '2') {
+                    new_save_slot(2, &plongeur);
+                    info = "Une nouvelle exploration commence !";
+                }
+                else if (cmd == '3') {
+                    new_save_slot(3, &plongeur);
+                    info = "Une nouvelle exploration commence !";
+                }
+                else if (cmd == 'R' || cmd == 'r') {
+                    screen_status = 50;
+                }
+                break;
+            }
+
+            case 52: {
+                if (cmd == '1') {
+                    charger(&plongeur, 1);
+                    info = "Exploration 1";
+                    // Gerer dans la fonction new_save_slot
+                    //screen_status = 0;
+                }
+                else if (cmd == '2') {
+                    charger(&plongeur, 2);
+                    info = "Exploration 2";
+                }
+                else if (cmd == '3') {
+                    charger(&plongeur, 3);
+                    info = "Exploration 3";
+                }
+                else if (cmd == 'R' || cmd == 'r') {
+                    screen_status = 50;
                 }
                 break;
             

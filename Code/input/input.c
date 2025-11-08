@@ -18,22 +18,27 @@ int zone_is_grotte(ZoneType type) {
 // Retourne la liste des touches valides selon l'écran courant
 char* saisies_utilisateur_autorise(int status) {
     switch (status) {
-    case 0:  return "CDIcdiSsEG";              // Exploration | [C] Carte  | [I] Inv      | [D] Depl        | [S] Sauvegarde | [E] Ecran combat pour test dev
-    //-------------------------------------------------------------------------------------------------------------------------------------------------------  
-    case 10:  return "ABCDIabcdiQq";         // Combat        | [A] Atq A  | [B] Atq B    | [C] Atq Passive | [D] Competences | [I] Inventaire | [Q] Quitter
-    //-------------------------------------------------------------------------------------------------------------------------------------------------------     
-    case 20:  return "1234Qq";             // Carte Ecran    | [1] Carte I | [2] Carte II | [3] Carte III   | [4] Carte IV    |[Q] Quitter
-    case 21:  return "RrQq";              // Carte 1         | [R] Retour  | [Q] Quitter
-    case 22:  return "RrQq";             // Carte 2          | [R] Retour  | [Q] Quitter
-    case 23:  return "RrQq";            // Carte 3           | [R] Retour  | [Q] Quitter
-    case 24:  return "RrQq";           // Carte 4            | [R] Retour  | [Q] Quitter
-    //-------------------------------------------------------------------------------------------------------------------------------------------------------     
-    case 3:  return "Qq12";          // Inventaire           | [Q] Quitter | [1] Utiliser Objet | [2] Equiper Objet
-    case 4:  return "Qq";           // Trésor                | [Q] Quitter
-    case 11: return "1234Qq";       // Competences  / [1] [2] [3] [4] [Q] Retour
+    case 0:  return "CDIcdiSsEG";               // Exploration | [C] Carte  | [I] Inv       | [D] Depl        | [S] Sauvegarde  | [E] Ecran combat pour test dev
+    //----------------------------------------------------------------------------------------------------------------------------------------------------------
+    case 10:  return "ABCDIabcdiQq";          // Combat        | [A] Atq A  | [B] Atq B     | [C] Atq Passive | [D] Competences | [I] Inventaire | [Q] Quitter
+    case 11:  return "1234Qq";                // Competences    | [1] [2] [3] [4] [Q] Retour
+    //----------------------------------------------------------------------------------------------------------------------------------------------------------
+    case 20:  return "1234Qq";             // Carte Ecran      | [1] Carte I | [2] Carte II | [3] Carte III   | [4] Carte IV    |[Q] Quitter
+    case 21:                              // Carte 1           | [R] Retour  | [Q] Quitter
+    case 22:                             // Carte 2            | [R] Retour  | [Q] Quitter
+    case 23:                            // Carte 3             | [R] Retour  | [Q] Quitter
+    case 24:  return "RrQq";           // Carte 4              | [R] Retour  | [Q] Quitter
+    //----------------------------------------------------------------------------------------------------------------------------------------------------------
+    case 3:  return "Qq12";          // Inventaire             | [Q] Quitter | [1] Utiliser Objet | [2] Equiper Objet
+    //----------------------------------------------------------------------------------------------------------------------------------------------------------
+    case 4:  return "Qq";          // Trésor                   | [Q] Quitter
+    //----------------------------------------------------------------------------------------------------------------------------------------------------------
+    case 50:  return "PpCcQq0";  // Ecran D'accueil            | [P] Plonger | [C] Charger        | [Q] Quitter  | [0] Go Ecran explo (temp pour test dev)
+    case 51:                    // Selection Empl Sav Init     | [1] Empl 1  | [2] Emplacement 2  | [3] Emplacement 3 | [R] Retour
+    case 52:  return "123Rr";  // Selection Empl Sav Charger   | [1] Empl 1  | [2] Emplacement 2  | [3] Emplacement 3 | [R] Retour
+
     case 99: return "123456789IiQq";  // Marchand              | [1-9] Sélectionner item [I] inventaire [Q] Quitter
     default: return "";
-     // ton case 11 (anciennement case 5) tu me le cale ici (et tu changes case 1 par case 10)
     // Tu ecrases pas cette fonction, laisses la en paix la pauvre
     }
 }
@@ -55,6 +60,7 @@ char prompt_for_command(World *w, Plongeur *p, int status) {
         if (scanf("%15s", input) != 1) {
             return '\0';
         }
+        //clear_stdin();
         if (strlen(input) != 1) {
             printf("Entrez UN seul caractère.\n");
             continue;
@@ -75,6 +81,21 @@ char prompt_for_command(World *w, Plongeur *p, int status) {
     }
 }
 
+char* prompt_for_save_name() {
+    static char name[18]; // 17 + \0
+
+    clear_stdin();
+
+    printf("Nom de la sauvegarde (17 caractères max) : ");
+
+    //fget parce que le scanf c'est pas foufou
+    fgets(name, 18, stdin);
+    name[strcspn(name, "\n")] = '\0'; // enlève le \n si present
+
+    return name;
+}
+
+
 // Question oui non (pour l'instant juste utilisé pour la confirmation de sortie de zone)
 int ask_yes_no(char *question) {
     char input[16];
@@ -87,6 +108,9 @@ int ask_yes_no(char *question) {
         printf("Répondez par O ou N.\n");
     }
 }
+
+ // -------------------- Limite de la civilisation --------------------
+// (en dessous de cette limite c'est obscure)
 
 // Nouvelle fonction pour choisir une cible
 int prompt_for_target(int nbr_mobs, CreatureMarine *creatures){
