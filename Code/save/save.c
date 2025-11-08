@@ -149,10 +149,20 @@ void sauvegarder(World *w, Plongeur *p, int slot) {
     fprintf(f, "map_pos_x           : %d\n", p->map_pos_x);
     fprintf(f, "-------------------------\n");
 
+    // Map (save d'exploration de la map)
+    fprintf(f, "visited:\n");
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+            fputc(w->visited[i][j] ? '1' : '0', f);
+        }
+        fputc('\n', f);
+    }
+    fprintf(f, "-------------------------\n");
+
     fclose(f);
 }
 
-void charger(Plongeur *p, int slot) {
+void charger(World *w, Plongeur *p, int slot) {
 
     // Verif si il y a une save sur le slot choisi
     const char *currentName = NULL;
@@ -202,6 +212,21 @@ void charger(Plongeur *p, int slot) {
     fscanf(f, "map_pos_y           : %d\n", &p->map_pos_y);
     fscanf(f, "map_pos_x           : %d\n", &p->map_pos_x);
     fscanf(f, "-------------------------\n");
+
+    // Map
+    char line[16];
+
+    fgets(line, sizeof(line), f); // "visited:\n"
+
+    // lecture matrice visited
+    for (int i = 0; i < 10; i++) {
+        fgets(line, sizeof(line), f);
+        for (int j = 0; j < 10; j++) {
+            w->visited[i][j] = (line[j] == '1');
+        }
+    }
+
+    fgets(line, sizeof(line), f); // "-------------------------\n"
 
     fclose(f);
     active_save = slot;

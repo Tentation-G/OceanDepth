@@ -234,17 +234,17 @@ int main(void) {
 
             case 52: {
                 if (cmd == '1') {
-                    charger(&plongeur, 1);
+                    charger(world, &plongeur, 1);
                     info = "Exploration 1";
                     // Gerer dans la fonction new_save_slot
                     //screen_status = 0;
                 }
                 else if (cmd == '2') {
-                    charger(&plongeur, 2);
+                    charger(world, &plongeur, 2);
                     info = "Exploration 2";
                 }
                 else if (cmd == '3') {
-                    charger(&plongeur, 3);
+                    charger(world, &plongeur, 3);
                     info = "Exploration 3";
                 }
                 else if (cmd == 'R' || cmd == 'r') {

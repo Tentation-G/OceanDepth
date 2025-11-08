@@ -14,6 +14,6 @@ void save_names_slot();
 void new_save_slot(int slot, Plongeur *p);
 
 void sauvegarder(World *w, Plongeur *p, int slot);
-void charger(Plongeur *p, int slot);
+void charger(World *w, Plongeur *p, int slot);
 
 #endif // OCEANDEPTH_SAVE_H
