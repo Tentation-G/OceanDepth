@@ -98,8 +98,46 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
         case 10: { // Combat
             printf("│                                                             ╰───────────────┤\n");
             printf("│   ╭───────────────────────────── Combat ────────────────────────────────╮   │\n");
-            
-            if (g_nbr_creatures_en_combat == 1) {
+            if (type_combat == 1){
+                CreatureMarine *boss = &creatures[0];
+                char *boss_pv_bar = convert_to_visual_bar(boss->points_de_vie_actuels, boss->points_de_vie_max);
+                int boss_pv_percent = convert_to_percent(boss->points_de_vie_actuels, boss->points_de_vie_max);
+                
+                // Barre de vie + nom BOSS (centré)
+                printf("│   │                         %10s  %3d%%                            │   │\n",
+                    boss_pv_bar, boss_pv_percent);
+                printf("│   │                         [%d]%12s                             │   │\n",
+                    boss->id, boss->nom);
+                printf("│   │                                                                     │   │\n");
+                
+                printf("│   │                                                                     │   │\n");
+                printf("│   │                                                                     │   │\n");
+                printf("│   │                     ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄      │   │\n");
+                printf("│   │                    ▄█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█▄     │   │\n");
+                printf("│   │                   █▀                                        ▀█        │   │\n");
+                printf("│   │                  █▀         ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄        │   │\n");
+                printf("│   │                 █▀       ▄█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█▄       │   │\n");
+                printf("│   │                █▀      ▄█▀                    ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▀█▄      │   │\n");
+                printf("│   │               █▀      █▀     ████████         ██████████████  ▀█     │   │\n");
+                printf("│   │              █▀       ▀▀▄▄▄▄▀▀▀▀▀▀▀▀▀▀▄▄▄▄▄▄▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█▄    │   │\n");
+                printf("│   │             █▀              ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄          │   │\n");
+                printf("│   │            █▀            ▄█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█▄       │   │\n");
+                printf("│   │           █▀           ▄█▀                      ▄▄▄▄▄▄▄▄▄▄▄▄▀█▄      │   │\n");
+                printf("│   │          █▀          █▀         ██████████         ██████████  ▀█    │   │\n");
+                printf("│   │         █▀           ▀▀▄▄▄▄▄▄▀▀▀▀▀▀▀▀▀▀▀▀▀▀▄▄▄▄▄▄▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█▄   │   │\n");
+                printf("│   │        █▀                   ████████████████████████████████        │   │\n");
+                printf("│   │       █▀                 ▄█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█▄      │   │\n");
+                printf("│   │      █▀                █▀                                    ▀█▄     │   │\n");
+                printf("│   │     █▀                ▀▀▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▀█▄      │   │\n");
+                printf("│   │    █▀                                            ▄▄▄▄▄▄▄▄▄▄▄▄▀█▄    │   │\n");
+                printf("│   │   █▀                                             ██████████████▀█   │   │\n");
+                printf("│   │  █▀                                              ▀▀▀▀▀▀▀▀▀▀▀▀▀▀█▄   │   │\n");
+                printf("│   │ █▀▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▀█▄  │   │\n");
+                printf("│   │▀▄    ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▄  │   │\n");
+                
+                free(boss_pv_bar);
+            }       
+            else if (type_combat ==0 && g_nbr_creatures_en_combat == 1) {
                 CreatureMarine *c1 = &creatures[0];
                 char *creature1_pv_bar = convert_to_visual_bar(c1->points_de_vie_actuels, c1->points_de_vie_max);
                 
@@ -128,7 +166,7 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
                 
                 free(creature1_pv_bar);
             }
-            else if (g_nbr_creatures_en_combat == 2) {
+            else if (type_combat ==0 && g_nbr_creatures_en_combat == 2) {
                 CreatureMarine *c1 = &creatures[0];
                 CreatureMarine *c2 = &creatures[1];
                 char *creature1_pv_bar = convert_to_visual_bar(c1->points_de_vie_actuels, c1->points_de_vie_max);
@@ -163,7 +201,7 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
                 free(creature2_pv_bar);
 
             }
-            else if (g_nbr_creatures_en_combat == 3) {
+            else if (type_combat ==0 && g_nbr_creatures_en_combat == 3) {
                 CreatureMarine *c1 = &creatures[0];
                 CreatureMarine *c2 = &creatures[1];
                 CreatureMarine *c3 = &creatures[2];

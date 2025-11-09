@@ -462,6 +462,11 @@ void appliquer_competence(Plongeur *p, char car) {
 // BOSS
 // Appliquer effet boss
 void appliquer_effet_boss(CreatureMarine *boss, Plongeur *p){
+    // si le combat n'est pas boss : on applique pas l'effet
+    if(type_combat != 1){
+        return;
+    }
+
     if(!boss->est_vivant){
         return;
     }
@@ -510,10 +515,7 @@ void appliquer_effet_boss(CreatureMarine *boss, Plongeur *p){
 
 // LOGIQUE COMBAT GLOBAL
 void gerer_tour_combat(Plongeur *p, char cmd, char **screen) {
-    extern CreatureMarine *g_creatures_en_combat;
-    extern int g_nbr_creatures_en_combat;
-    extern int g_creature_tour_index;
-    extern char* info;
+ 
     char *competence[4] = {"Elan marin", "Cuirasse aquatique", "Souffle maitrise", "Vague regerante"};
     
     int choix_action = 0;  // 1=légère, 2=lourde, 3=économiser, 4=compétence
@@ -565,12 +567,6 @@ void gerer_tour_combat(Plongeur *p, char cmd, char **screen) {
         choix_action = 0;
     }
 
-    // Action Plongeur
-    // if (choix_action == 4){
-    //     int comp = prompt_for_competence("Entrer une competence");
-    //     // int choix_comp = choisir_competence();
-    //     appliquer_competence(p, comp);
-    // }
     if (choix_action == 1 || choix_action == 2) {
         // Demander la cible
         int target_index = prompt_for_target(g_nbr_creatures_en_combat, g_creatures_en_combat);
@@ -609,7 +605,13 @@ void gerer_tour_combat(Plongeur *p, char cmd, char **screen) {
     }
     
     if (toutes_mortes) {
-        info = "VICTOIRE ! Toutes les creatures sont vaincues.";
+        if (type_combat == 1)
+        {
+           info = "VICTOIRE ! tu a gagner le BOSS";
+        }else{
+            info = "VICTOIRE ! Toutes les creatures sont vaincues.";
+        }
+        
         free(g_creatures_en_combat);
         g_creatures_en_combat = NULL;
         g_nbr_creatures_en_combat = 0;
@@ -632,6 +634,11 @@ void gerer_tour_combat(Plongeur *p, char cmd, char **screen) {
         CreatureMarine* mob_attaquant = &g_creatures_en_combat[g_creature_tour_index];
         
         printf("\n%s attaque!\n", mob_attaquant->nom);
+
+        // Appliquer effet boss si mode boss (type_combat = 1)
+        if (type_combat == 1) {
+            appliquer_effet_boss(mob_attaquant, p);
+        }
         
         // Gérer les effets spéciaux
         int chance_effet = rand() % 100;

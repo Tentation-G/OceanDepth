@@ -32,4 +32,7 @@ extern int cuirasse; // 0 ou 1
 extern int souffle;
 // extern int elan;
 extern int brume;
+
+// TYPE DE COMBAT => 0: creatures , 1: BOSS
+extern int type_combat;
 #endif // GLOBALS_H

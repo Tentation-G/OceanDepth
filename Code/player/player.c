@@ -305,7 +305,8 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
         case 'E':
             printf("Declanchement du combat !\n");
             info = "Combat !";
-            
+            type_combat = 0;
+
             // Créer les créatures pour le combat
             // int profondeur_actuelle = p->map_pos_y;
             int profondeur_actuelle = 3;
@@ -332,6 +333,18 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
             screen_status = 99;
             break;
 
+        case 'B':{ // BOSS
+            int profondeur_boss = 1;
+            printf("Declanchement du combat BOSS de la profondeur %d!\n", profondeur_boss);
+            info = "Combat BOSS !";
+            type_combat = 1;
+            g_nbr_creatures_en_combat = 1;
+            g_creatures_en_combat = malloc(sizeof(CreatureMarine)); // tableaux d'une case 
+            *g_creatures_en_combat = cree_boss(profondeur_boss); // Copie le boss dans le tableau
+            g_creature_tour_index = 0;
+            screen_status = 10;
+            break;
+        }
         case 'C':
             printf("Ouvrir l'ecran du coffre\n");
             screen_status = 88;
