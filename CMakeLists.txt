@@ -23,6 +23,8 @@ add_executable(OceanDepth
         Code/input/input.h
         Code/inventaire/inventaire.c
         Code/inventaire/inventaire.h
+        Code/marchand/marchand.c
+        Code/marchand/marchand.h
         Code/player/player.c
         Code/player/player.h
         Code/render/render.c

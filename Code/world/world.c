@@ -258,9 +258,14 @@ static ZoneType zone_type_Norm(ZoneType type) {
 
 void decorate_zone_base_borders(Zone zone, int y, int x, int zone_h, int zone_l, ZoneType type) {
 
-    //ajout monstre zone de depart pour test pour les cocos
+    // Zone de test (grotte en [1][0])
     if (y == 1 && x == 0){
         zone[10][10] = 'E';
+
+        // === TEST : placer un marchand (M) au centre de la zone ===
+        zone[hauteur / 2][largeur / 2] = 'M';
+        // === TEST : placer un BOSS (B) ===
+        zone[hauteur / 2][20] = 'B';
     }
 
     // Ajoute les murs en bordures
@@ -305,10 +310,6 @@ void decorate_zone_typed(Zone zone, int y, int x, int zone_h, int zone_l, ZoneTy
         // Les GROTTES
         case ZoneType_GROTTE:
             build_all_mur(zone, y, x, zone_h, zone_l);
-            // === TEST : placer un marchand (M) au centre de la zone ===
-            zone[hauteur / 2][largeur / 2] = 'M';
-            // === TEST : placer un BOSS (B) ===
-            zone[hauteur / 2][20] = 'B';
 
             switch (type){
                 case ZoneType_GROTTE_NORD:
