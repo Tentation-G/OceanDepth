@@ -7,6 +7,7 @@
 #include "combat.h"
 #include "../globals/globals.h"
 #include "../input/input.h"
+#include "../inventaire/inventaire.h"
 
 
 #define FATIGUE_MAX 100
@@ -63,7 +64,7 @@ void verifier_oxygene_critique(Plongeur *p) {
 }
 
 // Fonction pour les calculs des degats
-int degats_infliges(int attaque_min, int attaque_max, int defense, char effet_mob[])
+int degats_infliges(int attaque_min, int attaque_max, int defense, char effet_mob[], int creature_est_cible)
 {
 
     int chance_effet = rand() % 100; // 0 a 99
@@ -76,13 +77,16 @@ int degats_infliges(int attaque_min, int attaque_max, int defense, char effet_mo
 
     int base = attaque_min + rand() % (attaque_max - attaque_min + 1);
 
-    if (strcmp(effet_mob, "Carapace") == 0 && effet_active == 1)
+    // ici on active l'effet si le joueur attaque (creature_est_cible = 1)
+    if (creature_est_cible && strcmp(effet_mob, "Carapace") == 0 && effet_active == 1)
     { // Réduit tous les dégâts subis de 20%
         base = base - (int)(base * .2);
         printf("EFFET: CARAPACE\n");
         printf("Reduit tous les degats subis de 20 \n");
     }
-    else if (strcmp(effet_mob, "Charge") == 0 && effet_active == 1)
+
+    // ici on active l'effet si la creature attaque (creature_est_cible = 0)
+    else if (!creature_est_cible && strcmp(effet_mob, "Charge") == 0 && effet_active == 1)
     {
         // A revoir ici (j'ai pas bien compris)
         printf("EFFET: Charge perforante\n");
@@ -142,12 +146,12 @@ void attaquer_creature(Plongeur *p, CreatureMarine *c, int type)
 
     if (type == 1)
     {                                                                   // attaque légère
-        degats = degats_infliges(20, 30, c->defense, c->effet_special); // 8, 14
+        degats = degats_infliges(20, 30, c->defense, c->effet_special, 1); // 8, 14
         printf("Vous effectuez une attaque legere.\n");
     }
     else if (type == 2)
     {                                                                   // attaque lourde
-        degats = degats_infliges(30, 50, c->defense, c->effet_special); // a ala base 15, 25
+        degats = degats_infliges(30, 50, c->defense, c->effet_special, 1); // a ala base 15, 25
         printf("Vous effectuez une attaque lourde.\n");
     }
 
@@ -212,29 +216,35 @@ void attaquer_plongeur(CreatureMarine *c, Plongeur *p)
     {
         effet_active = 1;
     }
+
+    // Recuperer l'objet de type Itemtemplate combinaison du plongeur pour trouver la defense
+    int id_comp = p->equip_suit.item_id;
+    ItemTemplate *comb =get_item_template(id_comp);
     
-    // Requin : "Frénésie sanguinaire" → +30% dégâts si PV < 50%
+    // Requin : "Frénésie sanguinaire" -> +30% dégâts si PV < 50%
     if (strcmp(c->effet_special, "Frenesie") == 0 && effet_active == 1)
     {
         if (c->points_de_vie_actuels < (c->points_de_vie_max / 2))
         {
+             //comb->defense (defense du plongeur en focntion de la combainaison)
             printf("EFFET SPECIALE UTILISER: FRENESIE (+30%% degats)\n");
-            degats = degats_infliges(c->attaque_minimale, c->attaque_maximale, 0, c->effet_special);
+            degats = degats_infliges(c->attaque_minimale, c->attaque_maximale, comb->defense, c->effet_special, 0);
             degats = degats + (int)(degats * .3);
         }
         else
         {
-            degats = degats_infliges(c->attaque_minimale, c->attaque_maximale, 0, c->effet_special);
+            degats = degats_infliges(c->attaque_minimale, c->attaque_maximale, comb->defense, c->effet_special, 0);
         }
     }
     else
     {
-        degats = degats_infliges(c->attaque_minimale, c->attaque_maximale, 0, c->effet_special);
+        degats = degats_infliges(c->attaque_minimale, c->attaque_maximale, comb->defense, c->effet_special, 0);
     }
-    printf("Degats AVANT: %d\n", degats);
     
+
     // COMPÉTENCE CUIRASSE
     if (cuirasse && duree_cuirasse > 0) {
+        printf("Degats AVANT: %d\n", degats);
         // Vérifier O2 AVANT de consommer
         if (p->niveau_oxygene >= COUT_OX_CUIRASSE) {
             printf("Competence active : Cuirasse aquatique (-30%% degats)\n");
@@ -449,12 +459,63 @@ void appliquer_competence(Plongeur *p, char car) {
     }
 }
 
+// BOSS
+// Appliquer effet boss
+void appliquer_effet_boss(CreatureMarine *boss, Plongeur *p){
+    // si le combat n'est pas boss : on applique pas l'effet
+    if(type_combat != 1){
+        return;
+    }
+
+    if(!boss->est_vivant){
+        return;
+    }
+
+    // 50% d'activer l'effet du Boss
+    if(rand() % 100 >= 50){
+        printf("Effet special Boss desactive pour ce tour..\n");
+        return;
+    }
+
+    printf("BOSS ACTIVE %s !\n", boss->effet_special);
+
+    if (strcmp(boss->effet_special, "RAGE") == 0) {
+        boss->attaque_minimale += 8;
+        boss->attaque_maximale += 8;
+        printf("RAGE : ATK +8 ! (total: %d-%d)\n", boss->attaque_minimale, boss->attaque_maximale);
+    }
+    else if (strcmp(boss->effet_special, "MULTI") == 0) {
+        printf("MULTI : 2e attaque !\n");
+        attaquer_plongeur(boss, p);
+    }
+    else if (strcmp(boss->effet_special, "VENOM") == 0) {
+
+        p->niveau_fatigue += 35;
+        if (p->niveau_fatigue > FATIGUE_MAX) p->niveau_fatigue = FATIGUE_MAX;
+        p->niveau_oxygene -= 15;
+        if (p->niveau_oxygene < 0) p->niveau_oxygene = 0;
+        
+        printf("ABYSSAL GRIP : +35%% fatigue + -15 O2 !\n");
+    }
+    else if (strcmp(boss->effet_special, "VORTEX") == 0) {
+        p->defense = p->defense / 2;
+        if (p->defense < 1) p->defense = 1;
+        printf("VORTEX : Defense divisee par 2 !\n");
+    }
+    else if (strcmp(boss->effet_special, "CHAOS") == 0) {
+
+        int heal = 100;
+        boss->points_de_vie_actuels += heal;
+        if (boss->points_de_vie_actuels > boss->points_de_vie_max)
+            boss->points_de_vie_actuels = boss->points_de_vie_max;
+        printf("CHAOS : +100 PV !\n");
+    }
+}
+
+
 // LOGIQUE COMBAT GLOBAL
 void gerer_tour_combat(Plongeur *p, char cmd, char **screen) {
-    extern CreatureMarine *g_creatures_en_combat;
-    extern int g_nbr_creatures_en_combat;
-    extern int g_creature_tour_index;
-    extern char* info;
+ 
     char *competence[4] = {"Elan marin", "Cuirasse aquatique", "Souffle maitrise", "Vague regerante"};
     
     int choix_action = 0;  // 1=légère, 2=lourde, 3=économiser, 4=compétence
@@ -506,12 +567,6 @@ void gerer_tour_combat(Plongeur *p, char cmd, char **screen) {
         choix_action = 0;
     }
 
-    // Action Plongeur
-    // if (choix_action == 4){
-    //     int comp = prompt_for_competence("Entrer une competence");
-    //     // int choix_comp = choisir_competence();
-    //     appliquer_competence(p, comp);
-    // }
     if (choix_action == 1 || choix_action == 2) {
         // Demander la cible
         int target_index = prompt_for_target(g_nbr_creatures_en_combat, g_creatures_en_combat);
@@ -550,7 +605,13 @@ void gerer_tour_combat(Plongeur *p, char cmd, char **screen) {
     }
     
     if (toutes_mortes) {
-        info = "VICTOIRE ! Toutes les creatures sont vaincues.";
+        if (type_combat == 1)
+        {
+           info = "VICTOIRE ! tu a gagner le BOSS";
+        }else{
+            info = "VICTOIRE ! Toutes les creatures sont vaincues.";
+        }
+        
         free(g_creatures_en_combat);
         g_creatures_en_combat = NULL;
         g_nbr_creatures_en_combat = 0;
@@ -573,6 +634,11 @@ void gerer_tour_combat(Plongeur *p, char cmd, char **screen) {
         CreatureMarine* mob_attaquant = &g_creatures_en_combat[g_creature_tour_index];
         
         printf("\n%s attaque!\n", mob_attaquant->nom);
+
+        // Appliquer effet boss si mode boss (type_combat = 1)
+        if (type_combat == 1) {
+            appliquer_effet_boss(mob_attaquant, p);
+        }
         
         // Gérer les effets spéciaux
         int chance_effet = rand() % 100;
@@ -605,6 +671,7 @@ void gerer_tour_combat(Plongeur *p, char cmd, char **screen) {
         
         if (p->points_de_vie <= 0) {
             info = "DEFAITE... Vous avez ete vaincu.";
+            p->points_de_vie = p->points_de_vie_max; // renetialiser les points de vies en defaite
             free(g_creatures_en_combat);
             g_creatures_en_combat = NULL;
             g_nbr_creatures_en_combat = 0;

@@ -7,7 +7,7 @@ void ajout_joueur_combat_screen(char **screen);
 
 
 // fonction de combat
-int degats_infliges(int attaque_min, int attaque_max, int defense, char effet_mob[]);
+int degats_infliges(int attaque_min, int attaque_max, int defense, char effet_mob[], int creature_est_cible);
 void attaquer_creature(Plongeur *p, CreatureMarine *c, int type);
 void attaquer_plongeur(CreatureMarine *c, Plongeur *p);
 void consommation_o2(Plongeur *p, int type_attack, int profondeur);
@@ -22,7 +22,8 @@ void gerer_tour_combat(Plongeur *p, char cmd, char **screen);
 
 // competences
 void appliquer_competence(Plongeur *p, char car);
-int choisir_competence();
+//Boss
+void appliquer_effet_boss(CreatureMarine *boss, Plongeur *p);
 
 #endif // COMBAT_H
  

@@ -43,3 +43,6 @@ int cuirasse = 0; // pas active
 int souffle = 0;
 // int elan = 0;
 int brume = 0;
+
+// TYPE DE COMBAT => 0: creatures , 1: BOSS
+int type_combat = 0; //combat contre les creatures par default
