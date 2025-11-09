@@ -96,7 +96,7 @@ char* prompt_for_save_name() {
 }
 
 
-// Question oui non (pour l'instant juste utilisé pour la confirmation de sortie de zone)
+// Question oui non | utilisé pour changer de zone et confirmer dans save
 int ask_yes_no(char *question) {
     char input[16];
     for (;;) {
@@ -109,8 +109,8 @@ int ask_yes_no(char *question) {
     }
 }
 
- // -------------------- Limite de la civilisation --------------------
-// (en dessous de cette limite c'est obscure)
+ // (en dessous de cette limite c'est obscure)
+// -------------------- Limite de la civilisation --------------------
 
 // Nouvelle fonction pour choisir une cible
 int prompt_for_target(int nbr_mobs, CreatureMarine *creatures){

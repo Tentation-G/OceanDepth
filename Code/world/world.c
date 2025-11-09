@@ -485,7 +485,7 @@ World* init_world(int map_h, int map_l) {
 
 static void free_zone(Zone z) {
     if (!z) return;
-    for (int i = 0; i < hauteur; ++i) {
+    for (int i = 0; i < hauteur; i++) {
         free(z[i]);
     }
     free(z);
@@ -494,9 +494,9 @@ static void free_zone(Zone z) {
 void free_world(World *w) {
     if (!w) return;
     if (w->zones) {
-        for (int y = 0; y < w->zone_h; ++y) {
+        for (int y = 0; y < w->zone_h; y++) {
             if (w->zones[y]) {
-                for (int x = 0; x < w->zone_l; ++x) {
+                for (int x = 0; x < w->zone_l; x++) {
                     if (w->zones[y][x]) {
                         free_zone(w->zones[y][x]);
                     }
