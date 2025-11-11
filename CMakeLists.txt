@@ -40,4 +40,6 @@ add_executable(OceanDepth
         artTest/artTest.c
         Code/world/map_lt.h
         Code/world/map_lt.c
+        Code/world/deco.c
+        Code/world/deco.h
 )

@@ -95,9 +95,10 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             print_screen(screen);
             break;
         }
+
         case 10: { // Combat
             printf("│                                                             ╰───────────────┤\n");
-            printf("│   ╭───────────────────────────── Combat ────────────────────────────────╮   │\n");
+            printf("│   ╭─────────────────────────────── Combat ──────────────────────────────╮   │\n");
             if (type_combat == 1){
                 CreatureMarine *boss = &creatures[0];
                 char *boss_pv_bar = convert_to_visual_bar(boss->points_de_vie_actuels, boss->points_de_vie_max);
@@ -234,7 +235,7 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             //printf("│   ╰─────────────────────────────────────────────────────────────────────╯   │\n");
             break;
         }
-        case 11: { // Competences
+        case 11: { // Competences | Je me suis fait chier à aligner votre merdier in game, pensez y si vous changez quelque chose
             printf("│                                                             ╰───────────────┤\n");
             printf("│   ╭─────────────────────── COMPETENCES MARINES ─────────────────────────╮   │\n");
             printf("│   │                                                                     │   │\n");
@@ -242,15 +243,15 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             printf("│   │  ║                                                                ║ │   │\n");
             printf("│   │  ║  [1] Brume marine                 [2] Cuirasse Aquatique       ║ │   │\n");
             printf("│   │  ║  ┌──────────────────────┐       ┌──────────────────────┐       ║ │   │\n");
-            printf("│   │  ║  │ Cout: 20%% oxygene   │       │ Cout: 20%% oxygene   │      ║ │   │\n");
-            printf("│   │  ║  │ Effet: 50%% esquive  │       │ Effet: -30%% degats  │      ║ │   │\n");
+            printf("│   │  ║  │ Cout: 20%% oxygene    │       │ Cout: 20%% oxygene    │       ║ │   │\n");
+            printf("│   │  ║  │ Effet: 50%% esquive   │       │ Effet: -30%% degats   │       ║ │   │\n");
             printf("│   │  ║  │ Cooldown: 2 tours    │       │ Cooldown: 3 tours    │       ║ │   │\n");
             printf("│   │  ║  └──────────────────────┘       └──────────────────────┘       ║ │   │\n");
             printf("│   │  ║                                                                ║ │   │\n");
             printf("│   │  ║  [3] Souffle maitrise           [4] Vague regenerante          ║ │   │\n");
             printf("│   │  ║  ┌──────────────────────┐       ┌──────────────────────┐       ║ │   │\n");
-            printf("│   │  ║  │ Cout: 10%% oxygene   │       │ Cout: 25%% oxygene   │      ║ │   │\n");
-            printf("│   │  ║  │ Effet: Fatigue/2     │       │ Effet: +25%% PV      │      ║ │   │\n");
+            printf("│   │  ║  │ Cout: 10%% oxygene    │       │ Cout: 25%% oxygene    │       ║ │   │\n");
+            printf("│   │  ║  │ Effet: Fatigue/2     │       │ Effet: +25%% PV       │       ║ │   │\n");
             printf("│   │  ║  │ Cooldown: 3 tours    │       │ Effet immediat       │       ║ │   │\n");
             printf("│   │  ║  └──────────────────────┘       └──────────────────────┘       ║ │   │\n");
             printf("│   │  ║                                                                ║ │   │\n");
@@ -323,7 +324,7 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             const char* c28 = zone_already_visited(w, 2, 8) ? zone_type_to_string_four_char(world_get_zone_type(w, 2, 8)) : " ?? ";
             const char* c29 = zone_already_visited(w, 2, 9) ? zone_type_to_string_four_char(world_get_zone_type(w, 2, 9)) : " ?? ";
 
-            printf("│                                                              ╰──────────────┤\n");
+            printf("│                                                             ╰───────────────┤\n");
             printf("│   ╭─────────────────────────────────────────────────────────────────────╮   │\n");
             printf("│   │                                                                     │   │\n");
             printf("│   │                                                                     │   │\n");
@@ -593,11 +594,7 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             printf("│   │                                                                     │   │\n");
             printf("│   │                                                                     │   │\n");
             printf("│   │                                                                     │   │\n");
-            //printf("│   ╰─────────────────────────────────────────────────────────────────────╯   │\n");
-            //printf("│                                                                             │\n");
-            //printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
-            //printf("│  [P] Plonger  [C] Charger [Q] Quitter                                       │\n");
-            //printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
+
             break;
         }
         case 51: {
@@ -758,7 +755,6 @@ void screen_footer(World *w, Plongeur *p){
             printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
             printf("│  [P] Plonger  [C] Charger  [Q] Quitter                                      │\n");
             printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
-            printf("[0] Go Ecran explo\n");
             break;
         }
         case 51:

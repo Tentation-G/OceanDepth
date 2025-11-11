@@ -22,8 +22,12 @@ void build_mur_haut(Zone zone, int y, int x, int zone_h, int zone_l);
 void build_mur_bas(Zone zone, int y, int x, int zone_h, int zone_l);
 void build_mur_gauche(Zone zone, int y, int x, int zone_h, int zone_l);
 void build_mur_droit(Zone zone, int y, int x, int zone_h, int zone_l);
-// Rochers
-void build_cailloux(Zone zone, int y, int x, int zone_h, int zone_l, int taille);
+
+// fleches
+void build_fleche_haut(Zone zone);
+void build_fleche_bas(Zone zone);
+void build_fleche_gauche(Zone zone);
+void build_fleche_droit(Zone zone);
 
 // visited
 int  zone_already_visited(const World *w, int zone_y, int zone_x);

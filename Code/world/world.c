@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include "world.h"
 #include "map_lt.h"
+#include "deco.h"
 #include "../globals/globals.h"
 
 // === murs + fleches
@@ -8,7 +9,7 @@ static char arrow_spaces = ' ';
 static char fill_wall_rd[] = {'#',' '};
 static size_t n = sizeof(fill_wall_rd) / sizeof(fill_wall_rd[0]); // rand
 
-// == Pour poser les murs (pour bordures de map et zones) ==
+// Pour poser les murs (pour bordures de map et zones)
 void build_mur_haut(Zone zone, int y, int x, int zone_h, int zone_l) { // Haut
     for (int j = 0; j < largeur; j++) {
         zone[0][j] = '#';
@@ -96,92 +97,10 @@ void build_fleche_droit(Zone zone){
     zone[hauteur / 2 + 1][largeur - 1] = arrow_spaces; zone[hauteur / 2 + 1][largeur - 2] = arrow_spaces; zone[hauteur / 2 + 1][largeur - 3] = arrow_spaces;
 }
 
-// === Item sur la map / Rochers / alges / faut que je trouve des trucs
-// == Rochers : plusieurs types (de plusieurs formes) a placer sur la (les) map
-/*
-void build_cailloux(Zone zone, int y, int x, int zone_h, int zone_l){
-    //origine cailloux
-    int y_org = zone_h;
-    int x_org = zone_l;
-    // 0 : Origine | C : Coeur | # : fill random {'#',' '}
-    // ##C##
-    // #COC#
-    // ##C##
-
-    //origine
-    zone[y_org][x_org] = '#';
-    //coeur
-    zone[y_org][x_org + 1] = '#';
-    zone[y_org][x_org - 1] = '#';
-    zone[y_org + 1][x_org] = '#';
-    zone[y_org - 1][x_org] = '#';
-    //contour (fill random) | G et D de Origine
-    zone[y_org][x_org + 2] = fill_wall_rd[rand() % n];;
-    zone[y_org][x_org - 2] = fill_wall_rd[rand() % n];;
-    // Premiere ligne
-    zone[y_org + 1][x_org + 1] = fill_wall_rd[rand() % n];;
-    zone[y_org + 1][x_org - 1] = fill_wall_rd[rand() % n];;
-    zone[y_org + 1][x_org + 2] = fill_wall_rd[rand() % n];;
-    zone[y_org + 1][x_org - 2] = fill_wall_rd[rand() % n];;
-    // Derniere ligne
-    zone[y_org - 1][x_org + 1] = fill_wall_rd[rand() % n];;
-    zone[y_org - 1][x_org - 1] = fill_wall_rd[rand() % n];;
-    zone[y_org - 1][x_org + 2] = fill_wall_rd[rand() % n];;
-    zone[y_org - 1][x_org - 2] = fill_wall_rd[rand() % n];;
-}
-*/
-
-void build_cailloux(Zone zone, int y, int x, int zone_h, int zone_l, int taille) {
-    // "zone" = sous-grille
-    // (y, x) = coordonnées de la sous-grille
-    // (zone_h, zone_l) = coordonnées internes dans la sous-grille
-    // => placement du centre du rocher ici
-
-    if (taille < 4) taille = 4; // taille minimale
-
-    int hauteur_rocher = taille;
-    int largeur_rocher = 2.5 * hauteur_rocher;   // respect du ratio ASCII
-    int demi_hauteur = hauteur_rocher / 2;
-    int demi_largeur = largeur_rocher / 2;
-
-    int bord_haut = zone_h - demi_hauteur;
-    int bord_bas = bord_haut + hauteur_rocher - 1;
-    int bord_gauche = zone_l - demi_largeur;
-    int bord_droite = bord_gauche + largeur_rocher - 1;
-
-    for (int ligne_actuelle = bord_haut; ligne_actuelle <= bord_bas; ++ligne_actuelle) {
-        if (ligne_actuelle < 0 || ligne_actuelle >= hauteur) continue;
-
-        for (int colonne_actuelle = bord_gauche; colonne_actuelle <= bord_droite; ++colonne_actuelle) {
-            if (colonne_actuelle < 0 || colonne_actuelle >= largeur) continue;
-
-            int dist_haut    = ligne_actuelle - bord_haut;
-            int dist_bas     = bord_bas - ligne_actuelle;
-            int dist_gauche  = colonne_actuelle - bord_gauche;
-            int dist_droite  = bord_droite - colonne_actuelle;
-
-            int distance_du_bord = dist_haut;
-            if (dist_bas < distance_du_bord) distance_du_bord = dist_bas;
-            if (dist_gauche < distance_du_bord) distance_du_bord = dist_gauche;
-            if (dist_droite < distance_du_bord) distance_du_bord = dist_droite;
-
-            // 2 couches extérieures aléatoires, intérieur plein
-            if (distance_du_bord <= 2) {
-                zone[ligne_actuelle][colonne_actuelle] = fill_wall_rd[rand() % n];
-            } else {
-                zone[ligne_actuelle][colonne_actuelle] = '#';
-            }
-        }
-    }
-}
-
 void spawn_mob_on_zone(Zone zone, int number) {
     int placed = 0;
-    int tries = 0;
-    int max_tries = number * 500;
 
-    while (placed < number && tries < max_tries) {
-        tries++;
+    while (placed < number) {
         int y = rand() % hauteur;
         int x = rand() % largeur;
 
@@ -191,6 +110,7 @@ void spawn_mob_on_zone(Zone zone, int number) {
         }
     }
 }
+
 
 char** init_screen(){
     // Allocation dynamique du tab d'ecran — rempli de ' '
@@ -295,8 +215,9 @@ void decorate_zone_base_borders(Zone zone, int y, int x, int zone_h, int zone_l,
 }
 
 void decorate_zone_typed(Zone zone, int y, int x, int zone_h, int zone_l, ZoneType type) {
-    // couche(s) de base (bords + flèches) (pas pour grottes, c'est gerer par la deco grotte)
-    decorate_zone_base_borders(zone, y, x, zone_h, zone_l, type);
+      // couche(s) de base (bords + flèches) (pas pour grottes, c'est gerer par la deco grotte)
+     //decorate_zone_base_borders(zone, y, x, zone_h, zone_l, type); => mis a la fin pour avoir les
+    //                                                                fleches de sortie sur la deco
 
     // habillage selon le type
     switch (zone_type_Norm(type)) {
@@ -336,26 +257,41 @@ void decorate_zone_typed(Zone zone, int y, int x, int zone_h, int zone_l, ZoneTy
             break;
 
           // Zones pas chill
-         // Faire deco (alges, corail, cailloux)
-        // Mettre deco avant monstres
-        case ZoneType_RECIF:
+        // Si vide => 1/2 qu'il y ait deco poisson 1/2 qu'il y ait des mobs
+        case ZoneType_VIDE:
+            int probaP = rand() % 100;
+            int probaM = rand() % 100;
+
+            if (probaP < 50) build_poisson_on_zone(zone);
+            if (probaM < 50) spawn_mob_on_zone(zone, 3);
+
+        case ZoneType_RECIF: // ya pas
             spawn_mob_on_zone(zone, 3);
             break;
 
         case ZoneType_FORET_ALGUES:
+            build_floor_sloop(zone);
+            build_decor_on_floor(zone, 1);
+            build_poisson_on_zone(zone);
             spawn_mob_on_zone(zone, 3);
             break;
 
         case ZoneType_JARDIN_CORALLIEN:
+            build_floor_sloop(zone);
+            build_decor_on_floor(zone, 2);
+            build_poisson_on_zone(zone);
             spawn_mob_on_zone(zone, 3);
             break;
         // Zone pas Chill du tout
         case ZoneType_BOSS:
-
+            // Place un boss au milieu
+            zone[hauteur / 2][largeur / 2] = 'B';
             break;
         default:
             break;
     }
+
+    decorate_zone_base_borders(zone, y, x, zone_h, zone_l, type);
 }
 
 void decorate_connect_zone_to_grotte(const World *w){
@@ -441,6 +377,13 @@ void decorate_connect_zone_to_grotte(const World *w){
                         build_mur_droit(z_left, y, x - 1, w->zone_h, w->zone_l);
                     }
                     break;
+
+                case ZoneType_FORET_ALGUES:
+                case ZoneType_JARDIN_CORALLIEN:
+                    if (y < w->zone_h - 1) {
+                        Zone z_down = w->zones[y + 1][x];
+                        build_roof_sloop(z_down);
+                    }
                 default: break;
             }
         }

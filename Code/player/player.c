@@ -2,9 +2,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <windows.h>
 #include "player.h"
 #include "../globals/globals.h"
 #include "../world/world.h"
+#include "../world/map_lt.h"
 #include "../utils/utils.h"
 #include "../input/input.h"
 
@@ -120,15 +122,24 @@ void demander_player_for_coords(char **screen, Plongeur *p, World *w) {
 }
 
 void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char **screen, World *w, Zone zone){
-    int dist = distance_entre_pos(p);
-    int cout_oxy;
-    if (dist != 0){
-        cout_oxy = dist/5;
-        if (cout_oxy < 1){ cout_oxy = 1;}
+    ZoneType type = world_get_zone_type(w, p->map_pos_y, p->map_pos_x);
+
+    // Si dans une grotte => gain d'o2, sinon perte (sur deplacement
+    if(strcmp(zone_type_to_string_four_char(type), "Grot") == 0) {
+        p->niveau_oxygene = clamp(p->niveau_oxygene + 10, p->niveau_oxygene_max);
     } else {
-        cout_oxy = 0;
+
+        int dist = distance_entre_pos(p);
+        int cout_oxy;
+        if (dist != 0){
+            cout_oxy = dist/5;
+            if (cout_oxy < 1){ cout_oxy = 1;}
+        } else {
+            cout_oxy = 0;
+        }
+        p->niveau_oxygene = clamp(p->niveau_oxygene - cout_oxy, p->niveau_oxygene_max);
+
     }
-    p->niveau_oxygene = clamp(p->niveau_oxygene - cout_oxy, p->niveau_oxygene_max);
 
     int min_mt_recup_fatigue = 0;
     int max_mt_recup_fatigue = 20;
@@ -138,84 +149,92 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
     if (screen_status == 0) { // Exploration
         switch (screen[y][x]) {
         case '^': {
-            info = "Sortie NORD";
-            if (ask_yes_no("Monter vers la zone au NORD ?")) {
-                p->map_pos_y -= 1;
-                p->pos_y = hauteur - 2;
-                if (p->pos_x < 0) p->pos_x = 0;
-                if (p->pos_x >= largeur) p->pos_x = largeur - 1;
-                p->last_pos_y = p->pos_y;
-                p->last_pos_x = p->pos_x;
-                int first_time = !zone_already_visited(w, p->map_pos_y, p->map_pos_x);
-                marquer_zone_as_visited(w, p->map_pos_y, p->map_pos_x);
+            if (p->pos_y == 0 && p->pos_x == largeur/2) {
+                info = "Sortie NORD";
+                if (ask_yes_no("Monter vers la zone au NORD ?")) {
+                    p->map_pos_y -= 1;
+                    p->pos_y = hauteur - 2;
+                    if (p->pos_x < 0) p->pos_x = 0;
+                    if (p->pos_x >= largeur) p->pos_x = largeur - 1;
+                    p->last_pos_y = p->pos_y;
+                    p->last_pos_x = p->pos_x;
+                    int first_time = !zone_already_visited(w, p->map_pos_y, p->map_pos_x);
+                    marquer_zone_as_visited(w, p->map_pos_y, p->map_pos_x);
 
-                if (first_time) { info = "Nouvelle zone exploree."; }
-                else { info = "Vous avez changé de zone (NORD)."; }
-            } else {
-                info = "Vous restez dans la zone.";
+                    if (first_time) { info = "Nouvelle zone exploree."; }
+                    else { info = "Vous avez change de zone (NORD)."; }
+                } else {
+                    info = "Vous restez dans la zone.";
+                }
             }
             break;
         }
 
         case 'v': {
-            info = "Sortie SUD";
-            if (ask_yes_no("Descendre vers la zone au SUD ?")) {
-                p->map_pos_y += 1;
-                p->pos_y = 1;
-                if (p->pos_x < 0) p->pos_x = 0;
-                if (p->pos_x >= largeur) p->pos_x = largeur - 1;
-                p->last_pos_y = p->pos_y;
-                p->last_pos_x = p->pos_x;
+            if (p->pos_y == hauteur - 1 && p->pos_x == largeur/2){
+                info = "Sortie SUD";
+                if (ask_yes_no("Descendre vers la zone au SUD ?")) {
+                    p->map_pos_y += 1;
+                    p->pos_y = 1;
+                    if (p->pos_x < 0) p->pos_x = 0;
+                    if (p->pos_x >= largeur) p->pos_x = largeur - 1;
+                    p->last_pos_y = p->pos_y;
+                    p->last_pos_x = p->pos_x;
 
-                int first_time = !zone_already_visited(w, p->map_pos_y, p->map_pos_x);
-                marquer_zone_as_visited(w, p->map_pos_y, p->map_pos_x);
+                    int first_time = !zone_already_visited(w, p->map_pos_y, p->map_pos_x);
+                    marquer_zone_as_visited(w, p->map_pos_y, p->map_pos_x);
 
-                if (first_time) { info = "Nouvelle zone exploree."; }
-                else { info = "Vous avez changé de zone (SUD)."; }
-            } else {
-                info = "Vous restez dans la zone.";
+                    if (first_time) { info = "Nouvelle zone exploree."; }
+                    else { info = "Vous avez change de zone (SUD)."; }
+                } else {
+                    info = "Vous restez dans la zone.";
+                }
             }
             break;
         }
 
         case '<': {
-            info = "Sortie OUEST";
-            if (ask_yes_no("Aller vers la zone à l'OUEST ?")) {
-                p->map_pos_x -= 1;
-                p->pos_x = largeur - 2;
-                if (p->pos_y < 0) p->pos_y = 0;
-                if (p->pos_y >= hauteur) p->pos_y = hauteur - 1;
-                p->last_pos_y = p->pos_y;
-                p->last_pos_x = p->pos_x;
+            if (p->pos_y == hauteur/2 && p->pos_x == 0){
+                info = "Sortie OUEST";
+                if (ask_yes_no("Aller vers la zone à l'OUEST ?")) {
+                    p->map_pos_x -= 1;
+                    p->pos_x = largeur - 2;
+                    if (p->pos_y < 0) p->pos_y = 0;
+                    if (p->pos_y >= hauteur) p->pos_y = hauteur - 1;
+                    p->last_pos_y = p->pos_y;
+                    p->last_pos_x = p->pos_x;
 
-                int first_time = !zone_already_visited(w, p->map_pos_y, p->map_pos_x);
-                marquer_zone_as_visited(w, p->map_pos_y, p->map_pos_x);
+                    int first_time = !zone_already_visited(w, p->map_pos_y, p->map_pos_x);
+                    marquer_zone_as_visited(w, p->map_pos_y, p->map_pos_x);
 
-                if (first_time) { info = "Nouvelle zone exploree."; }
-                else { info = "Vous avez changé de zone (OUEST)."; }
-            } else {
-                info = "Vous restez dans la zone.";
+                    if (first_time) { info = "Nouvelle zone exploree."; }
+                    else { info = "Vous avez changé de zone (OUEST)."; }
+                } else {
+                    info = "Vous restez dans la zone.";
+                }
             }
             break;
         }
 
         case '>': {
-            info = "Sortie EST";
-            if (ask_yes_no("Aller vers la zone à l'EST ?")) {
-                p->map_pos_x += 1;
-                p->pos_x = 1;
-                if (p->pos_y < 0) p->pos_y = 0;
-                if (p->pos_y >= hauteur) p->pos_y = hauteur - 1;
-                p->last_pos_y = p->pos_y;
-                p->last_pos_x = p->pos_x;
+            if (p->pos_y == hauteur/2 && p->pos_x == largeur - 1){
+                info = "Sortie EST";
+                if (ask_yes_no("Aller vers la zone à l'EST ?")) {
+                    p->map_pos_x += 1;
+                    p->pos_x = 1;
+                    if (p->pos_y < 0) p->pos_y = 0;
+                    if (p->pos_y >= hauteur) p->pos_y = hauteur - 1;
+                    p->last_pos_y = p->pos_y;
+                    p->last_pos_x = p->pos_x;
 
-                int first_time = !zone_already_visited(w, p->map_pos_y, p->map_pos_x);
-                marquer_zone_as_visited(w, p->map_pos_y, p->map_pos_x);
+                    int first_time = !zone_already_visited(w, p->map_pos_y, p->map_pos_x);
+                    marquer_zone_as_visited(w, p->map_pos_y, p->map_pos_x);
 
-                if (first_time) { info = "Nouvelle zone exploree."; }
-                else { info = "Vous avez changé de zone (EST)."; }
-            } else {
-                info = "Vous restez dans la zone.";
+                    if (first_time) { info = "Nouvelle zone exploree."; }
+                    else { info = "Vous avez change de zone (EST)."; }
+                } else {
+                    info = "Vous restez dans la zone.";
+                }
             }
             break;
         }
@@ -225,7 +244,7 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
             break;
 
         case 'T':
-            printf("Declancher fonction pour le tresord (affichage ecran tresor => generation du loot => affichage du loot)\n");
+            //printf("Declancher fonction pour le tresord (affichage ecran tresor => generation du loot => affichage du loot)\n");
             break;
 
         case '#': {
@@ -303,26 +322,33 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
         }
 
         case 'E':
+            // Enleve le mob de la map
+            zone[p->pos_y][p->pos_x] = ' ';
+
             printf("Declanchement du combat !\n");
             info = "Combat !";
             type_combat = 0;
 
             // Créer les créatures pour le combat
             // int profondeur_actuelle = p->map_pos_y;
-            int profondeur_actuelle = 3;
+            int profondeur_actuelle = convert_y_to_depth_lvl(p->map_pos_y);
             g_creatures_en_combat = cree_creatures(profondeur_actuelle);
-            
-            
+
             // Déterminer le nombre de créatures selon la profondeur
-            if (profondeur_actuelle == 1){ g_nbr_creatures_en_combat = 1;}
-            else if (profondeur_actuelle == 2){ g_nbr_creatures_en_combat = 2;}
-            else if (profondeur_actuelle == 3) {g_nbr_creatures_en_combat = 3;}
-            else {g_nbr_creatures_en_combat = 4;}
+            switch (profondeur_actuelle)
+            {
+                case 1: g_nbr_creatures_en_combat = 1; break;
+                case 2: g_nbr_creatures_en_combat = 2; break;
+                case 3: g_nbr_creatures_en_combat = 2; break;
+                case 4: g_nbr_creatures_en_combat = 3; break;
+                case 5: g_nbr_creatures_en_combat = 3; break;
+            }
             
             // Trier les créatures par vitesse
             g_creatures_en_combat = trier_creatures(g_creatures_en_combat, g_nbr_creatures_en_combat);
             
             g_creature_tour_index = 0;
+
             screen_status = 10;
             
             break;

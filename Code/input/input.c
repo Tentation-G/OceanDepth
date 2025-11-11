@@ -18,10 +18,10 @@ int zone_is_grotte(ZoneType type) {
 // Retourne la liste des touches valides selon l'écran courant
 char* saisies_utilisateur_autorise(int status) {
     switch (status) {
-    case 0:  return "CDIcdiSsEG";               // Exploration | [C] Carte  | [I] Inv       | [D] Depl        | [S] Sauvegarde  | [E] Ecran combat pour test dev
+    case 0:  return "CDIcdiSs";                 // Exploration | [C] Carte  | [I] Inv       | [D] Depl        | [S] Sauvegarde
     //----------------------------------------------------------------------------------------------------------------------------------------------------------
     case 10:  return "ABCDIabcdiQq";          // Combat        | [A] Atq A  | [B] Atq B     | [C] Atq Passive | [D] Competences | [I] Inventaire | [Q] Quitter
-    case 11:  return "1234Qq";                // Competences    | [1] [2] [3] [4] [Q] Retour
+    case 11:  return "1234Qq";               // Competences    | [1-4] Competences          | [Q] Retour
     //----------------------------------------------------------------------------------------------------------------------------------------------------------
     case 20:  return "1234Qq";             // Carte Ecran      | [1] Carte I | [2] Carte II | [3] Carte III   | [4] Carte IV    |[Q] Quitter
     case 21:                              // Carte 1           | [R] Retour  | [Q] Quitter
@@ -33,10 +33,10 @@ char* saisies_utilisateur_autorise(int status) {
     //----------------------------------------------------------------------------------------------------------------------------------------------------------
     case 4:  return "Qq";          // Trésor                   | [Q] Quitter
     //----------------------------------------------------------------------------------------------------------------------------------------------------------
-    case 50:  return "PpCcQq0";  // Ecran D'accueil            | [P] Plonger | [C] Charger        | [Q] Quitter  | [0] Go Ecran explo (temp pour test dev)
+    case 50:  return "PpCcQq";   // Ecran D'accueil            | [P] Plonger | [C] Charger        | [Q] Quitter
     case 51:                    // Selection Empl Sav Init     | [1] Empl 1  | [2] Emplacement 2  | [3] Emplacement 3 | [R] Retour
     case 52:  return "123Rr";  // Selection Empl Sav Charger   | [1] Empl 1  | [2] Emplacement 2  | [3] Emplacement 3 | [R] Retour
-
+    //----------------------------------------------------------------------------------------------------------------------------------------------------------
     case 99: return "123456789IiQq";  // Marchand              | [1-9] Sélectionner item [I] inventaire [Q] Quitter
     default: return "";
     // Tu ecrases pas cette fonction, laisses la en paix la pauvre
