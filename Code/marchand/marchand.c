@@ -11,6 +11,15 @@ bool acheter_item(Plongeur* p, int item_id, int quantite)
 {
     ItemTemplate* item = get_item_template(item_id);
 
+    // verifier si (arme ou equipement) deja possede
+    if (item_id == p->equip_weapon.item_id || item_id == p->equip_suit.item_id)
+    {
+        printf("vous possedez deja cette item\n");
+        info="Achat non validé, vous possedez deja cette item!";
+        return 0;
+    }
+    
+
     // 1. Essayer d'empiler sur un slot existant
     for (int i = 0; i < INVENTORY_SIZE; i++)
     {
@@ -65,10 +74,10 @@ MarchandItem g_item_marchand_db[] = {
     {101, 55, 3},   // Combinaison Renforcée
 
  
-    {200, 12, 10},  // Capsule O2
-    {201, 18, 10},  // Trousse de Soin
-    {202, 22, 5},   // Stimulant Marin
-    {203, 25, 5},   // Antidote
+    {200, 12, 999},  // Capsule O2
+    {201, 18, 999},  // Trousse de Soin
+    {202, 22, 999},   // Stimulant Marin
+    {203, 25, 999},   // Antidote
     // {204, 40, 2},   // Carte Trésor
 };
 
@@ -134,7 +143,6 @@ void afficher_marchand(Plongeur *p, char cmd) {
         printf("Perles restantes : %d\n", p->perles);
     }else{
         printf("Achat non validé\n");
-        info="Achat non validé";
     }
     
 }

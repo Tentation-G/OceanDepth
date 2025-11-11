@@ -72,12 +72,15 @@ typedef struct {
 
     InventorySlot inventaire[INVENTORY_SIZE];
 
+    InventorySlot cle;
+
 
 } Plongeur;
 
 typedef struct {
     int id;
     char nom[30];
+    int niveaux_danger; // 0: pas danger -> 5:trop dangereux
 
     int points_de_vie_max;
     int points_de_vie_actuels;
@@ -98,7 +101,8 @@ typedef enum {
     ITEM_TYPE_WEAPON,
     ITEM_TYPE_SUIT,
     ITEM_TYPE_CONSUMABLE,
-    ITEM_TYPE_MATERIAL // Pour les perles ou autres
+    ITEM_TYPE_MATERIAL, // Pour les perles ou autres
+    ITEM_TYPE_CLE // CLE BOSS
 } ItemType;
 
 typedef enum {

@@ -459,6 +459,76 @@ void appliquer_competence(Plongeur *p, char car) {
     }
 }
 
+// Fonction pour Gagner ou Perdre des perles en COMBAT:
+void recompences_combat(Plongeur *p, CreatureMarine *creatures, int victoire, int nbr_creatures){
+
+    int compteur = 0;
+    // nv1 = 10 perles, nv2 = 20 perles, nv3 = 30 perles, nv4 = 50 perles, nv5 = 150 perles 
+    if (victoire)
+    { // gagner des perles
+        for (int i =0; i < nbr_creatures; i++){
+            // compteur += creatures[i].niveaux_danger * 10;
+            switch (creatures[i].niveaux_danger)
+            {
+            case 1:
+                compteur +=10;
+                break;
+            case 2:
+                compteur +=20;
+                break;
+            case 3:
+                compteur +=30;
+                break;
+            case 4:
+                compteur +=50;
+                break;
+            case 5:
+                compteur +=150;
+                break;
+            default:
+                break;
+            }
+        }
+
+        p->perles += compteur;
+        printf("Vous avez gagner %d Perles\n", compteur);
+       
+    }else{ // perdre des perles
+        for (int i =0; i < nbr_creatures; i++){
+            // compteur += creatures[i].niveaux_danger * 10;
+            switch (creatures[i].niveaux_danger)
+            {
+            case 1:
+                compteur +=5;
+                break;
+            case 2:
+                compteur +=10;
+                break;
+            case 3:
+                compteur +=15;
+                break;
+            case 4:
+                compteur +=25;
+                break;
+            case 5:
+                compteur +=75;
+                break;
+            default:
+                break;
+            }
+        }
+        p->perles -= compteur;
+        if (p->perles<0)
+        {
+            p->perles = 0;
+        }
+        printf("Vous avez perdue %d Perles\n", compteur);
+        
+
+    } 
+    
+}
+
 // BOSS
 // Appliquer effet boss
 void appliquer_effet_boss(CreatureMarine *boss, Plongeur *p){
@@ -512,6 +582,36 @@ void appliquer_effet_boss(CreatureMarine *boss, Plongeur *p){
     }
 }
 
+void get_key_boss(Plongeur *p, CreatureMarine *boss){
+    p->cle.quantite = 1;
+    if (strcmp(boss[0].nom, "CETUS") == 0) // Profondeur 1
+    {
+        p->cle.item_id = 900; // Cle boss 1
+        printf("Vous avez obtenue CLE BOSS 1\n");
+
+    }else if (strcmp(boss[0].nom, "SCYLLA") == 0) // Profondeur 2
+    {
+        p->cle.item_id = 901; // Cle boss 2
+        printf("Vous avez obtenue CLE BOSS 2\n");
+
+    }else if(strcmp(boss[0].nom, "JORMUNGAND") == 0){ // Profondeur 3
+        p->cle.item_id = 902; // Cle boss 3
+        printf("Vous avez obtenue CLE BOSS 3\n");
+
+    }else if (strcmp(boss[0].nom, "CHARYBDE") == 0) // Profondeur 4
+    {
+        p->cle.item_id = 903; // Cle boss 4
+        printf("Vous avez obtenue CLE BOSS 4\n");
+
+    }else if (strcmp(boss[0].nom, "TIAMAT") == 0) // Profondeur 5
+    {
+        p->cle.item_id = 904; // Cle boss 5
+        printf("Vous avez obtenue CLE BOSS 5\n");
+    }else{
+        return;
+    }
+     
+}
 
 // LOGIQUE COMBAT GLOBAL
 void gerer_tour_combat(Plongeur *p, char cmd, char **screen) {
@@ -608,9 +708,14 @@ void gerer_tour_combat(Plongeur *p, char cmd, char **screen) {
         if (type_combat == 1)
         {
            info = "VICTOIRE ! tu a gagner le BOSS";
+           get_key_boss(p, g_creatures_en_combat);
+
         }else{
             info = "VICTOIRE ! Toutes les creatures sont vaincues.";
         }
+
+        // Gagner des perles
+        recompences_combat(p, g_creatures_en_combat, 1, g_nbr_creatures_en_combat);
         
         free(g_creatures_en_combat);
         g_creatures_en_combat = NULL;
@@ -672,6 +777,10 @@ void gerer_tour_combat(Plongeur *p, char cmd, char **screen) {
         if (p->points_de_vie <= 0) {
             info = "DEFAITE... Vous avez ete vaincu.";
             p->points_de_vie = p->points_de_vie_max; // renetialiser les points de vies en defaite
+
+            // Perdre des perles
+            recompences_combat(p, g_creatures_en_combat, 0, g_nbr_creatures_en_combat);
+
             free(g_creatures_en_combat);
             g_creatures_en_combat = NULL;
             g_nbr_creatures_en_combat = 0;
