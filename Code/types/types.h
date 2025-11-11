@@ -72,7 +72,7 @@ typedef struct {
 
     InventorySlot inventaire[INVENTORY_SIZE];
 
-    InventorySlot cle[5]; // on a 5 cle au totale
+    InventorySlot cle;
 
 
 } Plongeur;

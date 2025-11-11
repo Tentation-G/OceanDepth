@@ -549,20 +549,10 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             printf("│   │%-69s│   │\n", " ");
 
             // CLES
-            printf("│   │%-69s│   │\n", "      Cles obtenues :");
-
-            int aucune_cle = 1;
-            for (int i = 0; i < 5; i++) {
-                if (p->cle[i].quantite > 0) { // Si la clé existe
-                    ItemTemplate* cle = get_item_template(p->cle[i].item_id);
-                    sprintf(buffer, "     - %s ", cle->nom);
-                    printf("│   │%-69s│   │\n", buffer);
-                    aucune_cle = 0;
-                }
-            }
-            if (aucune_cle) {
-                printf("│   │%-69s│   │\n", "     Aucune cle obtenue pour l'instant.");
-            }
+            ItemTemplate *cle = get_item_template(p->cle.item_id);
+            sprintf(buffer, "     Cles: %s  | %s", cle->nom, cle->description);
+            printf("│   │%-69s│   │\n", buffer);
+            printf("│   │%-69s│   │\n", " ");
 
             // Sac 
             printf("│   │%-69s│   │\n", "     SAC A DOS:");
