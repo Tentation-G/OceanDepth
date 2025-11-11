@@ -258,12 +258,13 @@ void decorate_zone_typed(Zone zone, int y, int x, int zone_h, int zone_l, ZoneTy
 
           // Zones pas chill
         // Si vide => 1/2 qu'il y ait deco poisson 1/2 qu'il y ait des mobs
-        case ZoneType_VIDE:
+        case ZoneType_VIDE:{
             int probaP = rand() % 100;
             int probaM = rand() % 100;
 
             if (probaP < 50) build_poisson_on_zone(zone);
             if (probaM < 50) spawn_mob_on_zone(zone, 3);
+            }
 
         case ZoneType_RECIF: // ya pas
             spawn_mob_on_zone(zone, 3);

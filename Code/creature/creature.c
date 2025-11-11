@@ -21,6 +21,7 @@ CreatureMarine cree_creature(const char *nom) {
         c.attaque_maximale = 15;
         c.vitesse = 6;
         strcpy(c.effet_special, "paralysie");//Réduit les attaques du joueur de 1 au prochain tour
+        c.niveaux_danger = 1;
     }
     else if (strcmp(nom, "Poisson-Epee") == 0) {
         c.points_de_vie_max = rand() % 21 + 70;
@@ -28,6 +29,7 @@ CreatureMarine cree_creature(const char *nom) {
         c.attaque_maximale = 28;
         c.vitesse = 3;
         strcpy(c.effet_special, "Charge"); //Ignore 2 points de défense
+        c.niveaux_danger = 1;
     }
     else if (strcmp(nom, "Requin") == 0) {
         c.points_de_vie_max = rand() % 41 + 60;
@@ -35,6 +37,7 @@ CreatureMarine cree_creature(const char *nom) {
         c.attaque_maximale = 25;
         c.vitesse = 5;
         strcpy(c.effet_special, "Frenesie");//+30% dégâts si PV < 50%
+        c.niveaux_danger = 2;
     }
     else if (strcmp(nom, "Kraken") == 0) {
         c.points_de_vie_max = rand() % 61 + 120;
@@ -42,6 +45,8 @@ CreatureMarine cree_creature(const char *nom) {
         c.attaque_maximale = 40;
         c.vitesse = 2; // 2 a la base
         strcpy(c.effet_special, "Etreinte");//2 attaques consécutives
+        c.niveaux_danger = 4;
+        
     }
     else if (strcmp(nom, "CrabeGeant") == 0) {
         c.points_de_vie_max = rand() % 41 + 80;
@@ -49,6 +54,7 @@ CreatureMarine cree_creature(const char *nom) {
         c.attaque_maximale = 20;
         c.vitesse = 1;
         strcpy(c.effet_special, "Carapace"); //Réduit tous les dégâts subis de 20%
+        c.niveaux_danger = 3;
     }
 
     c.points_de_vie_actuels = c.points_de_vie_max;

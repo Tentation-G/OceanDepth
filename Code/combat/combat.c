@@ -459,6 +459,76 @@ void appliquer_competence(Plongeur *p, char car) {
     }
 }
 
+// Fonction pour Gagner ou Perdre des perles en COMBAT:
+void recompences_combat(Plongeur *p, CreatureMarine *creatures, int victoire, int nbr_creatures){
+
+    int compteur = 0;
+    // nv1 = 10 perles, nv2 = 20 perles, nv3 = 30 perles, nv4 = 50 perles, nv5 = 150 perles 
+    if (victoire)
+    { // gagner des perles
+        for (int i =0; i < nbr_creatures; i++){
+            // compteur += creatures[i].niveaux_danger * 10;
+            switch (creatures[i].niveaux_danger)
+            {
+            case 1:
+                compteur +=10;
+                break;
+            case 2:
+                compteur +=20;
+                break;
+            case 3:
+                compteur +=30;
+                break;
+            case 4:
+                compteur +=50;
+                break;
+            case 5:
+                compteur +=150;
+                break;
+            default:
+                break;
+            }
+        }
+
+        p->perles += compteur;
+        printf("Vous avez gagner %d Perles\n", compteur);
+       
+    }else{ // perdre des perles
+        for (int i =0; i < nbr_creatures; i++){
+            // compteur += creatures[i].niveaux_danger * 10;
+            switch (creatures[i].niveaux_danger)
+            {
+            case 1:
+                compteur +=5;
+                break;
+            case 2:
+                compteur +=10;
+                break;
+            case 3:
+                compteur +=15;
+                break;
+            case 4:
+                compteur +=25;
+                break;
+            case 5:
+                compteur +=75;
+                break;
+            default:
+                break;
+            }
+        }
+        p->perles -= compteur;
+        if (p->perles<0)
+        {
+            p->perles = 0;
+        }
+        printf("Vous avez perdue %d Perles\n", compteur);
+        
+
+    } 
+    
+}
+
 // BOSS
 // Appliquer effet boss
 void appliquer_effet_boss(CreatureMarine *boss, Plongeur *p){
@@ -611,6 +681,9 @@ void gerer_tour_combat(Plongeur *p, char cmd, char **screen) {
         }else{
             info = "VICTOIRE ! Toutes les creatures sont vaincues.";
         }
+
+        // Gagner des perles
+        recompences_combat(p, g_creatures_en_combat, 1, g_nbr_creatures_en_combat);
         
         free(g_creatures_en_combat);
         g_creatures_en_combat = NULL;
@@ -672,6 +745,10 @@ void gerer_tour_combat(Plongeur *p, char cmd, char **screen) {
         if (p->points_de_vie <= 0) {
             info = "DEFAITE... Vous avez ete vaincu.";
             p->points_de_vie = p->points_de_vie_max; // renetialiser les points de vies en defaite
+
+            // Perdre des perles
+            recompences_combat(p, g_creatures_en_combat, 0, g_nbr_creatures_en_combat);
+
             free(g_creatures_en_combat);
             g_creatures_en_combat = NULL;
             g_nbr_creatures_en_combat = 0;

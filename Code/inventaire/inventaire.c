@@ -30,6 +30,7 @@ ItemTemplate g_item_database[] = {
 
     {204, ITEM_TYPE_CONSUMABLE, "Carte Tresor", "Revele epave", 0, 0, 0, 0, 0, EFFECT_NONE, 0, 1}
 
+
 };
 
 // taille de bd
