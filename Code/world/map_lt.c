@@ -7,15 +7,15 @@ const char* MAP[MAP_H][MAP_L] = {
     { "BASE"  , "PLAGE" , " "     , " "     , " "     , " "     , " "     , "BATEAU", " "     , " "      },                // Surface  Y[0]
     //----------------------------------------------------------------------------------------------------------------------------------------
     { "GROT_S", "F_ALGE", "J_CORA", " "     , " "     , " "     , " "     , " "     , " "     , " "      },              // Depth 1    Y[1]
-    { " "     ,  " "    , " "     , " "     , " "     , " "     , " "     , " "     , " "     , " "      },             // Depth 1     Y[2]
+    { "F_ALGE", "F_ALGE", "F_ALGE", " "     , " "     , " "     , " "     , " "     , " "     , " "      },             // Depth 1     Y[2]
     //----------------------------------------------------------------------------------------------------------------------------------------
-    { " "     ,  " "    , " "     , " "     , " "     , " "     , " "     , " "     , "GROT_E", " "      },           // Depth 2       Y[3]
-    { " "     ,  " "    , " "     , " "     , " "     , " "     , " "     , " "     , " "     , " "      },          // Depth 2        Y[4]
+    { " "     ,  " "    , " "     , " "     , " "     , " "     , " "     , " "     , "GROT_E", "J_CORA" },           // Depth 2       Y[3]
+    { "BOSS"  ,  " "    , " "     , " "     , " "     , " "     , " "     , "J_CORA", "J_CORA", "J_CORA" },          // Depth 2        Y[4]
     //----------------------------------------------------------------------------------------------------------------------------------------
     { " "     ,  " "    , " "     , " "     , " "     , " "     , " "     , " "     , " "     , " "      },        // Depth 3          Y[5]
     { "GROT_E",  " "    , " "     , " "     , " "     , " "     , " "     , " "     , " "     , " "      },       // Depth 3           Y[6]
     //----------------------------------------------------------------------------------------------------------------------------------------
-    { " "     ,  " "    , " "     , " "     , " "     , " "     , " "     , " "     , " "     , " "      },     // Depth 4             Y[7]
+    { " "     ,  " "    , " "     , " "     , " "     , " "     , " "     , " "     , "GROT_N", " "      },     // Depth 4             Y[7]
     { " "     ,  " "    , " "     , " "     , " "     , " "     , " "     , " "     , " "     , " "      },    // Depth 4              Y[8]
     //----------------------------------------------------------------------------------------------------------------------------------------
     { " "     ,  " "    , " "     , " "     , " "     , " "     , " "     , " "     , " "     , " "      },  // Depth 5                Y[9]
@@ -23,14 +23,11 @@ const char* MAP[MAP_H][MAP_L] = {
 };
 
 // conversion zone Y en lvl (pour savoir quelle ligne appartient à quel niveau de profondeur :
-/*
 
-for(int i = 0; i < 10; i++){
-    int depth_lvl = (i+1)/2; // div entiere
+int convert_y_to_depth_lvl(int y) {
+    int depth_lvl = (y + 1)/2;
     return depth_lvl;
 }
-
-*/
 
 ZoneType map_to_type(const char *map_info_type) {
     if (!map_info_type) return ZoneType_UNKNOWN;
@@ -76,7 +73,7 @@ const char* zone_type_to_string(const ZoneType type) {
     case ZoneType_JARDIN_CORALLIEN: return "Jardin Corail";
     case ZoneType_BOSS:             return "    Boss";
 
-    case ZoneType_VIDE:             return "    Rien";
+    case ZoneType_VIDE:             return "   Ocean";
 
     default:                        return "    ????";
     }
@@ -101,7 +98,7 @@ const char* zone_type_to_string_four_char(const ZoneType type) {
     case ZoneType_JARDIN_CORALLIEN: return "JCor";
     case ZoneType_BOSS:             return "Boss";
 
-    case ZoneType_VIDE:             return "Rien";
+    case ZoneType_VIDE:             return "    ";
 
     default:                        return "????";
     }
