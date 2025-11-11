@@ -72,6 +72,8 @@ typedef struct {
 
     InventorySlot inventaire[INVENTORY_SIZE];
 
+    InventorySlot cle[5]; // on a 5 cle au totale
+
 
 } Plongeur;
 
@@ -99,7 +101,8 @@ typedef enum {
     ITEM_TYPE_WEAPON,
     ITEM_TYPE_SUIT,
     ITEM_TYPE_CONSUMABLE,
-    ITEM_TYPE_MATERIAL // Pour les perles ou autres
+    ITEM_TYPE_MATERIAL, // Pour les perles ou autres
+    ITEM_TYPE_CLE // CLE BOSS
 } ItemType;
 
 typedef enum {

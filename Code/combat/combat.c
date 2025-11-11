@@ -582,6 +582,40 @@ void appliquer_effet_boss(CreatureMarine *boss, Plongeur *p){
     }
 }
 
+void get_key_boss(Plongeur *p, CreatureMarine *boss){
+    if (strcmp(boss[0].nom, "CETUS") == 0) // Profondeur 1
+    {
+        p->cle->item_id = 900; // Cle boss 1
+        p->cle->quantite = 1;
+        printf("Vous avez obtenue CLE BOSS 1\n");
+
+    }else if (strcmp(boss[0].nom, "SCYLLA") == 0) // Profondeur 2
+    {
+        p->cle->item_id = 901; // Cle boss 2
+        p->cle->quantite = 1;
+        printf("Vous avez obtenue CLE BOSS 2\n");
+
+    }else if(strcmp(boss[0].nom, "JORMUNGAND") == 0){ // Profondeur 3
+        p->cle->item_id = 902; // Cle boss 3
+        p->cle->quantite = 1;
+        printf("Vous avez obtenue CLE BOSS 3\n");
+
+    }else if (strcmp(boss[0].nom, "CHARYBDE") == 0) // Profondeur 4
+    {
+        p->cle->item_id = 903; // Cle boss 4
+        p->cle->quantite = 1;
+        printf("Vous avez obtenue CLE BOSS 4\n");
+
+    }else if (strcmp(boss[0].nom, "TIAMAT") == 0) // Profondeur 5
+    {
+        p->cle->item_id = 904; // Cle boss 5
+        p->cle->quantite = 1;
+        printf("Vous avez obtenue CLE BOSS 5\n");
+    }else{
+        return;
+    }
+     
+}
 
 // LOGIQUE COMBAT GLOBAL
 void gerer_tour_combat(Plongeur *p, char cmd, char **screen) {
@@ -678,6 +712,8 @@ void gerer_tour_combat(Plongeur *p, char cmd, char **screen) {
         if (type_combat == 1)
         {
            info = "VICTOIRE ! tu a gagner le BOSS";
+           get_key_boss(p, g_creatures_en_combat);
+
         }else{
             info = "VICTOIRE ! Toutes les creatures sont vaincues.";
         }

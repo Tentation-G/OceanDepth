@@ -140,11 +140,12 @@ CreatureMarine cree_boss(int profondeur) {
     boss.est_vivant = 1;
     boss.id = prochain_id++;
     boss.defense = 4 + profondeur * 3;  // 7 -> 19
+    boss.niveaux_danger = 5;
 
     switch (profondeur) {
         case 1:
             strcpy(boss.nom, "CETUS");
-            boss.points_de_vie_max = 200 + rand() % 50;  // 200-249 
+            boss.points_de_vie_max = 50 + rand() % 50;  // 200-249 (reduire la puissance pour tester)
             boss.attaque_minimale = 18;
             boss.attaque_maximale = 28;
             boss.vitesse = 7;

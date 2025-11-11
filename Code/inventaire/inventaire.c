@@ -26,10 +26,13 @@ ItemTemplate g_item_database[] = {
     {201, ITEM_TYPE_CONSUMABLE, "Trousse Soin", "+25 PV", 0, 0, 0, 0, 0, EFFECT_HEAL_HP, 25, 5},
     {202, ITEM_TYPE_CONSUMABLE, "Stimulant", "-20 Fatigue", 0, 0, 0, 0, 0, EFFECT_REDUCE_FATIGUE, 20, 5},
     {203, ITEM_TYPE_CONSUMABLE, "Antidote", "Guerit poison", 0, 0, 0, 0, 0, EFFECT_CURE_POISON, 0, 5},
-    // Nouveau dans g_item_database
-
-    {204, ITEM_TYPE_CONSUMABLE, "Carte Tresor", "Revele epave", 0, 0, 0, 0, 0, EFFECT_NONE, 0, 1}
-
+    
+    // Clé Boss
+    {900, ITEM_TYPE_CLE, "CLE BOSS 1", "BOSS PROFONDEUR 1", 0, 0, 0, 0, 0, EFFECT_NONE, 0, 1},
+    {901, ITEM_TYPE_CLE, "CLE BOSS 2", "BOSS PROFONDEUR 2", 0, 0, 0, 0, 0, EFFECT_NONE, 0, 1},
+    {902, ITEM_TYPE_CLE, "CLE BOSS 3", "BOSS PROFONDEUR 3", 0, 0, 0, 0, 0, EFFECT_NONE, 0, 1},
+    {903, ITEM_TYPE_CLE, "CLE BOSS 4", "BOSS PROFONDEUR 4", 0, 0, 0, 0, 0, EFFECT_NONE, 0, 1},
+    {904, ITEM_TYPE_CLE, "CLE BOSS 4", "BOSS PROFONDEUR 5", 0, 0, 0, 0, 0, EFFECT_NONE, 0, 1}
 
 };
 
@@ -91,10 +94,6 @@ void ajouter_item(Plongeur* p, int item_id, int quantite)
                 p->inventaire[i].quantite += quantite;
                 return;
             }
-            // else{ // si la quantite + la quantite qu'on a deja depasse la limite max_stack => ca va pas l'ajouter
-            // dans une autre case
-            //     return;
-            // }
         }
     }
     // 2. Trouver un slot vide
