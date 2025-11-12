@@ -46,3 +46,8 @@ int brume = 0;
 
 // TYPE DE COMBAT => 0: creatures , 1: BOSS
 int type_combat = 0; //combat contre les creatures par default
+
+// Etat combat
+int g_victoire = 0;
+int g_perles_gagnees = 0;
+int g_perles_perdues = 0;

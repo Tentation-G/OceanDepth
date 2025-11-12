@@ -22,6 +22,7 @@ char* saisies_utilisateur_autorise(int status) {
     //----------------------------------------------------------------------------------------------------------------------------------------------------------
     case 10:  return "ABCDIabcdiQq";          // Combat        | [A] Atq A  | [B] Atq B     | [C] Atq Passive | [D] Competences | [I] Inventaire | [Q] Quitter
     case 11:  return "1234Qq";               // Competences    | [1-4] Competences          | [Q] Retour
+    case 12:  return "Qq";
     //----------------------------------------------------------------------------------------------------------------------------------------------------------
     case 20:  return "1234Qq";             // Carte Ecran      | [1] Carte I | [2] Carte II | [3] Carte III   | [4] Carte IV    |[Q] Quitter
     case 21:                              // Carte 1           | [R] Retour  | [Q] Quitter

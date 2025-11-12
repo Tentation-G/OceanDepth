@@ -492,6 +492,7 @@ void recompences_combat(Plongeur *p, CreatureMarine *creatures, int victoire, in
 
         p->perles += compteur;
         printf("Vous avez gagner %d Perles\n", compteur);
+        g_perles_gagnees = compteur;
        
     }else{ // perdre des perles
         for (int i =0; i < nbr_creatures; i++){
@@ -523,7 +524,7 @@ void recompences_combat(Plongeur *p, CreatureMarine *creatures, int victoire, in
             p->perles = 0;
         }
         printf("Vous avez perdue %d Perles\n", compteur);
-        
+        g_perles_perdues = compteur;
 
     } 
     
@@ -596,6 +597,11 @@ void get_key_boss(Plongeur *p, CreatureMarine *boss){
     }
      
 }
+
+void handle_loading(){
+    screen_status = 12;
+}
+
 
 // LOGIQUE COMBAT GLOBAL
 void gerer_tour_combat(Plongeur *p, char cmd, char **screen) {
@@ -704,8 +710,11 @@ void gerer_tour_combat(Plongeur *p, char cmd, char **screen) {
         free(g_creatures_en_combat);
         g_creatures_en_combat = NULL;
         g_nbr_creatures_en_combat = 0;
-        
-        screen_status = 0;
+
+        // Loading
+        g_victoire = 1;
+        handle_loading();
+
         return;
         
     }
@@ -768,8 +777,11 @@ void gerer_tour_combat(Plongeur *p, char cmd, char **screen) {
             free(g_creatures_en_combat);
             g_creatures_en_combat = NULL;
             g_nbr_creatures_en_combat = 0;
-            
-            screen_status = 0;
+
+            // Loading
+            g_victoire = 0;
+            handle_loading();
+        
             return;
         }
     }
