@@ -148,6 +148,15 @@ void sauvegarder(World *w, Plongeur *p, int slot) {
     fprintf(f, "map_pos_y           : %d\n", p->map_pos_y);
     fprintf(f, "map_pos_x           : %d\n", p->map_pos_x);
     fprintf(f, "-------------------------\n");
+    fprintf(f, "equip_weapon        : %d %d\n", p->equip_weapon.item_id, p->equip_weapon.quantite);
+    fprintf(f, "equip_suit          : %d %d\n", p->equip_suit.item_id,  p->equip_suit.quantite);
+    fprintf(f, "cle                 : %d %d\n",   p->cle.item_id,         p->cle.quantite);
+    // Inventaire
+    for (int i = 0; i < INVENTORY_SIZE; i++) {
+        fprintf(f, "slot_%d              : %d %d\n",
+                i, p->inventaire[i].item_id, p->inventaire[i].quantite);
+    }
+    fprintf(f, "-------------------------\n");
 
     // Map (save d'exploration de la map)
     fprintf(f, "visited:\n");
@@ -212,12 +221,23 @@ void charger(World *w, Plongeur *p, int slot) {
     fscanf(f, "map_pos_y           : %d\n", &p->map_pos_y);
     fscanf(f, "map_pos_x           : %d\n", &p->map_pos_x);
     fscanf(f, "-------------------------\n");
+    fscanf(f, "equip_weapon        : %d %d\n",
+           &p->equip_weapon.item_id, &p->equip_weapon.quantite);
+    fscanf(f, "equip_suit          : %d %d\n",
+           &p->equip_suit.item_id,  &p->equip_suit.quantite);
+    fscanf(f, "cle                 : %d %d\n",
+           &p->cle.item_id,         &p->cle.quantite);
 
-    // Map
     char line[16];
-
-    fgets(line, sizeof(line), f); // "visited:\n"
-
+    // Slots
+    for (int i = 0; i < INVENTORY_SIZE; i++) {
+        int idx; // slot_idx <- on se cale sur le nb du slot
+        fscanf(f, "slot_%d              : %d %d\n",
+               &idx, &p->inventaire[i].item_id, &p->inventaire[i].quantite);
+    }
+    fscanf(f, "-------------------------\n");
+    // Map
+    fscanf(f, "visited\n");
     // lecture matrice visited
     for (int i = 0; i < 10; i++) {
         fgets(line, sizeof(line), f);
@@ -225,8 +245,7 @@ void charger(World *w, Plongeur *p, int slot) {
             w->visited[i][j] = (line[j] == '1');
         }
     }
-
-    fgets(line, sizeof(line), f); // "-------------------------\n"
+    fscanf(f, "-------------------------\n");
 
     fclose(f);
     active_save = slot;
