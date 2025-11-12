@@ -74,6 +74,8 @@ typedef struct {
 
     InventorySlot cle;
 
+    int cle_test;
+
 
 } Plongeur;
 
