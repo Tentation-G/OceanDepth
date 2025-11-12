@@ -171,6 +171,42 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
         }
 
         case 'v': {
+            int profondeur_verification = convert_y_to_depth_lvl(p->map_pos_y);
+            printf("PROF ACTUELLE: %d\n", profondeur_verification);
+            int profondeur_prochaine = convert_y_to_depth_lvl(p->map_pos_y + 1);
+            printf("PROF PROCHAINE: %d\n", profondeur_prochaine);
+
+            if (profondeur_prochaine == 3)
+            {
+                // On verifier le nombre de clef (minimum 1 clef pour passer)
+                if(p->cle_test >= 1){
+                    printf("Verification CLEF avec succes! Prof2 -> Prof3\n");
+                }else{
+                     printf("Verification CLEF echouée! Vous restez dans la zone\n");
+                    return;
+                }
+            }else if (profondeur_prochaine == 4)
+            {   
+                // On verifier le nombre de clef (minimum 2 clef pour passer)
+                if(p->cle_test >= 2){
+                    printf("Verification CLEF avec succes! Prof3 -> Prof4\n");
+                }else{
+                     printf("Verification CLEF echouée! Vous restez dans la zone\n");
+                    return;
+                }
+            }else if (profondeur_prochaine == 5)
+            {   
+                // On verifier le nombre de clef (minimum 3 clef pour passer)
+                if(p->cle_test >= 3){
+                    printf("Verification CLEF avec succes! Prof4 -> Prof5\n");
+                }else{
+                     printf("Verification CLEF echouée! Vous restez dans la zone\n");
+                    return;
+                }
+            }
+            
+            
+
             if (p->pos_y == hauteur - 1 && p->pos_x == largeur/2){
                 info = "Sortie SUD";
                 if (ask_yes_no("Descendre vers la zone au SUD ?")) {
@@ -360,7 +396,7 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
             break;
 
         case 'B':{ // BOSS
-            int profondeur_boss = 1;
+            int profondeur_boss = convert_y_to_depth_lvl(p->map_pos_y);
             printf("Declanchement du combat BOSS de la profondeur %d!\n", profondeur_boss);
             info = "Combat BOSS !";
             type_combat = 1;
@@ -375,7 +411,11 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
             printf("Ouvrir l'ecran du coffre\n");
             screen_status = 88;
             break;
-
+        case 'K': // Clef (Key)
+            // Faut le supprimer apres qu'on trouve la clef
+            printf("Vous avez touver la CLEF de Profondeur 3\n");
+            p->cle_test += 1;
+            break;
         default:
             info = "Rien par ici";
             break;

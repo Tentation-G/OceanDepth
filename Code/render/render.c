@@ -549,10 +549,7 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             printf("│   │%-69s│   │\n", " ");
 
             // CLES
-            ItemTemplate *cle = get_item_template(p->cle.item_id);
-            sprintf(buffer, "     Cles: %s  | %s", cle->nom, cle->description);
-            printf("│   │%-69s│   │\n", buffer);
-            printf("│   │%-69s│   │\n", " ");
+            printf("Clef: %d \n", p->cle_test);
 
             // Sac 
             printf("│   │%-69s│   │\n", "     SAC A DOS:");

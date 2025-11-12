@@ -554,10 +554,6 @@ void appliquer_effet_boss(CreatureMarine *boss, Plongeur *p){
         boss->attaque_maximale += 8;
         printf("RAGE : ATK +8 ! (total: %d-%d)\n", boss->attaque_minimale, boss->attaque_maximale);
     }
-    else if (strcmp(boss->effet_special, "MULTI") == 0) {
-        printf("MULTI : 2e attaque !\n");
-        attaquer_plongeur(boss, p);
-    }
     else if (strcmp(boss->effet_special, "VENOM") == 0) {
 
         p->niveau_fatigue += 35;
@@ -566,11 +562,6 @@ void appliquer_effet_boss(CreatureMarine *boss, Plongeur *p){
         if (p->niveau_oxygene < 0) p->niveau_oxygene = 0;
         
         printf("ABYSSAL GRIP : +35%% fatigue + -15 O2 !\n");
-    }
-    else if (strcmp(boss->effet_special, "VORTEX") == 0) {
-        p->defense = p->defense / 2;
-        if (p->defense < 1) p->defense = 1;
-        printf("VORTEX : Defense divisee par 2 !\n");
     }
     else if (strcmp(boss->effet_special, "CHAOS") == 0) {
 
@@ -583,30 +574,23 @@ void appliquer_effet_boss(CreatureMarine *boss, Plongeur *p){
 }
 
 void get_key_boss(Plongeur *p, CreatureMarine *boss){
-    p->cle.quantite = 1;
-    if (strcmp(boss[0].nom, "CETUS") == 0) // Profondeur 1
+
+    if (strcmp(boss[0].nom, "CETUS") == 0) // Profondeur 2
     {
-        p->cle.item_id = 900; // Cle boss 1
+        p->cle_test +=1;
         printf("Vous avez obtenue CLE BOSS 1\n");
 
-    }else if (strcmp(boss[0].nom, "SCYLLA") == 0) // Profondeur 2
-    {
-        p->cle.item_id = 901; // Cle boss 2
-        printf("Vous avez obtenue CLE BOSS 2\n");
-
-    }else if(strcmp(boss[0].nom, "JORMUNGAND") == 0){ // Profondeur 3
-        p->cle.item_id = 902; // Cle boss 3
+    }
+    else if(strcmp(boss[0].nom, "JORMUNGAND") == 0){ // Profondeur 4
+        p->cle_test +=1;
         printf("Vous avez obtenue CLE BOSS 3\n");
-
-    }else if (strcmp(boss[0].nom, "CHARYBDE") == 0) // Profondeur 4
+    
+    }
+    else if (strcmp(boss[0].nom, "TIAMAT") == 0) // Profondeur 5
     {
-        p->cle.item_id = 903; // Cle boss 4
-        printf("Vous avez obtenue CLE BOSS 4\n");
-
-    }else if (strcmp(boss[0].nom, "TIAMAT") == 0) // Profondeur 5
-    {
-        p->cle.item_id = 904; // Cle boss 5
+        p->cle_test +=1;
         printf("Vous avez obtenue CLE BOSS 5\n");
+        
     }else{
         return;
     }

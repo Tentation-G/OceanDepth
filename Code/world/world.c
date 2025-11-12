@@ -188,6 +188,11 @@ void decorate_zone_base_borders(Zone zone, int y, int x, int zone_h, int zone_l,
         zone[hauteur / 2][20] = 'B';
     }
 
+    // placer un K temporaire pour tester la cle (Profondeur 4)
+    if(y == 6 && x == 1){
+        zone[hauteur / 2][20] = 'K';
+    }
+
     // Ajoute les murs en bordures
     if (y == zone_h - 1) { // bord bas
         build_mur_bas(zone, y, x, zone_h, zone_l);

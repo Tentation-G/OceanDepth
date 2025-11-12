@@ -150,7 +150,7 @@ void sauvegarder(World *w, Plongeur *p, int slot) {
     fprintf(f, "-------------------------\n");
     fprintf(f, "equip_weapon        : %d %d\n", p->equip_weapon.item_id, p->equip_weapon.quantite);
     fprintf(f, "equip_suit          : %d %d\n", p->equip_suit.item_id,  p->equip_suit.quantite);
-    fprintf(f, "cle                 : %d %d\n",   p->cle.item_id,         p->cle.quantite);
+    fprintf(f, "cle                 : %d %d\n",   p->cle_test);
     // Inventaire
     for (int i = 0; i < INVENTORY_SIZE; i++) {
         fprintf(f, "slot_%d              : %d %d\n",
@@ -225,8 +225,7 @@ void charger(World *w, Plongeur *p, int slot) {
            &p->equip_weapon.item_id, &p->equip_weapon.quantite);
     fscanf(f, "equip_suit          : %d %d\n",
            &p->equip_suit.item_id,  &p->equip_suit.quantite);
-    fscanf(f, "cle                 : %d %d\n",
-           &p->cle.item_id,         &p->cle.quantite);
+    fscanf(f, "cle                 : %d\n", &p->cle_test);
 
     char line[16];
     // Slots
