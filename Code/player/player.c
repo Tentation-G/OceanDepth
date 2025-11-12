@@ -179,7 +179,7 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
             if (profondeur_prochaine == 3)
             {
                 // On verifier le nombre de clef (minimum 1 clef pour passer)
-                if(p->cle_test >= 1){
+                if(p->cle >= 1){
                     printf("Verification CLEF avec succes! Prof2 -> Prof3\n");
                 }else{
                      printf("Verification CLEF echouée! Vous restez dans la zone\n");
@@ -188,7 +188,7 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
             }else if (profondeur_prochaine == 4)
             {   
                 // On verifier le nombre de clef (minimum 2 clef pour passer)
-                if(p->cle_test >= 2){
+                if(p->cle >= 2){
                     printf("Verification CLEF avec succes! Prof3 -> Prof4\n");
                 }else{
                      printf("Verification CLEF echouée! Vous restez dans la zone\n");
@@ -197,7 +197,7 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
             }else if (profondeur_prochaine == 5)
             {   
                 // On verifier le nombre de clef (minimum 3 clef pour passer)
-                if(p->cle_test >= 3){
+                if(p->cle >= 3){
                     printf("Verification CLEF avec succes! Prof4 -> Prof5\n");
                 }else{
                      printf("Verification CLEF echouée! Vous restez dans la zone\n");
@@ -414,7 +414,7 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
         case 'K': // Clef (Key)
             // Faut le supprimer apres qu'on trouve la clef
             printf("Vous avez touver la CLEF de Profondeur 3\n");
-            p->cle_test += 1;
+            p->cle += 1;
             break;
         default:
             info = "Rien par ici";

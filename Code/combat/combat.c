@@ -578,18 +578,18 @@ void get_key_boss(Plongeur *p, CreatureMarine *boss){
 
     if (strcmp(boss[0].nom, "CETUS") == 0) // Profondeur 2
     {
-        p->cle_test +=1;
+        p->cle +=1;
         printf("Vous avez obtenue CLE BOSS 1\n");
 
     }
     else if(strcmp(boss[0].nom, "JORMUNGAND") == 0){ // Profondeur 4
-        p->cle_test +=1;
+        p->cle +=1;
         printf("Vous avez obtenue CLE BOSS 3\n");
     
     }
     else if (strcmp(boss[0].nom, "TIAMAT") == 0) // Profondeur 5
     {
-        p->cle_test +=1;
+        p->cle +=1;
         printf("Vous avez obtenue CLE BOSS 5\n");
         
     }else{

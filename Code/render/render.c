@@ -581,7 +581,7 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             printf("│   │%-69s│   │\n", " ");
 
             // CLES
-            sprintf(buffer, "     Clef: %d", p->cle_test);
+            sprintf(buffer, "     Clef: %d", p->cle);
             printf("│   │%-69s│   │\n", buffer);
             printf("│   │%-69s│   │\n", " ");
 
