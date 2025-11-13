@@ -122,8 +122,8 @@ void screen_header(World *w, Plongeur *p, char* pv_bar, char* oxy_bar, char* fat
             // Oxy
             const char *col_oxy;
             if      (oxy <= 10) col_oxy = C_ROUGE;    // 0-10%
-            else if (oxy <= 60) col_oxy = C_VIOLET;  // 11-60%
-            else                col_oxy = C_BLEU;   // 61-100%
+            else if (oxy <= 40) col_oxy = C_VIOLET;  // 11-40%
+            else                col_oxy = C_BLEU;   // 41-100%
 
             printf("  O₂: %s%s %3d%%%s  │", col_oxy, oxy_bar, oxy, C_RESET);
 
@@ -137,7 +137,31 @@ void screen_header(World *w, Plongeur *p, char* pv_bar, char* oxy_bar, char* fat
             printf("│  Profondeur: %-10s", profondeur);
             printf("│  Arme équipé : %-24s | Save : %d │\n", weapon->nom, active_save);
             printf("├─────────────────────────────────────────────────────────────┬───────────────┤\n");
-            printf("│  [Info] : %-48s  │  Zone-[%d][%d]  │\n", info, p->map_pos_y, p->map_pos_x);
+
+            // Prevention pv / oxy low
+            int urge_info;
+            if (p->points_de_vie <= 10 && p->niveau_oxygene <= 10) urge_info = 0;
+            else if (p->points_de_vie <= 10)                       urge_info = 1;
+            else if (p->niveau_oxygene <= 10)                      urge_info = 2;
+            else                                                   urge_info = 5;
+
+            switch (urge_info){
+            case 0: info = "Niveau d'oxygene et de sante critique"; break;
+            case 1: info = "Niveau de sante critique";              break;
+            case 2: info = "Niveau d'oxygene critique";             break;
+            default:;
+            }
+
+            const char *info_color = C_RESET;
+
+            switch (urge_info){
+            case 0: info_color = C_ROUGE;    break; // double critique
+            case 1: info_color = C_ROUGE;    break; // PV critique
+            case 2: info_color = C_ROUGE;    break; // O2 critique
+            default: info_color = C_RESET; break; // info "normale" / neutre
+            }
+
+            printf("│  [Info] : %s%-48s%s  │  Zone-[%d][%d]  │\n",info_color, info, C_RESET, p->map_pos_y, p->map_pos_x);
             printf("├─────────────────────────────────────────────────────────────┤ %-13s │\n", zone_type_to_string(type));
             break;
         }

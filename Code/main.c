@@ -70,7 +70,6 @@ int main(void) {
         char **screen = world_current_zone(world, &plongeur);
 
         // Affichage
-
         full_screen(world, &plongeur, g_creatures_en_combat, screen, info);
 
         // Récup input user validé selon l'écran courant

@@ -1,39 +1,24 @@
 -------------------------
 Numero de Save      : 1
 -------------------------
-<<<<<<< HEAD
-points_de_vie       : 61
+points_de_vie       : 11
 points_de_vie_max   : 100
 -------------------------
-niveau_oxygene      : 61
+niveau_oxygene      : 11
 niveau_oxygene_max  : 100
 -------------------------
-niveau_fatigue      : 71
-=======
-points_de_vie       : 45
-points_de_vie_max   : 100
--------------------------
-niveau_oxygene      : 41
-niveau_oxygene_max  : 100
--------------------------
-niveau_fatigue      : 18
->>>>>>> 7d49d8639f006a2e14ab062080810e4207c902d2
+niveau_fatigue      : 0
 niveau_fatigue_max  : 100
 -------------------------
-perles              : 566
+perles              : 500
 -------------------------
-pos_y               : 9
-pos_x               : 67
-last_pos_y          : 9
-last_pos_x          : 67
+pos_y               : 17
+pos_x               : 34
+last_pos_y          : 17
+last_pos_x          : 34
 -------------------------
-<<<<<<< HEAD
 map_pos_y           : 1
 map_pos_x           : 1
-=======
-map_pos_y           : 6
-map_pos_x           : 0
->>>>>>> 7d49d8639f006a2e14ab062080810e4207c902d2
 -------------------------
 equip_weapon        : 1 1
 equip_suit          : 100 1
