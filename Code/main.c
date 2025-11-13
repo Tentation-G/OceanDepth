@@ -5,8 +5,16 @@
 
 #ifdef _WIN32
 #include <windows.h>
+void enable_ansi_colors(void) {
+    HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+    DWORD mode = 0;
+    GetConsoleMode(h, &mode);
+    mode |= 0x0004; // ENABLE_VIRTUAL_TERMINAL_PROCESSING
+    SetConsoleMode(h, mode);
+}
 #endif
 
+#include "utils/utils.h"
 #include "globals/globals.h"
 #include "types/types.h"
 #include "world/world.h"
@@ -22,9 +30,9 @@
 int main(void) {
 #ifdef _WIN32
     SetConsoleOutputCP(CP_UTF8); // affichage console wd
+    enable_ansi_colors();                   // Couleur en console wd
 #endif
     srand((unsigned)time(NULL));  // rand
-
     open_names_slot();
 
     // Créa plongeur | Valeur par default
@@ -62,6 +70,7 @@ int main(void) {
         char **screen = world_current_zone(world, &plongeur);
 
         // Affichage
+
         full_screen(world, &plongeur, g_creatures_en_combat, screen, info);
 
         // Récup input user validé selon l'écran courant
@@ -144,33 +153,9 @@ int main(void) {
                 }
                 break;
             }
-            case 21: { // Carte 1
-                if (cmd == 'R' || cmd == 'r') {
-                    screen_status = 20; // retour Ecran selection carte
-                }
-                else if (cmd == 'Q' || cmd == 'q') {
-                    screen_status = 0; // retour exploration
-                }
-                break;
-            }
-            case 22: { // Carte 2
-                if (cmd == 'R' || cmd == 'r') {
-                    screen_status = 20; // retour Ecran selection carte
-                }
-                else if (cmd == 'Q' || cmd == 'q') {
-                    screen_status = 0; // retour exploration
-                }
-                break;
-            }
-            case 23: { // Carte 3
-                if (cmd == 'R' || cmd == 'r') {
-                    screen_status = 20; // retour Ecran selection carte
-                }
-                else if (cmd == 'Q' || cmd == 'q') {
-                    screen_status = 0; // retour exploration
-                }
-                break;
-            }
+            case 21:      // Carte 1
+            case 22:     // Carte 2
+            case 23:    // Carte 3
             case 24: { // Carte 4
                 if (cmd == 'R' || cmd == 'r') {
                     screen_status = 20; // retour Ecran selection carte

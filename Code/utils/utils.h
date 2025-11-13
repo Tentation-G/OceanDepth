@@ -9,4 +9,5 @@ int convert_to_percent(int val, int val_max);
 char* convert_to_visual_bar(int stat, int stat_max);
 
 void clear_stdin(void);
+//void clear_screen(void);
 #endif // UTILS_H

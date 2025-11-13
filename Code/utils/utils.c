@@ -1,6 +1,8 @@
 #include <string.h>
 #include  <stdio.h>
 #include <stdlib.h>
+
+#include <windows.h>
 #include "utils.h"
 
 int index_in_axis(char c, const char *axis) {
@@ -57,3 +59,4 @@ void clear_stdin(void) {
     int ch;
     while ((ch = getchar()) != '\n' && ch != EOF) {}
 }
+

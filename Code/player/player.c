@@ -249,7 +249,7 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
 
         case '#': {
             //info = "Tu as heurté un rocher, -5 PV.";
-            p->points_de_vie -= 5;
+            p->points_de_vie = clamp(p->points_de_vie - 5, p->points_de_vie_max);
 
             // dir brute
             int dir_y_brut = p->pos_y - p->last_pos_y;

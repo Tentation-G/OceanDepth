@@ -12,9 +12,11 @@
 #include "../inventaire/inventaire.h"
 #include "../marchand/marchand.h"
 
+ // Les couleurs c'est du bonus pour l'instant la flore et le player
+// (
 void print_screen(char **screen) {
     switch (screen_status){
-        case 0: { // Exploration: avec labels ligne
+        case 0: { // Exploration : avec labels ligne
             for (int i = 0; i < hauteur; i++) {
                 char label;
                 if (i < 10){
@@ -24,17 +26,45 @@ void print_screen(char **screen) {
                 }
                 printf("│  %c│", label);
                 for (int j = 0; j < largeur; j++) {
-                    printf("%c", screen[i][j]);
+                    char c = screen[i][j];
+                    // roche - grise
+                    //if (c == '#'){
+                    //    printf("\x1b[38;2;120;120;120m%c\x1b[0m", c);
+                    //}
+                    // algue verte (et corail (dommage collateral)
+                    if (c == 'Y' || c == '|' || c=='/' || c=='\\' || c == '0'){
+                        printf("\x1b[32m%c\x1b[0m", c);
+                    }
+                    else if (c == '@')
+                    {
+                        printf("\x1b[31m%c\x1b[0m", c);
+                    }
+                    // Poisson
+                    //else if (c == '<' || c == '>' || c=='(' || c==')' || c=='o' || c=='*' || c== '='){
+                    //    printf("\x1b[0m%c\x1b[0m", c);
+                    //}
+                    // Fill - Bleu (pour l'instant ce sont des ' ', ça peut etre des '~')
+                    // qui sait ce que nous reserve l'avenir
+                    //else if (c == fill){
+                    //    printf("\x1b[34m%c\x1b[0m", c);
+                    //}
+                    else{
+                        printf("%c", c);
+                    }
+
                 }
                 printf("│   │\n");
             }
             break;
         }
-        default: { // autres écrans: bords classique
+        default: { // autres écrans : bords classiques
             for (int i = 0; i < hauteur; i++) {
                 printf("│   │");
-                for (int j = 0; j < largeur; j++) {
-                    printf("%c", screen[i][j]);
+                for (int j = 0; j < largeur; j++)
+                {
+                    char c = screen[i][j];
+                    printf("%c", c);
+
                 }
                 printf("│   │\n");
             }
@@ -57,22 +87,54 @@ void screen_header(World *w, Plongeur *p, char* pv_bar, char* oxy_bar, char* fat
             ZoneType type = world_get_zone_type(w, p->map_pos_y, p->map_pos_x);
             char* arme_equipe = "Harpon Rouille";
 
-            int profondeur;
-            // Ce truc la n'a plus de sens, a refaire
-            switch(p->map_pos_y) {
-            case 0 : profondeur = 0; break;
-            case 1 : profondeur = -50; break;
-            case 2 : profondeur = -150; break;
-            case 3 : profondeur = -300; break;
-            case 4 : profondeur = -500; break;
-            default : profondeur = 0; break;
+            char* profondeur;
+            switch (convert_y_to_depth_lvl(p->map_pos_y)){
+                case 0: profondeur = "Surface"; break;
+                case 1: profondeur = "I"; break;
+                case 2: profondeur = "II"; break;
+                case 3: profondeur = "III"; break;
+                case 4: profondeur = "IV"; break;
+                case 5: profondeur = "V"; break;
             }
+            int pv      = p->points_de_vie;
+            int oxy     = p->niveau_oxygene;
+            int fatigue = p->niveau_fatigue;
+
+            // Couleurs
+            const char *C_RESET  = "\x1b[0m";
+            const char *C_ROUGE  = "\x1b[31m";
+            const char *C_VERT   = "\x1b[32m";
+            const char *C_JAUNE  = "\x1b[33m";
+            const char *C_BLEU   = "\x1b[34m";
+            const char *C_VIOLET = "\x1b[35m";
+
             ItemTemplate *weapon = get_item_template(p->equip_weapon.item_id);
             printf("╭─────────────────────────────── Ocean  Depth ────────────────────────────────╮\n");
-            printf("│  Vie: %s %3d%%  │", pv_bar, p->points_de_vie);
-            printf("  O₂: %s %3d%%  │", oxy_bar, p->niveau_oxygene);
-            printf("  Fatigue: %s %3d%%  │\n", fatigue_bar, p->niveau_fatigue);
-            printf("│  Profondeur: %4dm     ", profondeur);
+
+            // Pv
+            const char *col_pv;
+            if      (pv <= 10) col_pv = C_ROUGE;   // 0-10%
+            else if (pv <= 60) col_pv = C_JAUNE;  // 11-60%
+            else               col_pv = C_VERT;  // 61-100%
+
+            printf("│  Vie: %s%s %3d%%%s  │", col_pv, pv_bar, pv, C_RESET);
+
+            // Oxy
+            const char *col_oxy;
+            if      (oxy <= 10) col_oxy = C_ROUGE;    // 0-10%
+            else if (oxy <= 60) col_oxy = C_VIOLET;  // 11-60%
+            else                col_oxy = C_BLEU;   // 61-100%
+
+            printf("  O₂: %s%s %3d%%%s  │", col_oxy, oxy_bar, oxy, C_RESET);
+
+            // Fatigue
+            const char *col_fat;
+            if      (fatigue >= 70) col_fat = C_ROUGE;    // 70-100%
+            else                    col_fat = C_JAUNE;   // 0-69%
+
+            printf("  Fatigue: %s%s %3d%%%s  │\n", col_fat, fatigue_bar, fatigue, C_RESET);
+
+            printf("│  Profondeur: %-10s", profondeur);
             printf("│  Arme équipé : %-24s | Save : %d │\n", weapon->nom, active_save);
             printf("├─────────────────────────────────────────────────────────────┬───────────────┤\n");
             printf("│  [Info] : %-48s  │  Zone-[%d][%d]  │\n", info, p->map_pos_y, p->map_pos_x);
