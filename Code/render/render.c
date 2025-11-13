@@ -258,6 +258,38 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             printf("│   │  ╚════════════════════════════════════════════════════════════════╝ │   │\n");
             break;
         }
+        case 12: { // Loading combat (si gagnant ou vaincu)
+            printf("│                                                             ╰───────────────┤\n");
+            printf("│   ╭─────────────────────── LOADING ─────────────────────────────────────╮   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │  ╔════════════════════════════════════════════════════════════════╗ │   │\n");
+            printf("│   │  ║                                                                ║ │   │\n");
+
+            if (g_victoire) {
+                printf("│   │  ║                          VICTOIRE                              ║ │   │\n");
+                printf("│   │  ║                    Vous avez gagné %d Perles                   ║ │   │\n", g_perles_gagnees);
+            } else {
+                printf("│   │  ║                          GAME OVER                             ║ │   │\n");
+                printf("│   │  ║                    Vous avez perdu %d Perles                   ║ │   │\n", g_perles_perdues);
+            }
+
+            printf("│   │  ║                                                                ║ │   │\n");
+            printf("│   │  ║                                                                ║ │   │\n");
+            printf("│   │  ║                                                                ║ │   │\n");
+            printf("│   │  ║                                                                ║ │   │\n");
+            printf("│   │  ║                                                                ║ │   │\n");
+            printf("│   │  ║                                                                ║ │   │\n");
+            printf("│   │  ║                                                                ║ │   │\n");
+            printf("│   │  ║                                                                ║ │   │\n");
+            printf("│   │  ║                                                                ║ │   │\n");
+            printf("│   │  ╚════════════════════════════════════════════════════════════════╝ │   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│                                                                             │\n");
+            printf("│                                                                             │\n");
+
+
+            break;
+        }
         case 20:{
 
             printf("│                                                             ╰───────────────┤\n");
@@ -549,8 +581,7 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             printf("│   │%-69s│   │\n", " ");
 
             // CLES
-            ItemTemplate *cle = get_item_template(p->cle.item_id);
-            sprintf(buffer, "     Cles: %s  | %s", cle->nom, cle->description);
+            sprintf(buffer, "     Clef: %d", p->cle);
             printf("│   │%-69s│   │\n", buffer);
             printf("│   │%-69s│   │\n", " ");
 
@@ -725,7 +756,12 @@ void screen_footer(World *w, Plongeur *p){
             printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
             break;
         }
-
+        case 12:{
+            printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
+            printf("│  Appuyez sur [Q] pour continuer...                                          │\n");
+            printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
+            break;
+        }
         //Carte
         case 20:{
             printf("├─────────────────────────────────────────────────────────────────────────────┤\n");

@@ -35,4 +35,9 @@ extern int brume;
 
 // TYPE DE COMBAT => 0: creatures , 1: BOSS
 extern int type_combat;
+
+// Etat combat
+extern int g_victoire;
+extern int g_perles_gagnees;
+extern int g_perles_perdues;
 #endif // GLOBALS_H

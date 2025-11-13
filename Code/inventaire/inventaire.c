@@ -70,8 +70,7 @@ void init_player_inventory(Plongeur* p)
     p->inventaire[2].quantite = 1;
 
     // Remplir cle
-    p->cle.item_id = 0;
-    p->cle.quantite = 0;
+    p->cle = 0;
 
     // Initialiser le reste des slots comme "Vide"
     for (int i = 3; i < INVENTORY_SIZE; i++)

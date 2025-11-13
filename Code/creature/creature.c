@@ -141,9 +141,9 @@ CreatureMarine cree_boss(int profondeur) {
     boss.id = prochain_id++;
     boss.defense = 4 + profondeur * 3;  // 7 -> 19
     boss.niveaux_danger = 5;
-
+    //profondeur pour boss: 2, 4 , 5
     switch (profondeur) {
-        case 1:
+        case 2:
             strcpy(boss.nom, "CETUS");
             boss.points_de_vie_max = 50 + rand() % 50;  // 200-249 (reduire la puissance pour tester)
             boss.attaque_minimale = 18;
@@ -152,37 +152,18 @@ CreatureMarine cree_boss(int profondeur) {
             strcpy(boss.effet_special, "RAGE");
             break;
 
-        case 2:
-            strcpy(boss.nom, "SCYLLA");
-            boss.points_de_vie_max = 300 + rand() % 50;   // 300-349
-            boss.attaque_minimale = 25;
-            boss.attaque_maximale = 40;
-            boss.vitesse = 6;
-            strcpy(boss.effet_special, "MULTI");
-            break;
-
-        case 3:
+        case 4:
             strcpy(boss.nom, "JORMUNGAND");
-            boss.points_de_vie_max = 400 + rand() % 50;   // 400-449
+            boss.points_de_vie_max = 10 + rand() % 50;   // 400-449
             boss.attaque_minimale = 35;
             boss.attaque_maximale = 55;
             boss.vitesse = 8;
             strcpy(boss.effet_special, "VENOM");
             break;
 
-        case 4:
-            strcpy(boss.nom, "CHARYBDE");
-            boss.points_de_vie_max = 500 + rand() % 50;   // 500-549
-            boss.attaque_minimale = 45;
-            boss.attaque_maximale = 70;
-            boss.vitesse = 4;
-            boss.defense += 10;
-            strcpy(boss.effet_special, "VORTEX");
-            break;
-
         case 5:
             strcpy(boss.nom, "TIAMAT");
-            boss.points_de_vie_max = 600 + rand() % 50;   // 600-649
+            boss.points_de_vie_max = 50 + rand() % 50;   // 600-649
             boss.attaque_minimale = 60;
             boss.attaque_maximale = 95;
             boss.vitesse = 7;
