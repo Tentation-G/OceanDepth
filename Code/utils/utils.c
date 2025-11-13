@@ -4,6 +4,8 @@
 
 #include <windows.h>
 #include "utils.h"
+#include "../world/world.h"
+#include "../world/map_lt.h"
 
 int index_in_axis(char c, const char *axis) {
     const char *p = strchr(axis, c);
@@ -60,3 +62,11 @@ void clear_stdin(void) {
     while ((ch = getchar()) != '\n' && ch != EOF) {}
 }
 
+ // EVOLUTION ET TRANSFORMATION DES MAXI PATE DU RENDER DES CARTES PAR CETTE DOUCE FONCTION
+// cc -> carte cellule (pour eviter d'avoir un maxi paté dans le print
+const char* cc(const World *w, int y, int x) {
+    if (!zone_already_visited(w, y, x)) {
+        return " ?? ";
+    }
+    return zone_type_to_string_four_char(world_get_zone_type(w, y, x));
+}

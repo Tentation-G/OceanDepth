@@ -403,44 +403,6 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             break;
         }
         case 21: { // Carte 1
-             // C'est un maxi paté, je sais, simple et efficace
-            // (le mapping est geré ailleurs(map_lt.c), pas grand besoin de faire quelque chose fancy
-
-            // Ligne 0
-            const char* c00 = zone_already_visited(w, 0, 0) ? zone_type_to_string_four_char(world_get_zone_type(w, 0, 0)) : " ?? ";
-            const char* c01 = zone_already_visited(w, 0, 1) ? zone_type_to_string_four_char(world_get_zone_type(w, 0, 1)) : " ?? ";
-            const char* c02 = zone_already_visited(w, 0, 2) ? zone_type_to_string_four_char(world_get_zone_type(w, 0, 2)) : " ?? ";
-            const char* c03 = zone_already_visited(w, 0, 3) ? zone_type_to_string_four_char(world_get_zone_type(w, 0, 3)) : " ?? ";
-            const char* c04 = zone_already_visited(w, 0, 4) ? zone_type_to_string_four_char(world_get_zone_type(w, 0, 4)) : " ?? ";
-            const char* c05 = zone_already_visited(w, 0, 5) ? zone_type_to_string_four_char(world_get_zone_type(w, 0, 5)) : " ?? ";
-            const char* c06 = zone_already_visited(w, 0, 6) ? zone_type_to_string_four_char(world_get_zone_type(w, 0, 6)) : " ?? ";
-            const char* c07 = zone_already_visited(w, 0, 7) ? zone_type_to_string_four_char(world_get_zone_type(w, 0, 7)) : " ?? ";
-            const char* c08 = zone_already_visited(w, 0, 8) ? zone_type_to_string_four_char(world_get_zone_type(w, 0, 8)) : " ?? ";
-            const char* c09 = zone_already_visited(w, 0, 9) ? zone_type_to_string_four_char(world_get_zone_type(w, 0, 9)) : " ?? ";
-
-            // Ligne 1
-            const char* c10 = zone_already_visited(w, 1, 0) ? zone_type_to_string_four_char(world_get_zone_type(w, 1, 0)) : " ?? ";
-            const char* c11 = zone_already_visited(w, 1, 1) ? zone_type_to_string_four_char(world_get_zone_type(w, 1, 1)) : " ?? ";
-            const char* c12 = zone_already_visited(w, 1, 2) ? zone_type_to_string_four_char(world_get_zone_type(w, 1, 2)) : " ?? ";
-            const char* c13 = zone_already_visited(w, 1, 3) ? zone_type_to_string_four_char(world_get_zone_type(w, 1, 3)) : " ?? ";
-            const char* c14 = zone_already_visited(w, 1, 4) ? zone_type_to_string_four_char(world_get_zone_type(w, 1, 4)) : " ?? ";
-            const char* c15 = zone_already_visited(w, 1, 5) ? zone_type_to_string_four_char(world_get_zone_type(w, 1, 5)) : " ?? ";
-            const char* c16 = zone_already_visited(w, 1, 6) ? zone_type_to_string_four_char(world_get_zone_type(w, 1, 6)) : " ?? ";
-            const char* c17 = zone_already_visited(w, 1, 7) ? zone_type_to_string_four_char(world_get_zone_type(w, 1, 7)) : " ?? ";
-            const char* c18 = zone_already_visited(w, 1, 8) ? zone_type_to_string_four_char(world_get_zone_type(w, 1, 8)) : " ?? ";
-            const char* c19 = zone_already_visited(w, 1, 9) ? zone_type_to_string_four_char(world_get_zone_type(w, 1, 9)) : " ?? ";
-
-            // Ligne 2
-            const char* c20 = zone_already_visited(w, 2, 0) ? zone_type_to_string_four_char(world_get_zone_type(w, 2, 0)) : " ?? ";
-            const char* c21 = zone_already_visited(w, 2, 1) ? zone_type_to_string_four_char(world_get_zone_type(w, 2, 1)) : " ?? ";
-            const char* c22 = zone_already_visited(w, 2, 2) ? zone_type_to_string_four_char(world_get_zone_type(w, 2, 2)) : " ?? ";
-            const char* c23 = zone_already_visited(w, 2, 3) ? zone_type_to_string_four_char(world_get_zone_type(w, 2, 3)) : " ?? ";
-            const char* c24 = zone_already_visited(w, 2, 4) ? zone_type_to_string_four_char(world_get_zone_type(w, 2, 4)) : " ?? ";
-            const char* c25 = zone_already_visited(w, 2, 5) ? zone_type_to_string_four_char(world_get_zone_type(w, 2, 5)) : " ?? ";
-            const char* c26 = zone_already_visited(w, 2, 6) ? zone_type_to_string_four_char(world_get_zone_type(w, 2, 6)) : " ?? ";
-            const char* c27 = zone_already_visited(w, 2, 7) ? zone_type_to_string_four_char(world_get_zone_type(w, 2, 7)) : " ?? ";
-            const char* c28 = zone_already_visited(w, 2, 8) ? zone_type_to_string_four_char(world_get_zone_type(w, 2, 8)) : " ?? ";
-            const char* c29 = zone_already_visited(w, 2, 9) ? zone_type_to_string_four_char(world_get_zone_type(w, 2, 9)) : " ?? ";
 
             printf("│                                                             ╰───────────────┤\n");
             printf("│   ╭─────────────────────────────────────────────────────────────────────╮   │\n");
@@ -452,11 +414,11 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             printf("│   │       ╚╗                                         Pro╚╝ndeur  ║      │   │\n");
             printf("│   │       ╔╝                                                     ║      │   │\n");
             printf("│   │      ╔╝                                                      ║      │   │\n");
-            printf("│   │      ║ %-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s  S  ║      │   │\n", c00, c01, c02, c03, c04, c05, c06, c07, c08, c09);
+            printf("│   │      ║ %-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s  S  ║      │   │\n", cc(w,0,0), cc(w,0,1), cc(w,0,2), cc(w,0,3), cc(w,0,4), cc(w,0,5), cc(w,0,6), cc(w,0,7), cc(w,0,8), cc(w,0,9));
             printf("│   │    @@║ ────┼────┼────┼────┼────┼────┼────┼────┼────┼────     ║@@    │   │\n");
-            printf("│   │    @@║ %-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s  I  ║@@    │   │\n", c10, c11, c12, c13, c14, c15, c16, c17, c18, c19);
+            printf("│   │    @@║ %-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s  I  ║@@    │   │\n", cc(w,1,0), cc(w,1,1), cc(w,1,2), cc(w,1,3), cc(w,1,4), cc(w,1,5), cc(w,1,6), cc(w,1,7), cc(w,1,8), cc(w,1,9));
             printf("│   │  @@@@║ ────┼────┼────┼────┼────┼────┼────┼────┼────┼────     ║@@@@  │   │\n");
-            printf("│   │  @@@ ║ %-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s  I  ║ @@@  │   │\n", c20, c21, c22, c23, c24, c25, c26, c27, c28, c29);
+            printf("│   │  @@@ ║ %-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s  I  ║ @@@  │   │\n", cc(w,2,0), cc(w,2,1), cc(w,2,2), cc(w,2,3), cc(w,2,4), cc(w,2,5), cc(w,2,6), cc(w,2,7), cc(w,2,8), cc(w,2,9));
             printf("│   │  @@@@║ ────┼────┼────┼────┼────┼────┼──╔╗┼────┼────┼────     ║@@@@  │   │\n");
             printf("│   │  @@@@╚═╗        │╔╗       │           ╔╝║          │      II╔╝@@@@  │   │\n");
             printf("│   │  @@@@  ╚═════════╝╚═══════════════════╝ ╚═══════════════════╝ @@@@@ │   │\n");
@@ -466,42 +428,6 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             break;
         }
         case 22: { // Carte 2
-
-            // Ligne 3
-            const char* c30 = zone_already_visited(w, 3, 0) ? zone_type_to_string_four_char(world_get_zone_type(w, 3, 0)) : " ?? ";
-            const char* c31 = zone_already_visited(w, 3, 1) ? zone_type_to_string_four_char(world_get_zone_type(w, 3, 1)) : " ?? ";
-            const char* c32 = zone_already_visited(w, 3, 2) ? zone_type_to_string_four_char(world_get_zone_type(w, 3, 2)) : " ?? ";
-            const char* c33 = zone_already_visited(w, 3, 3) ? zone_type_to_string_four_char(world_get_zone_type(w, 3, 3)) : " ?? ";
-            const char* c34 = zone_already_visited(w, 3, 4) ? zone_type_to_string_four_char(world_get_zone_type(w, 3, 4)) : " ?? ";
-            const char* c35 = zone_already_visited(w, 3, 5) ? zone_type_to_string_four_char(world_get_zone_type(w, 3, 5)) : " ?? ";
-            const char* c36 = zone_already_visited(w, 3, 6) ? zone_type_to_string_four_char(world_get_zone_type(w, 3, 6)) : " ?? ";
-            const char* c37 = zone_already_visited(w, 3, 7) ? zone_type_to_string_four_char(world_get_zone_type(w, 3, 7)) : " ?? ";
-            const char* c38 = zone_already_visited(w, 3, 8) ? zone_type_to_string_four_char(world_get_zone_type(w, 3, 8)) : " ?? ";
-            const char* c39 = zone_already_visited(w, 3, 9) ? zone_type_to_string_four_char(world_get_zone_type(w, 3, 9)) : " ?? ";
-
-            // Ligne 4
-            const char* c40 = zone_already_visited(w, 4, 0) ? zone_type_to_string_four_char(world_get_zone_type(w, 4, 0)) : " ?? ";
-            const char* c41 = zone_already_visited(w, 4, 1) ? zone_type_to_string_four_char(world_get_zone_type(w, 4, 1)) : " ?? ";
-            const char* c42 = zone_already_visited(w, 4, 2) ? zone_type_to_string_four_char(world_get_zone_type(w, 4, 2)) : " ?? ";
-            const char* c43 = zone_already_visited(w, 4, 3) ? zone_type_to_string_four_char(world_get_zone_type(w, 4, 3)) : " ?? ";
-            const char* c44 = zone_already_visited(w, 4, 4) ? zone_type_to_string_four_char(world_get_zone_type(w, 4, 4)) : " ?? ";
-            const char* c45 = zone_already_visited(w, 4, 5) ? zone_type_to_string_four_char(world_get_zone_type(w, 4, 5)) : " ?? ";
-            const char* c46 = zone_already_visited(w, 4, 6) ? zone_type_to_string_four_char(world_get_zone_type(w, 4, 6)) : " ?? ";
-            const char* c47 = zone_already_visited(w, 4, 7) ? zone_type_to_string_four_char(world_get_zone_type(w, 4, 7)) : " ?? ";
-            const char* c48 = zone_already_visited(w, 4, 8) ? zone_type_to_string_four_char(world_get_zone_type(w, 4, 8)) : " ?? ";
-            const char* c49 = zone_already_visited(w, 4, 9) ? zone_type_to_string_four_char(world_get_zone_type(w, 4, 9)) : " ?? ";
-
-            // Ligne 5
-            const char* c50 = zone_already_visited(w, 5, 0) ? zone_type_to_string_four_char(world_get_zone_type(w, 5, 0)) : " ?? ";
-            const char* c51 = zone_already_visited(w, 5, 1) ? zone_type_to_string_four_char(world_get_zone_type(w, 5, 1)) : " ?? ";
-            const char* c52 = zone_already_visited(w, 5, 2) ? zone_type_to_string_four_char(world_get_zone_type(w, 5, 2)) : " ?? ";
-            const char* c53 = zone_already_visited(w, 5, 3) ? zone_type_to_string_four_char(world_get_zone_type(w, 5, 3)) : " ?? ";
-            const char* c54 = zone_already_visited(w, 5, 4) ? zone_type_to_string_four_char(world_get_zone_type(w, 5, 4)) : " ?? ";
-            const char* c55 = zone_already_visited(w, 5, 5) ? zone_type_to_string_four_char(world_get_zone_type(w, 5, 5)) : " ?? ";
-            const char* c56 = zone_already_visited(w, 5, 6) ? zone_type_to_string_four_char(world_get_zone_type(w, 5, 6)) : " ?? ";
-            const char* c57 = zone_already_visited(w, 5, 7) ? zone_type_to_string_four_char(world_get_zone_type(w, 5, 7)) : " ?? ";
-            const char* c58 = zone_already_visited(w, 5, 8) ? zone_type_to_string_four_char(world_get_zone_type(w, 5, 8)) : " ?? ";
-            const char* c59 = zone_already_visited(w, 5, 9) ? zone_type_to_string_four_char(world_get_zone_type(w, 5, 9)) : " ?? ";
 
             printf("│                                                             ╰───────────────┤\n");
             printf("│   ╭─────────────────────────────────────────────────────────────────────╮   │\n");
@@ -513,11 +439,11 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             printf("│   │      ║                  ╚╗ ╔╝                    Profondeur  ║      │   │\n");
             printf("│   │      ║                   ╚╗║                                 ║      │   │\n");
             printf("│   │      ║                    ╚╝                                 ║      │   │\n");
-            printf("│   │      ║ %-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s  II ║      │   │\n", c30, c31, c32, c33, c34, c35, c36, c37, c38, c39);
+            printf("│   │      ║ %-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s  II ║      │   │\n", cc(w,3,0), cc(w,3,1), cc(w,3,2), cc(w,3,3), cc(w,3,4), cc(w,3,5), cc(w,3,6), cc(w,3,7), cc(w,3,8), cc(w,3,9));
             printf("│   │    @@║ ────┼────┼────┼────┼────┼────┼────┼────┼────┼────     ║@@    │   │\n");
-            printf("│   │    @@║ %-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s  II ║@@    │   │\n", c40, c41, c42, c43, c44, c45, c46, c47, c48, c49);
+            printf("│   │    @@║ %-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s  II ║@@    │   │\n", cc(w,4,0), cc(w,4,1), cc(w,4,2), cc(w,4,3), cc(w,4,4), cc(w,4,5), cc(w,4,6), cc(w,4,7), cc(w,4,8), cc(w,4,9));
             printf("│   │  @@@@║ ────┼────┼────┼────┼────┼────┼────┼────┼────┼────     ║@@@@  │   │\n");
-            printf("│   │  @@@ ║ %-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s III ║ @@@  │   │\n", c50, c51, c52, c53, c54, c55, c56, c57, c58, c59);
+            printf("│   │  @@@ ║ %-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s III ║ @@@  │   │\n", cc(w,5,0), cc(w,5,1), cc(w,5,2), cc(w,5,3), cc(w,5,4), cc(w,5,5), cc(w,5,6), cc(w,5,7), cc(w,5,8), cc(w,5,9));
             printf("│   │  @@@@╚╗────┼────┼────┼────┼────╔═╗──┼────┼────╔╗───┼────     ║@@@@  │   │\n");
             printf("│   │  @@@@ ╚╗   │         │        ╔╝ ║  │         ║╚╗        III ║@@@@  │   │\n");
             printf("│   │  @@@@  ╚══════════════════════╝  ╚════════════╝ ╚════════════╝@@@@@ │   │\n");
@@ -530,42 +456,6 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
         }
         case 23:{
 
-            // Ligne 6
-            const char* c60 = zone_already_visited(w, 6, 0) ? zone_type_to_string_four_char(world_get_zone_type(w, 6, 0)) : " ?? ";
-            const char* c61 = zone_already_visited(w, 6, 1) ? zone_type_to_string_four_char(world_get_zone_type(w, 6, 1)) : " ?? ";
-            const char* c62 = zone_already_visited(w, 6, 2) ? zone_type_to_string_four_char(world_get_zone_type(w, 6, 2)) : " ?? ";
-            const char* c63 = zone_already_visited(w, 6, 3) ? zone_type_to_string_four_char(world_get_zone_type(w, 6, 3)) : " ?? ";
-            const char* c64 = zone_already_visited(w, 6, 4) ? zone_type_to_string_four_char(world_get_zone_type(w, 6, 4)) : " ?? ";
-            const char* c65 = zone_already_visited(w, 6, 5) ? zone_type_to_string_four_char(world_get_zone_type(w, 6, 5)) : " ?? ";
-            const char* c66 = zone_already_visited(w, 6, 6) ? zone_type_to_string_four_char(world_get_zone_type(w, 6, 6)) : " ?? ";
-            const char* c67 = zone_already_visited(w, 6, 7) ? zone_type_to_string_four_char(world_get_zone_type(w, 6, 7)) : " ?? ";
-            const char* c68 = zone_already_visited(w, 6, 8) ? zone_type_to_string_four_char(world_get_zone_type(w, 6, 8)) : " ?? ";
-            const char* c69 = zone_already_visited(w, 6, 9) ? zone_type_to_string_four_char(world_get_zone_type(w, 6, 9)) : " ?? ";
-
-            // Ligne 7
-            const char* c70 = zone_already_visited(w, 7, 0) ? zone_type_to_string_four_char(world_get_zone_type(w, 7, 0)) : " ?? ";
-            const char* c71 = zone_already_visited(w, 7, 1) ? zone_type_to_string_four_char(world_get_zone_type(w, 7, 1)) : " ?? ";
-            const char* c72 = zone_already_visited(w, 7, 2) ? zone_type_to_string_four_char(world_get_zone_type(w, 7, 2)) : " ?? ";
-            const char* c73 = zone_already_visited(w, 7, 3) ? zone_type_to_string_four_char(world_get_zone_type(w, 7, 3)) : " ?? ";
-            const char* c74 = zone_already_visited(w, 7, 4) ? zone_type_to_string_four_char(world_get_zone_type(w, 7, 4)) : " ?? ";
-            const char* c75 = zone_already_visited(w, 7, 5) ? zone_type_to_string_four_char(world_get_zone_type(w, 7, 5)) : " ?? ";
-            const char* c76 = zone_already_visited(w, 7, 6) ? zone_type_to_string_four_char(world_get_zone_type(w, 7, 6)) : " ?? ";
-            const char* c77 = zone_already_visited(w, 7, 7) ? zone_type_to_string_four_char(world_get_zone_type(w, 7, 7)) : " ?? ";
-            const char* c78 = zone_already_visited(w, 7, 8) ? zone_type_to_string_four_char(world_get_zone_type(w, 7, 8)) : " ?? ";
-            const char* c79 = zone_already_visited(w, 7, 9) ? zone_type_to_string_four_char(world_get_zone_type(w, 7, 9)) : " ?? ";
-
-            // Ligne 8
-            const char* c80 = zone_already_visited(w, 8, 0) ? zone_type_to_string_four_char(world_get_zone_type(w, 8, 0)) : " ?? ";
-            const char* c81 = zone_already_visited(w, 8, 1) ? zone_type_to_string_four_char(world_get_zone_type(w, 8, 1)) : " ?? ";
-            const char* c82 = zone_already_visited(w, 8, 2) ? zone_type_to_string_four_char(world_get_zone_type(w, 8, 2)) : " ?? ";
-            const char* c83 = zone_already_visited(w, 8, 3) ? zone_type_to_string_four_char(world_get_zone_type(w, 8, 3)) : " ?? ";
-            const char* c84 = zone_already_visited(w, 8, 4) ? zone_type_to_string_four_char(world_get_zone_type(w, 8, 4)) : " ?? ";
-            const char* c85 = zone_already_visited(w, 8, 5) ? zone_type_to_string_four_char(world_get_zone_type(w, 8, 5)) : " ?? ";
-            const char* c86 = zone_already_visited(w, 8, 6) ? zone_type_to_string_four_char(world_get_zone_type(w, 8, 6)) : " ?? ";
-            const char* c87 = zone_already_visited(w, 8, 7) ? zone_type_to_string_four_char(world_get_zone_type(w, 8, 7)) : " ?? ";
-            const char* c88 = zone_already_visited(w, 8, 8) ? zone_type_to_string_four_char(world_get_zone_type(w, 8, 8)) : " ?? ";
-            const char* c89 = zone_already_visited(w, 8, 9) ? zone_type_to_string_four_char(world_get_zone_type(w, 8, 9)) : " ?? ";
-
             printf("│                                                             ╰───────────────┤\n");
             printf("│   ╭─────────────────────────────────────────────────────────────────────╮   │\n");
             printf("│   │                                                                     │   │\n");
@@ -576,11 +466,11 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             printf("│   │      ║                               ╚╝          Profondeur  ║      │   │\n");
             printf("│   │      ║                                                       ║      │   │\n");
             printf("│   │      ║                                                       ║      │   │\n");
-            printf("│   │      ║ %-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s III ║      │   │\n", c60, c61, c62, c63, c64, c65, c66, c67, c68, c69);;
+            printf("│   │      ║ %-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s III ║      │   │\n", cc(w,6,0), cc(w,6,1), cc(w,6,2), cc(w,6,3), cc(w,6,4), cc(w,6,5), cc(w,6,6), cc(w,6,7), cc(w,6,8), cc(w,6,9));;
             printf("│   │    @@║ ────┼────┼────┼────┼────┼────┼────┼────┼────┼────     ║@@    │   │\n");
-            printf("│   │    @@║ %-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s III ║@@    │   │\n", c70, c71, c72, c73, c74, c75, c76, c77, c78, c79);;
+            printf("│   │    @@║ %-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s  IV ║@@    │   │\n", cc(w,7,0), cc(w,7,1), cc(w,7,2), cc(w,7,3), cc(w,7,4), cc(w,7,5), cc(w,7,6), cc(w,7,7), cc(w,7,8), cc(w,7,9));;
             printf("│   │  @@@@║ ────┼────┼────┼────┼────┼────┼────┼────┼────┼────     ║@@@@  │   │\n");
-            printf("│   │  @@@ ║ %-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s  IV ║ @@@  │   │\n", c80, c81, c82, c83, c84, c85, c86, c87, c88, c89);
+            printf("│   │  @@@ ║ %-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s  IV ║ @@@  │   │\n", cc(w,8,0), cc(w,8,1), cc(w,8,2), cc(w,8,3), cc(w,8,4), cc(w,8,5), cc(w,8,6), cc(w,8,7), cc(w,8,8), cc(w,8,9));
             printf("│   │  @@@@║ ────┼────┼────┼────┼────┼────┼────┼────┼─╔═╗┼────     ║@@@@  │   │\n");
             printf("│   │  @@@@║  ╔╗      │         ╔╗                   ╔╝ ║│      IV ║@@@@  │   │\n");
             printf("│   │  @@@@╚══╝╚════════════════╝╚═══════════════════╝  ╚══════════╝@@@@@ │   │\n");
@@ -591,30 +481,6 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             break;
         }
         case 24:{
-
-            // Ligne 8
-            const char* c80 = zone_already_visited(w, 8, 0) ? zone_type_to_string_four_char(world_get_zone_type(w, 8, 0)) : " ?? ";
-            const char* c81 = zone_already_visited(w, 8, 1) ? zone_type_to_string_four_char(world_get_zone_type(w, 8, 1)) : " ?? ";
-            const char* c82 = zone_already_visited(w, 8, 2) ? zone_type_to_string_four_char(world_get_zone_type(w, 8, 2)) : " ?? ";
-            const char* c83 = zone_already_visited(w, 8, 3) ? zone_type_to_string_four_char(world_get_zone_type(w, 8, 3)) : " ?? ";
-            const char* c84 = zone_already_visited(w, 8, 4) ? zone_type_to_string_four_char(world_get_zone_type(w, 8, 4)) : " ?? ";
-            const char* c85 = zone_already_visited(w, 8, 5) ? zone_type_to_string_four_char(world_get_zone_type(w, 8, 5)) : " ?? ";
-            const char* c86 = zone_already_visited(w, 8, 6) ? zone_type_to_string_four_char(world_get_zone_type(w, 8, 6)) : " ?? ";
-            const char* c87 = zone_already_visited(w, 8, 7) ? zone_type_to_string_four_char(world_get_zone_type(w, 8, 7)) : " ?? ";
-            const char* c88 = zone_already_visited(w, 8, 8) ? zone_type_to_string_four_char(world_get_zone_type(w, 8, 8)) : " ?? ";
-            const char* c89 = zone_already_visited(w, 8, 9) ? zone_type_to_string_four_char(world_get_zone_type(w, 8, 9)) : " ?? ";
-
-            // Ligne 9
-            const char* c90 = zone_already_visited(w, 9, 0) ? zone_type_to_string_four_char(world_get_zone_type(w, 9, 0)) : " ?? ";
-            const char* c91 = zone_already_visited(w, 9, 1) ? zone_type_to_string_four_char(world_get_zone_type(w, 9, 1)) : " ?? ";
-            const char* c92 = zone_already_visited(w, 9, 2) ? zone_type_to_string_four_char(world_get_zone_type(w, 9, 2)) : " ?? ";
-            const char* c93 = zone_already_visited(w, 9, 3) ? zone_type_to_string_four_char(world_get_zone_type(w, 9, 3)) : " ?? ";
-            const char* c94 = zone_already_visited(w, 9, 4) ? zone_type_to_string_four_char(world_get_zone_type(w, 9, 4)) : " ?? ";
-            const char* c95 = zone_already_visited(w, 9, 5) ? zone_type_to_string_four_char(world_get_zone_type(w, 9, 5)) : " ?? ";
-            const char* c96 = zone_already_visited(w, 9, 6) ? zone_type_to_string_four_char(world_get_zone_type(w, 9, 6)) : " ?? ";
-            const char* c97 = zone_already_visited(w, 9, 7) ? zone_type_to_string_four_char(world_get_zone_type(w, 9, 7)) : " ?? ";
-            const char* c98 = zone_already_visited(w, 9, 8) ? zone_type_to_string_four_char(world_get_zone_type(w, 9, 8)) : " ?? ";
-            const char* c99 = zone_already_visited(w, 9, 9) ? zone_type_to_string_four_char(world_get_zone_type(w, 9, 9)) : " ?? ";
 
             printf("│                                                             ╰───────────────┤\n");
             printf("│   ╭─────────────────────────────────────────────────────────────────────╮   │\n");
@@ -628,9 +494,9 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             printf("│   │      ║         ╚╝                                            ║      │   │\n");
             printf("│   │      ║     │         │              │    │         │      IV ║      │   │\n");
             printf("│   │    @@║ ────┼────┼────┼────┼────┼────┼────┼────┼────┼────     ║@@    │   │\n");
-            printf("│   │    @@║ %-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s  IV ║@@    │   │\n", c80, c81, c82, c83, c84, c85, c86, c87, c88, c89);
+            printf("│   │    @@║ %-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s  IV ║@@    │   │\n", cc(w,8,0), cc(w,8,1), cc(w,8,2), cc(w,8,3), cc(w,8,4), cc(w,8,5), cc(w,8,6), cc(w,8,7), cc(w,8,8), cc(w,8,9));
             printf("│   │  @@@@║ ────┼────┼────┼────┼────┼────┼────┼────┼────┼────     ║@@@@  │   │\n");
-            printf("│   │  @@@ ║ %-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s   V ║ @@@  │   │\n", c90, c91, c92, c93, c94, c95, c96, c97, c98, c99);
+            printf("│   │  @@@ ║ %-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s   V ║ @@@  │   │\n", cc(w,9,0), cc(w,9,1), cc(w,9,2), cc(w,9,3), cc(w,9,4), cc(w,9,5), cc(w,9,6), cc(w,9,7), cc(w,9,8), cc(w,9,9));
             printf("│   │  @@@@║ ────┼────┼╔╗──┼────┼────┼────┼────┼────┼────┼────     ║@@@@  │   │\n");
             printf("│   │  @@@@║     │    │║╚╗      │    │                   │        ╔╝@@@@  │   │\n");
             printf("│   │  @@@@╚═══════════╝ ╚════════════════════════════════════════╝ @@@@@ │   │\n");

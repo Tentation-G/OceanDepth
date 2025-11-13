@@ -1,5 +1,6 @@
 #ifndef UTILS_H
 #define UTILS_H
+#include "types.h"
 
 int index_in_axis(char c, const char *axis);
 char to_upper_ascii(char c);
@@ -10,4 +11,5 @@ char* convert_to_visual_bar(int stat, int stat_max);
 
 void clear_stdin(void);
 //void clear_screen(void);
+const char* cc(const World *w, int y, int x);
 #endif // UTILS_H

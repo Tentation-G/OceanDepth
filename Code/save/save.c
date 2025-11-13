@@ -150,7 +150,7 @@ void sauvegarder(World *w, Plongeur *p, int slot) {
     fprintf(f, "-------------------------\n");
     fprintf(f, "equip_weapon        : %d %d\n", p->equip_weapon.item_id, p->equip_weapon.quantite);
     fprintf(f, "equip_suit          : %d %d\n", p->equip_suit.item_id,  p->equip_suit.quantite);
-    fprintf(f, "cle                 : %d %d\n",   p->cle);
+    fprintf(f, "cle                 : %d\n", p->cle);
     // Inventaire
     for (int i = 0; i < INVENTORY_SIZE; i++) {
         fprintf(f, "slot_%d              : %d %d\n",
@@ -236,7 +236,7 @@ void charger(World *w, Plongeur *p, int slot) {
     }
     fscanf(f, "-------------------------\n");
     // Map
-    fscanf(f, "visited\n");
+    fscanf(f, "visited:\n");
     // lecture matrice visited
     for (int i = 0; i < 10; i++) {
         fgets(line, sizeof(line), f);
