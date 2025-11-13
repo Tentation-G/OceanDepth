@@ -133,6 +133,12 @@ int main(void) {
                 }
                 break;
             }
+            case 12:{ // Loading apres combat
+                if(cmd == 'Q' || cmd == 'q'){ // press Q
+                    screen_status = 0;
+                }
+                break;
+            }
 
             // ── Carte ──────────────────────────────────────────────────
             case 20: { // ecran selection

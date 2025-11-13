@@ -72,7 +72,7 @@ typedef struct {
 
     InventorySlot inventaire[INVENTORY_SIZE];
 
-    InventorySlot cle;
+    int cle;
 
 
 } Plongeur;
