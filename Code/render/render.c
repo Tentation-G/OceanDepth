@@ -560,6 +560,38 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             
             break;
         }
+        //Tresor
+        case 4:{
+            ItemTemplate *item_coffre = get_item_template(g_id_item_coffre);
+            printf("│                                                                             │\n");
+            printf("│   ╭─────────────────────────────────────────────────────────────────────╮   │\n");
+            printf("│   │                       #######################                       │   │\n");
+            printf("│   │               ############     #####      ############              │   │\n");
+            printf("│   │          #######                ###                #######          │   │\n");
+            printf("│   │           ##   #                                   #   ##           │   │\n");
+            printf("│   │            ##   #  ##  ## #  ## # # ##  # ##  ##  #   ##            │   │\n");
+            printf("│   │             ## #        ╭─────────────────╮        # ##             │   │\n");
+            printf("│   │              ##         │%-17s│         ##              │   │\n", item_coffre->nom);
+            printf("│   │               ##########│%-17s│##########               │   │\n", item_coffre->description);
+            if(item_coffre->type == ITEM_TYPE_WEAPON) {
+                printf("│   │              ##         │Degats : %-2d-%-2d   │         ##              │   │\n", item_coffre->atk_min, item_coffre->atk_max);
+                printf("│   │             ## #        │Conso : %-2d       │        # ##             │   │\n", item_coffre->o2_cost_atk);
+            } else {
+                printf("│   │              ##         │                 │         ##              │   │\n");
+                printf("│   │             ## #        │Defense : +%-2d    │        # ##             │   │\n", item_coffre->defense);
+            }
+            printf("│   │            ##   #       ╰─────────────────╯       #   ##            │   │\n");
+            printf("│   │           ##     #                               #     ##           │   │\n");
+            printf("│   │          #################################################          │   │\n");
+            printf("│   │           ######################   ######################           │   │\n");
+            printf("│   │            #                   #####                   #            │   │\n");
+            printf("│   │             #                                         #             │   │\n");
+            printf("│   │              #########################################              │   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   ╰─────────────────────────────────────────────────────────────────────╯   │\n");
+            printf("│                                                                             │\n");
+            break;
+        }
         case 50: {
             //printf("╭─────────────────────────────── Ocean  Depth ────────────────────────────────╮\n");
             //printf("│                                                                             │\n");
@@ -632,40 +664,6 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             printf("│   │##############################                          <*)))==<     │   │\n");
             printf("│   │###################################                                  │   │\n");
 
-            break;
-        }
-        //Tresor
-        case 4:{
-            ItemTemplate *item_coffre = get_item_template(g_id_item_coffre);
-            printf("╔═══════════════════════════════════════════════════════════════╗\n");
-            printf("║                         TRÉSOR DÉCOUVERT !                    ║\n");
-            printf("║                                                               ║\n");
-            printf("║                                                               ║\n");
-            printf("║                                                               ║\n");
-            printf("║        ⚓~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~⚓          ║\n");
-            printf("║              ╱                               ╲                ║\n");
-            printf("║             ╱       %-25s ╲               ║\n", item_coffre->nom);
-            printf("║            ╱            [%s]         ╲              ║\n", item_coffre->description);
-            printf("║                                                               ║\n");
-            
-            // Afficher les stats selon le type d'item
-            if (item_coffre->type == ITEM_TYPE_WEAPON) {
-                printf("║           Attaque: %d-%d                                      ║\n", item_coffre->atk_min, item_coffre->atk_max);
-                printf("║          Consommation: %d oxygène/attaque                     ║\n", item_coffre->o2_cost_atk);
-                
-            }
-            else if (item_coffre->type == ITEM_TYPE_SUIT) {
-                printf("║           Défense: +%d                                         ║\n", item_coffre->defense);
-            }
-            printf("║                                                               ║\n");
-            printf("║           ╲_____________________________________/             ║\n");
-            printf("║                                                               ║\n");
-            printf("║                                                               ║\n");
-            printf("║                                                               ║\n");
-            printf("║                                                               ║\n");
-            printf("║                                                               ║\n");
-            printf("║                                                               ║\n");
-            printf("╚═══════════════════════════════════════════════════════════════╝\n");
             break;
         }
         // Marchand
