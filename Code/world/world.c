@@ -181,11 +181,14 @@ void decorate_zone_base_borders(Zone zone, int y, int x, int zone_h, int zone_l,
     // Zone de test (grotte en [1][0])
     if (y == 1 && x == 0){
         zone[10][10] = 'E';
+        
 
-        // === TEST : placer un marchand (M) au centre de la zone ===
+        //  TEST : placer un marchand (M) au centre de la zone 
         zone[hauteur / 2][largeur / 2] = 'M';
-        // === TEST : placer un BOSS (B) ===
+        // TEST : placer un BOSS (B)
         zone[hauteur / 2][20] = 'B';
+        // TEST : placer un Coffre (T)
+        zone[hauteur / 2][22] = 'T';
     }
 
     // placer un K temporaire pour tester la cle (Profondeur 4)

@@ -1,6 +1,6 @@
 #ifndef UTILS_H
 #define UTILS_H
-#include "types.h"
+#include "../types/types.h"
 
 int index_in_axis(char c, const char *axis);
 char to_upper_ascii(char c);

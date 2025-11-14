@@ -280,7 +280,11 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
             break;
 
         case 'T':
-            //printf("Declancher fonction pour le tresord (affichage ecran tresor => generation du loot => affichage du loot)\n");
+            // generer le coffre
+            g_id_item_coffre = generer_coffre();
+            screen_status = 4;
+            info ="Trésor";
+            ajouter_item(p, g_id_item_coffre, 1);
             break;
 
         case '#': {

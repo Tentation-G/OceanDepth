@@ -142,4 +142,5 @@ typedef struct {
     int stock; 
 } MarchandItem;
 
+
 #endif // TYPES_H
