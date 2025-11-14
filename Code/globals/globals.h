@@ -40,4 +40,8 @@ extern int type_combat;
 extern int g_victoire;
 extern int g_perles_gagnees;
 extern int g_perles_perdues;
+
+//id_item_coffre
+extern int g_id_item_coffre;
+
 #endif // GLOBALS_H

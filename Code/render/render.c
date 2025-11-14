@@ -634,6 +634,40 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
 
             break;
         }
+        //Tresor
+        case 4:{
+            ItemTemplate *item_coffre = get_item_template(g_id_item_coffre);
+            printf("╔═══════════════════════════════════════════════════════════════╗\n");
+            printf("║                         TRÉSOR DÉCOUVERT !                    ║\n");
+            printf("║                                                               ║\n");
+            printf("║                                                               ║\n");
+            printf("║                                                               ║\n");
+            printf("║        ⚓~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~⚓          ║\n");
+            printf("║              ╱                               ╲                ║\n");
+            printf("║             ╱       %-25s ╲               ║\n", item_coffre->nom);
+            printf("║            ╱            [%s]         ╲              ║\n", item_coffre->description);
+            printf("║                                                               ║\n");
+            
+            // Afficher les stats selon le type d'item
+            if (item_coffre->type == ITEM_TYPE_WEAPON) {
+                printf("║           Attaque: %d-%d                                      ║\n", item_coffre->atk_min, item_coffre->atk_max);
+                printf("║          Consommation: %d oxygène/attaque                     ║\n", item_coffre->o2_cost_atk);
+                
+            }
+            else if (item_coffre->type == ITEM_TYPE_SUIT) {
+                printf("║           Défense: +%d                                         ║\n", item_coffre->defense);
+            }
+            printf("║                                                               ║\n");
+            printf("║           ╲_____________________________________/             ║\n");
+            printf("║                                                               ║\n");
+            printf("║                                                               ║\n");
+            printf("║                                                               ║\n");
+            printf("║                                                               ║\n");
+            printf("║                                                               ║\n");
+            printf("║                                                               ║\n");
+            printf("╚═══════════════════════════════════════════════════════════════╝\n");
+            break;
+        }
         // Marchand
         case 99:{
                 printf("│                                                             ╰───────────────┤\n");
@@ -652,7 +686,7 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
                         item->nom, item->description, obj->prix_perles, obj->stock);
                 }
                 
-                // Remplir les lignes restantes avec des espaces pour atteindre 19 lignes
+            
                 for (int i = g_item_marchand_db_size; i < hauteur - 2; i++) { 
                     printf("│   │                                                                     │   │\n");
                 }
@@ -741,7 +775,7 @@ void screen_footer(World *w, Plongeur *p){
         // Coffre
         case 4:{
             printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
-            printf("│  [Q] Quitter                                                                │\n");
+            printf("│                    [Appuyez sur [Q] pour continuer]                         │\n");
             printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
             break;
         }

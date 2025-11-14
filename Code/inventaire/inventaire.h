@@ -13,5 +13,6 @@ void init_player_inventory(Plongeur *p);
 void ajouter_item(Plongeur *p, int item_id, int quantite);
 
 void gerer_inventaire(char cmd, Plongeur *plongeur);
+int generer_coffre();
 
 #endif

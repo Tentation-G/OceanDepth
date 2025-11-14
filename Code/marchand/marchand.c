@@ -78,7 +78,6 @@ MarchandItem g_item_marchand_db[] = {
     {201, 18, 999},  // Trousse de Soin
     {202, 22, 999},   // Stimulant Marin
     {203, 25, 999},   // Antidote
-    // {204, 40, 2},   // Carte Trésor
 };
 
 // taille de bd

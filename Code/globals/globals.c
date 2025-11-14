@@ -51,3 +51,6 @@ int type_combat = 0; //combat contre les creatures par default
 int g_victoire = 0;
 int g_perles_gagnees = 0;
 int g_perles_perdues = 0;
+
+//id_item_coffre
+int g_id_item_coffre = 0;
