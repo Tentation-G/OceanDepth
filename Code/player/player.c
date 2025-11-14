@@ -280,6 +280,9 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
             break;
 
         case 'T':
+            // Enleve le coffre de la map
+            zone[p->pos_y][p->pos_x] = ' ';
+            
             // generer le coffre
             g_id_item_coffre = generer_coffre();
             screen_status = 4;
@@ -365,7 +368,6 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
             // Enleve le mob de la map
             zone[p->pos_y][p->pos_x] = ' ';
 
-            printf("Declanchement du combat !\n");
             info = "Combat !";
             type_combat = 0;
 
