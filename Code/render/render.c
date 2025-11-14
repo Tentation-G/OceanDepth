@@ -511,10 +511,8 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             printf("│                                                                             │\n");
             printf("│   ╭──────────────────────────── Inventaire ─────────────────────────────╮   │\n");
             
-            char buffer[100]; // Buffer pour sprintf
+            char buffer[100];
  
-
-            // Équipement
             printf("│   │%-69s│   │\n", "     EQUIPEMENT:");
             
             ItemTemplate* weapon = get_item_template(p->equip_weapon.item_id);
@@ -527,7 +525,6 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
 
             printf("│   │%-69s│   │\n", " ");
 
-            // Perles
             sprintf(buffer, "     PERLES: %d", p->perles);
             printf("│   │%-69s│   │\n", buffer);
             printf("│   │%-69s│   │\n", " ");
@@ -556,7 +553,7 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
                 printf("│   │%-69s│   │\n", buffer);
             }
             
-            printf("│   │%-69s│   │\n", " "); // Remplissage (ligne 19)
+            printf("│   │%-69s│   │\n", " ");
             
             break;
         }

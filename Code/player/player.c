@@ -9,10 +9,6 @@
 #include "../world/map_lt.h"
 #include "../utils/utils.h"
 #include "../input/input.h"
-
-// Define MAX_LOG_LENGTH for log message buffer size
-#define MAX_LOG_LENGTH 256
-
 #include "../combat/combat.h"
 #include "../creature/creature.h"
 #include "../inventaire/inventaire.h"
@@ -372,7 +368,6 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
             type_combat = 0;
 
             // Créer les créatures pour le combat
-            // int profondeur_actuelle = p->map_pos_y;
             int profondeur_actuelle = convert_y_to_depth_lvl(p->map_pos_y);
             g_creatures_en_combat = cree_creatures(profondeur_actuelle);
 
@@ -464,7 +459,7 @@ void player_use_item(Plongeur *p, int slot_index) {
     }
 
 
-    char buffer[MAX_LOG_LENGTH];
+    char buffer[256];
     sprintf(buffer, "Vous avez utilise: %s", item->nom);
     info = buffer; 
 

@@ -114,7 +114,7 @@ void ajouter_item(Plongeur* p, int item_id, int quantite)
     }
     
     
-    // 1. Essayer d'empiler sur un slot existant
+    // Essayer d'empiler sur un slot existant
     for (int i = 0; i < INVENTORY_SIZE; i++)
     {
         
@@ -129,7 +129,7 @@ void ajouter_item(Plongeur* p, int item_id, int quantite)
             }
         }
     }
-    // 2. Trouver un slot vide
+    // Trouver un slot vide
     for (int i = 0; i < INVENTORY_SIZE; i++)
     {
         if (p->inventaire[i].item_id == 0)

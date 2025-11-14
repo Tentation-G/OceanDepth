@@ -81,11 +81,11 @@ CreatureMarine *cree_creatures(int Profondeur){
         dificulte = 0.2;
     }else if (Profondeur ==3){
         // combat 1v3
-        nbr_mobs = 3;
+        nbr_mobs = 2;
         dificulte = 0.5;
 
     }else if(Profondeur >= 4){
-        nbr_mobs = 4;
+        nbr_mobs = 3;
         dificulte = 0.9;
     }
     
@@ -123,7 +123,7 @@ CreatureMarine *trier_creatures(CreatureMarine *creatures, int nbr_mobs)
         {
             if (creatures[j].vitesse > creatures[i].vitesse)
             {
-                // On échange les deux éléments
+                // On echange les deux elements
                 CreatureMarine temp = creatures[i];
                 creatures[i] = creatures[j];
                 creatures[j] = temp;
@@ -145,7 +145,7 @@ CreatureMarine cree_boss(int profondeur) {
     switch (profondeur) {
         case 2:
             strcpy(boss.nom, "CETUS");
-            boss.points_de_vie_max = 50 + rand() % 50;  // 200-249 (reduire la puissance pour tester)
+            boss.points_de_vie_max = 100 + rand() % 50;  // 100-149
             boss.attaque_minimale = 18;
             boss.attaque_maximale = 28;
             boss.vitesse = 7;
@@ -154,7 +154,7 @@ CreatureMarine cree_boss(int profondeur) {
 
         case 4:
             strcpy(boss.nom, "JORMUNGAND");
-            boss.points_de_vie_max = 10 + rand() % 50;   // 400-449
+            boss.points_de_vie_max = 200 + rand() % 50;   // 200-249
             boss.attaque_minimale = 35;
             boss.attaque_maximale = 55;
             boss.vitesse = 8;
@@ -163,7 +163,7 @@ CreatureMarine cree_boss(int profondeur) {
 
         case 5:
             strcpy(boss.nom, "TIAMAT");
-            boss.points_de_vie_max = 50 + rand() % 50;   // 600-649
+            boss.points_de_vie_max = 300 + rand() % 50;   // 300-349
             boss.attaque_minimale = 60;
             boss.attaque_maximale = 95;
             boss.vitesse = 7;
