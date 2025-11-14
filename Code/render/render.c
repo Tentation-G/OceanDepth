@@ -73,6 +73,14 @@ void print_screen(char **screen) {
     }
 }
 
+// Couleurs
+const char *C_RESET  = "\x1b[0m";
+const char *C_ROUGE  = "\x1b[31m";
+const char *C_VERT   = "\x1b[32m";
+const char *C_JAUNE  = "\x1b[33m";
+const char *C_BLEU   = "\x1b[34m";
+const char *C_VIOLET = "\x1b[35m";
+
 void screen_header(World *w, Plongeur *p, char* pv_bar, char* oxy_bar, char* fatigue_bar, char* info){
 
     switch (screen_status){
@@ -99,14 +107,6 @@ void screen_header(World *w, Plongeur *p, char* pv_bar, char* oxy_bar, char* fat
             int pv      = p->points_de_vie;
             int oxy     = p->niveau_oxygene;
             int fatigue = p->niveau_fatigue;
-
-            // Couleurs
-            const char *C_RESET  = "\x1b[0m";
-            const char *C_ROUGE  = "\x1b[31m";
-            const char *C_VERT   = "\x1b[32m";
-            const char *C_JAUNE  = "\x1b[33m";
-            const char *C_BLEU   = "\x1b[34m";
-            const char *C_VIOLET = "\x1b[35m";
 
             ItemTemplate *weapon = get_item_template(p->equip_weapon.item_id);
             printf("╭─────────────────────────────── Ocean  Depth ────────────────────────────────╮\n");
@@ -563,8 +563,9 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
         //Tresor
         case 4:{
             ItemTemplate *item_coffre = get_item_template(g_id_item_coffre);
-            printf("│                                                                             │\n");
-            printf("│   ╭─────────────────────────────────────────────────────────────────────╮   │\n");
+            printf("│                                                             ╰───────────────┤\n");
+            printf("│   ╭─────────────────────────────── Trésor ──────────────────────────────╮   │\n");
+            printf("│   │                                                                     │   │\n");
             printf("│   │                       #######################                       │   │\n");
             printf("│   │               ############     #####      ############              │   │\n");
             printf("│   │          #######                ###                #######          │   │\n");
@@ -587,7 +588,6 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             printf("│   │            #                   #####                   #            │   │\n");
             printf("│   │             #                                         #             │   │\n");
             printf("│   │              #########################################              │   │\n");
-            printf("│   │                                                                     │   │\n");
             printf("│   ╰─────────────────────────────────────────────────────────────────────╯   │\n");
             printf("│                                                                             │\n");
             break;
