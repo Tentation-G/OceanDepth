@@ -18,26 +18,26 @@ ItemTemplate g_item_database[] = {
     // Armes
     {1, ITEM_TYPE_WEAPON, "Harpon Rouille",       "Commun",      5, 10, 2, 0, 0, EFFECT_NONE, 0, 1},
     {2, ITEM_TYPE_WEAPON, "Couteau de Poche",     "Commun",     12, 18, 1, 0, 0, EFFECT_NONE, 0, 1},
-    {3, ITEM_TYPE_WEAPON, "Harpon Titane",        "Marin",      25, 35, 2, 0, 0, EFFECT_NONE, 0, 1},
-    {4, ITEM_TYPE_WEAPON, "Harpon Electrique",    "Marin",      28, 42, 4, 0, 0, EFFECT_NONE, 0, 1},
-    {5, ITEM_TYPE_WEAPON, "Trident Ancien",       "Abyssal",    30, 45, 3, 0, 0, EFFECT_NONE, 0, 1},
-    {6, ITEM_TYPE_WEAPON, "Lance Sonique",        "Abyssal",    35, 50, 5, 0, 0, EFFECT_NONE, 0, 1},
-    {7, ITEM_TYPE_WEAPON, "Arbalete Sous-Marine", "Legendaire", 22, 38, 3, 0, 0, EFFECT_NONE, 0, 1},
+    {3, ITEM_TYPE_WEAPON, "Arbalete Marine",      "Marin",      22, 38, 3, 0, 0, EFFECT_NONE, 0, 1},
+    {4, ITEM_TYPE_WEAPON, "Harpon Titane",        "Marin",      25, 35, 2, 0, 0, EFFECT_NONE, 0, 1},
+    {5, ITEM_TYPE_WEAPON, "Harpon Electrique",    "Oceanique",  28, 42, 4, 0, 0, EFFECT_NONE, 0, 1},
+    {6, ITEM_TYPE_WEAPON, "Trident Ancien",       "Abyssal",    30, 45, 3, 0, 0, EFFECT_NONE, 0, 1},
+    {7, ITEM_TYPE_WEAPON, "Lance Sonique",        "Abyssal",    35, 50, 5, 0, 0, EFFECT_NONE, 0, 1},
 
     // combinaisons
-    {100, ITEM_TYPE_SUIT, "Neoprene Basic",       "Commun",       0, 0, 0, 5, 1, EFFECT_NONE, 0, 1},
+    {100, ITEM_TYPE_SUIT, "Neoprene Basic",       "Commun",      0, 0, 0,  5, 1, EFFECT_NONE, 0, 1},
     {101, ITEM_TYPE_SUIT, "Combinaison pro",      "Marin",       0, 0, 0, 15, 1, EFFECT_NONE, 0, 1},
-    {102, ITEM_TYPE_SUIT, "Armure Abyssale",      "Abyssal",     0, 0, 0, 25, 1, EFFECT_NONE, 0, 1},
-    {103, ITEM_TYPE_SUIT, "Combinaison Titan",    "Abyssal",     0, 0, 0, 30, 2, EFFECT_NONE, 0, 1},
-    {104, ITEM_TYPE_SUIT, "Scaphandre Antique",   "Legendaire",  0, 0, 0, 20, 1, EFFECT_NONE, 0, 1},
+    {102, ITEM_TYPE_SUIT, "Combinaison Titan",    "Oceanique",   0, 0, 0, 25, 1, EFFECT_NONE, 0, 1},
+    {103, ITEM_TYPE_SUIT, "Armure Abyssale",      "Abyssal",     0, 0, 0, 30, 2, EFFECT_NONE, 0, 1},
+    {104, ITEM_TYPE_SUIT, "Scaphandr Antique",    "Abyssal",     0, 0, 0, 20, 1, EFFECT_NONE, 0, 1},
 
     // Consommable
-    {200, ITEM_TYPE_CONSUMABLE, "Capsule O2",      "+50 O2",        0, 0, 0, 0, 0, EFFECT_RESTORE_O2, 50, 5},
-    {201, ITEM_TYPE_CONSUMABLE, "Trousse Soin",    "+25 PV",        0, 0, 0, 0, 0, EFFECT_HEAL_HP, 25, 5},
+    {200, ITEM_TYPE_CONSUMABLE, "Capsule O2",      "+50 O2",        0, 0, 0, 0, 0, EFFECT_RESTORE_O2,     50, 5},
+    {201, ITEM_TYPE_CONSUMABLE, "Trousse Soin",    "+25 PV",        0, 0, 0, 0, 0, EFFECT_HEAL_HP,        25, 5},
     {202, ITEM_TYPE_CONSUMABLE, "Stimulant",       "-20 Fatigue",   0, 0, 0, 0, 0, EFFECT_REDUCE_FATIGUE, 20, 5},
-    {203, ITEM_TYPE_CONSUMABLE, "Antidote",        "Guerit poison", 0, 0, 0, 0, 0, EFFECT_CURE_POISON, 0, 5},
-    {204, ITEM_TYPE_CONSUMABLE, "Mega Capsule O2", "+100 O2",       0, 0, 0, 0, 0, EFFECT_RESTORE_O2, 100, 3},
-    {205, ITEM_TYPE_CONSUMABLE, "Kit Medical",     "+50 PV",        0, 0, 0, 0, 0, EFFECT_HEAL_HP, 50, 3},
+    {203, ITEM_TYPE_CONSUMABLE, "Antidote",        "Guerit poison", 0, 0, 0, 0, 0, EFFECT_CURE_POISON,     0, 5},
+    {204, ITEM_TYPE_CONSUMABLE, "Mega Capsule O2", "+100 O2",       0, 0, 0, 0, 0, EFFECT_RESTORE_O2,    100, 3},
+    {205, ITEM_TYPE_CONSUMABLE, "Kit Medical",     "+50 PV",        0, 0, 0, 0, 0, EFFECT_HEAL_HP,        50, 3},
     {206, ITEM_TYPE_CONSUMABLE, "Super Stimulant", "-40 Fatigue",   0, 0, 0, 0, 0, EFFECT_REDUCE_FATIGUE, 40, 3},
     
 
