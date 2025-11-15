@@ -699,9 +699,8 @@ void gerer_tour_combat(Plongeur *p, char cmd, char **screen) {
     if (toutes_mortes) {
         if (type_combat == 1)
         {
-           info = "VICTOIRE ! tu a gagner le BOSS";
-           get_key_boss(p, g_creatures_en_combat);
-
+            info = "VICTOIRE ! tu a gagner le BOSS";
+            get_key_boss(p, g_creatures_en_combat);
 
         }else{
             info = "VICTOIRE ! Toutes les creatures sont vaincues.";
