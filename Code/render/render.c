@@ -363,10 +363,10 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
 
             if (g_victoire) {
                 printf("│   │  ║                          VICTOIRE                              ║ │   │\n");
-                printf("│   │  ║                    Vous avez gagné %d Perles                   ║ │   │\n", g_perles_gagnees);
+                printf("│   │  ║                    Vous avez gagné %3d Perles                   ║ │   │\n", g_perles_gagnees);
             } else {
                 printf("│   │  ║                          GAME OVER                             ║ │   │\n");
-                printf("│   │  ║                    Vous avez perdu %d Perles                   ║ │   │\n", g_perles_perdues);
+                printf("│   │  ║                    Vous avez perdu %3d Perles                   ║ │   │\n", g_perles_perdues);
             }
 
             printf("│   │  ║                                                                ║ │   │\n");
@@ -563,52 +563,38 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             break;
         }
         case 3: { // Inventaire
-            printf("│                                                                             │\n");
-            printf("│   ╭──────────────────────────── Inventaire ─────────────────────────────╮   │\n");
-            
-            char buffer[100];
- 
-            printf("│   │%-69s│   │\n", "     EQUIPEMENT:");
+            printf("│                                                             ╰───────────────┤\n");
+            printf("│   ╭──────────────────────────── Inventaire ─────────────────────────────╮   │\n");  
+            printf("│   │     EQUIPEMENT:                                                     │   │\n");
             
             ItemTemplate* weapon = get_item_template(p->equip_weapon.item_id);
-            sprintf(buffer, "       Arme: %s (ATK: %d-%d)", weapon->nom, weapon->atk_min, weapon->atk_max);
-            printf("│   │%-69s│   │\n", buffer);
+            printf("│   │       Armes: %-17s (ATK: %-3d-%-3d)                       │   │\n", 
+                weapon->nom, weapon->atk_min, weapon->atk_max);
 
             ItemTemplate* suit = get_item_template(p->equip_suit.item_id);
-            sprintf(buffer, "       Combi: %s (DEF: +%d)", suit->nom, suit->defense);
-            printf("│   │%-69s│   │\n", buffer);
+            printf("│   │       Combi: %-17s (Def: +%-3d)                          │   │\n", 
+                suit->nom, suit->defense);
 
-            printf("│   │%-69s│   │\n", " ");
-
-            sprintf(buffer, "     PERLES: %d", p->perles);
-            printf("│   │%-69s│   │\n", buffer);
-            printf("│   │%-69s│   │\n", " ");
-
-            // CLES
-            sprintf(buffer, "     Clef: %d", p->cle);
-            printf("│   │%-69s│   │\n", buffer);
-            printf("│   │%-69s│   │\n", " ");
-
-            // Sac 
-            printf("│   │%-69s│   │\n", "     SAC A DOS:");
-
+            printf("│   │                                                                     │   │\n");
+            printf("│   │     PERLES: %3d                                                     │   │\n", p->perles);
+            printf("│   │                                                                     │   │\n");
+            printf("│   │     Clef: %3d                                                       │   │\n", p->cle);
+            printf("│   │                                                                     │   │\n");
+            printf("│   │     SAC A DOS:                                                      │   │\n");
             for (int i = 0; i < INVENTORY_SIZE; i++) {
                 ItemTemplate* item = get_item_template(p->inventaire[i].item_id);
                 
                 if (p->inventaire[i].item_id == 0) {
-                    sprintf(buffer, "       [%d] Vide", i + 1);
+                    printf("│   │       [%d] Vide                                                      │   │\n", i + 1);
                 } else {
-                    sprintf(buffer, "       [%d] %s x%d - %s", 
-                        i + 1, 
-                        item->nom, 
+                    printf("│   │       [%d] %-20s x%d   -   %-15s             │   │\n",
+                        i + 1,
+                        item->nom,
                         p->inventaire[i].quantite,
                         item->description);
                 }
-                
-                printf("│   │%-69s│   │\n", buffer);
             }
-            
-            printf("│   │%-69s│   │\n", " ");
+            printf("│   │                                                                     │   │\n");
             
             break;
         }
