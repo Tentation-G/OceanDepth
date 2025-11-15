@@ -174,9 +174,9 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
         }
         case 'v': {
             int profondeur_verification = convert_y_to_depth_lvl(p->map_pos_y);
-            printf("PROF ACTUELLE: %d\n", profondeur_verification);
+            //printf("PROF ACTUELLE: %d\n", profondeur_verification);
             int profondeur_prochaine = convert_y_to_depth_lvl(p->map_pos_y + 1);
-            printf("PROF PROCHAINE: %d\n", profondeur_prochaine);
+            //printf("PROF PROCHAINE: %d\n", profondeur_prochaine);
 
             if (profondeur_prochaine == 3)
             {
