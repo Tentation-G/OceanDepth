@@ -9,14 +9,11 @@
 #include "../world/map_lt.h"
 #include "../utils/utils.h"
 #include "../input/input.h"
-
-// Define MAX_LOG_LENGTH for log message buffer size
-#define MAX_LOG_LENGTH 256
-
 #include "../combat/combat.h"
 #include "../creature/creature.h"
 #include "../inventaire/inventaire.h"
 #include "../marchand/marchand.h"
+
 
 
 void layer_player(Plongeur *p, Zone zone) {
@@ -456,26 +453,22 @@ void player_use_item(Plongeur *p, int slot_index) {
     case EFFECT_HEAL_HP:
         p->points_de_vie += item->puissance_effet;
         if (p->points_de_vie > p->points_de_vie_max) p->points_de_vie = p->points_de_vie_max;
+        info = "Vous avez augmentez votre PV!"; 
         break;
     case EFFECT_RESTORE_O2:
         p->niveau_oxygene += item->puissance_effet;
         if (p->niveau_oxygene > p->niveau_oxygene_max) p->niveau_oxygene = p->niveau_oxygene_max;
+        info = "Vous avez augmentez votre O2!"; 
         break;
     case EFFECT_REDUCE_FATIGUE:
         p->niveau_fatigue -= item->puissance_effet;
         if (p->niveau_fatigue < 0) p->niveau_fatigue = 0;
-        break;
-    case EFFECT_CURE_POISON:
-
+        info = "Vous avez deminuer votre Fatigue!";
         break;
     default:
         break;
     }
 
-
-    char buffer[MAX_LOG_LENGTH];
-    sprintf(buffer, "Vous avez utilise: %s", item->nom);
-    info = buffer; 
 
     // Décrémenter l'objet
     slot->quantite--;

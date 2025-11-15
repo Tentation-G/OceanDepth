@@ -305,6 +305,7 @@ void decorate_zone_typed(Zone zone, int y, int x, int zone_h, int zone_l, ZoneTy
             break;
     }
 
+
     decorate_zone_base_borders(zone, y, x, zone_h, zone_l, type);
 }
 

@@ -14,13 +14,13 @@ bool acheter_item(Plongeur* p, int item_id, int quantite)
     // verifier si (arme ou equipement) deja possede
     if (item_id == p->equip_weapon.item_id || item_id == p->equip_suit.item_id)
     {
-        printf("vous possedez deja cette item\n");
+        //printf("vous possedez deja cette item\n");
         info="Achat non validé, vous possedez deja cette item!";
         return 0;
     }
     
 
-    // 1. Essayer d'empiler sur un slot existant
+    // Essayer d'empiler sur un slot existant
     for (int i = 0; i < INVENTORY_SIZE; i++)
     {
         if (p->inventaire[i].item_id == item_id)
@@ -30,19 +30,19 @@ bool acheter_item(Plongeur* p, int item_id, int quantite)
             {
                 p->inventaire[i].quantite += quantite;
                 
-                printf("Vous avez acheter %d de %s", quantite, item->nom);
+                //printf("Vous avez acheter %d de %s", quantite, item->nom);
                 info = "Achat Validé";
                 return 1;
             }else
             {
-                printf("Vous pouvez pas achetez %d de %s (max_stack depasse)\n", quantite, item->nom);
+                //printf("Vous pouvez pas achetez %d de %s (max_stack depasse)\n", quantite, item->nom);
                 info = "Achat Non Validé";
                 return 0;
             }
             
         }
     }
-    // 2. Trouver un slot vide
+    // Trouver un slot vide
     for (int i = 0; i < INVENTORY_SIZE; i++)
     {
         if (p->inventaire[i].item_id == 0) // trouver un slot vide = (id =>0)
@@ -50,12 +50,12 @@ bool acheter_item(Plongeur* p, int item_id, int quantite)
             if(quantite <= item->max_stack){
                 p->inventaire[i].item_id = item_id;
                 p->inventaire[i].quantite = quantite;
-                printf("Vous avez acheter %d de %s", quantite, item->nom);
-                info = "Achat Validé";;
+                //printf("Vous avez acheter %d de %s", quantite, item->nom);
+                info = "Achat Validé";
                 return 1;
             }else
             {
-                printf("Vous pouvez pas achetez %d de %s (max_stack depasse)\n", quantite, item->nom);
+                //printf("Vous pouvez pas achetez %d de %s (max_stack depasse)\n", quantite, item->nom);
                 info = "Achat Non Validé";
                 return 0;
             }  
