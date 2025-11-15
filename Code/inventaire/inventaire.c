@@ -25,11 +25,11 @@ ItemTemplate g_item_database[] = {
     // combinaisons
     {100, ITEM_TYPE_SUIT, "Neoprene Basic",       "Commun",      0, 0, 0,  5, 1, EFFECT_NONE, 0, 1},
     {101, ITEM_TYPE_SUIT, "Combinaison pro",      "Marin",       0, 0, 0, 15, 1, EFFECT_NONE, 0, 1},
-    {102, ITEM_TYPE_SUIT, "Combinaison Titan",    "Oceanique",   0, 0, 0, 25, 1, EFFECT_NONE, 0, 1},
-    {103, ITEM_TYPE_SUIT, "Armure Abyssale",      "Abyssal",     0, 0, 0, 30, 2, EFFECT_NONE, 0, 1},
-    {104, ITEM_TYPE_SUIT, "Scaphandr Antique",    "Abyssal",     0, 0, 0, 20, 1, EFFECT_NONE, 0, 1},
-    {105, ITEM_TYPE_SUIT, "Exosuit Hadès",        "Mythique",    0, 0, 0, 40, 2, EFFECT_NONE, 0, 1},
-    {106, ITEM_TYPE_SUIT, "Spectrale",            "Légendaire",  0, 0, 0, 35, 1, EFFECT_NONE, 0, 1},
+    {102, ITEM_TYPE_SUIT, "Combinaison Titan",    "Marin",       0, 0, 0, 25, 1, EFFECT_NONE, 0, 1},
+    {103, ITEM_TYPE_SUIT, "Scaphandr Antique",    "Oceanique",   0, 0, 0, 20, 1, EFFECT_NONE, 0, 1},
+    {104, ITEM_TYPE_SUIT, "Armure Abyssale",      "Abyssal",     0, 0, 0, 30, 2, EFFECT_NONE, 0, 1},
+    {105, ITEM_TYPE_SUIT, "Spectrale",            "Abyssal",     0, 0, 0, 35, 1, EFFECT_NONE, 0, 1},
+    {106, ITEM_TYPE_SUIT, "Exosuit Hadès",        "Abyssal",     0, 0, 0, 40, 2, EFFECT_NONE, 0, 1},
 
     // Consommable
     {200, ITEM_TYPE_CONSUMABLE, "Capsule O2",      "+50 O2",        0, 0, 0, 0, 0, EFFECT_RESTORE_O2,     50, 5},
