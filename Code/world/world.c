@@ -191,7 +191,7 @@ static void update_boss_pres(World *w, int zone_y, int zone_x) {
 
     switch (zone_y) {
     case 4: // profondeur 1 ?
-        if (boss_1 == 0) c = 'G';    // boss présent
+        if (boss_1 == 0) c = 'B';    // boss présent
         else             c = ' ';   // boss mort/deja mort -> vide
         break;
 
