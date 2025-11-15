@@ -242,7 +242,12 @@ int main(void) {
                     screen_status = 50;
                 }
                 break;
-            
+            case 53: {
+                if (cmd == 'C' || cmd == 'c') {
+                    screen_status = 50;
+                }
+                break;
+            }
             // ── Marchand ────────────────────────────────
             }case 99:{
                 afficher_marchand(&plongeur, cmd);

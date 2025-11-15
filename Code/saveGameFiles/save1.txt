@@ -1,7 +1,7 @@
 -------------------------
 Numero de Save      : 1
 -------------------------
-points_de_vie       : 90
+points_de_vie       : 1
 points_de_vie_max   : 100
 -------------------------
 niveau_oxygene      : 100
@@ -17,7 +17,7 @@ pos_x               : 36
 last_pos_y          : 1
 last_pos_x          : 1
 -------------------------
-map_pos_y           : 3
+map_pos_y           : 6
 map_pos_x           : 9
 -------------------------
 equip_weapon        : 1 1

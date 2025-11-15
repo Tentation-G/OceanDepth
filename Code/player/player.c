@@ -428,6 +428,13 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
             info = "Rien par ici";
             break;
         }
+
+         // Verif si mort
+        // C'est un peu barbar, mais ca fonctionne
+        if (p->points_de_vie == 0){
+            Sleep(2000);
+            screen_status = 53;
+        }
     }
 }
 

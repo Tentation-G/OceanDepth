@@ -181,8 +181,8 @@ void decorate_zone_base_borders(Zone zone, int y, int x, int zone_h, int zone_l,
     int is_grotte = (norm == ZoneType_GROTTE);
 
     // placer un K temporaire pour tester la cle (Profondeur 3)
-    if(y == 6 && x == 1){
-        zone[hauteur / 2][20] = 'K';
+    if(y == 6 && x == 9){
+        zone[hauteur-1][largeur-4] = 'K';
     }
 
     // Ajoute les murs en bordures
@@ -225,6 +225,7 @@ void decorate_zone_typed(Zone zone, int y, int x, int zone_h, int zone_l, ZoneTy
             // Deco Base
             break;
         case ZoneType_BATEAU:
+        case ZoneType_SOUS_MARIN:
             zone[hauteur / 2][largeur / 2] = 'M';
             break;
         // Les GROTTES
