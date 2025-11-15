@@ -33,6 +33,8 @@ void build_fleche_droit(Zone zone);
 int  zone_already_visited(const World *w, int zone_y, int zone_x);
 void marquer_zone_as_visited(World *w, int zone_y, int zone_x);
 
+static void update_boss_pres(World *w, int zone_y, int zone_x);
+
 // écran brut (zone)
 char **init_screen();
 void   clear_screen_grid(char **screen, char fill_char); // obsolete

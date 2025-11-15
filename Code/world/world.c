@@ -136,6 +136,7 @@ Zone world_current_zone(World *w, const Plongeur *p) {
     // si hors limites
     if (p->map_pos_y < 0 || p->map_pos_y >= w->zone_h) return NULL;
     if (p->map_pos_x < 0 || p->map_pos_x >= w->zone_l) return NULL;
+    update_boss_pres(w, p->map_pos_y, p->map_pos_x);
     return w->zones[p->map_pos_y][p->map_pos_x];
 }
 
@@ -174,6 +175,40 @@ static ZoneType zone_type_Norm(ZoneType type) {
     default:
         return type;
     }
+}
+
+static void update_boss_pres(World *w, int zone_y, int zone_x) {
+
+    if (w->types[zone_y][zone_x] != ZoneType_BOSS) {
+        return; // pas une zone boss
+    }
+
+    Zone zone = w->zones[zone_y][zone_x];
+    int y = hauteur / 2;
+    int x = largeur / 2;
+
+    char c = ' '; // par défaut, rien
+
+    switch (zone_y) {
+    case 4: // profondeur 1 ?
+        if (boss_1 == 0) c = 'G';    // boss présent
+        else             c = ' ';   // boss mort/deja mort -> vide
+        break;
+
+    case 7: // profondeur 2 ?
+        if (boss_2 == 0) c = 'B';
+        else             c = ' ';
+        break;
+
+    case 9: // ou 10 selon ta map
+        if (boss_3 == 0) c = 'B';
+        else             c = ' ';
+        break;
+    default:
+        break;
+    }
+
+    zone[y][x] = c;
 }
 
 void decorate_zone_base_borders(Zone zone, int y, int x, int zone_h, int zone_l, ZoneType type) {
@@ -285,21 +320,9 @@ void decorate_zone_typed(Zone zone, int y, int x, int zone_h, int zone_l, ZoneTy
             break;
         // Zone pas Chill du tout
         case ZoneType_BOSS:
-            // Place un boss au milieu
-            switch (y){
-                case 4:{
-                    if (boss_1 == 0) zone[hauteur / 2][largeur / 2] = 'B';
-                    break;
-                }
-                case 7:{
-                    if (boss_2 == 0) zone[hauteur / 2][largeur / 2] = 'B';
-                    break;
-                }
-                case 10:{
-                    if (boss_3 == 0) zone[hauteur / 2][largeur / 2] = 'B';
-                    break;
-                }
-            }
+             // Place un boss au milieu
+            // Geré dynamiquement par la recup de zone
+
             break;
         default:
             break;

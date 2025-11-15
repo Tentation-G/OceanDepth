@@ -17,11 +17,11 @@ pos_x               : 36
 last_pos_y          : 1
 last_pos_x          : 1
 -------------------------
-map_pos_y           : 6
-map_pos_x           : 9
+map_pos_y           : 7
+map_pos_x           : 0
 -------------------------
-equip_weapon        : 1 1
-equip_suit          : 100 1
+equip_weapon        : 7 1
+equip_suit          : 106 1
 cle                 : 3
 slot_0              : 200 3
 slot_1              : 201 2
@@ -46,6 +46,6 @@ visited:
 1111111111
 -------------------------
 boss_1              : 1
-boss_2              : 0
+boss_2              : 1
 boss_3              : 0
 -------------------------

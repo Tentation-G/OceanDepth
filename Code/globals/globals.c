@@ -60,3 +60,4 @@ int g_id_item_coffre = 0;
 int boss_1 = 0;
 int boss_2 = 0;
 int boss_3 = 0;
+

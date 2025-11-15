@@ -40,5 +40,4 @@ Abdelkrim :
 
 Shun : 
 - System de combat
-- Inventaire
 - Competence Aquatique

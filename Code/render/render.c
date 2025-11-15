@@ -108,6 +108,10 @@ void screen_header(World *w, Plongeur *p, char* pv_bar, char* oxy_bar, char* fat
             int oxy     = p->niveau_oxygene;
             int fatigue = p->niveau_fatigue;
 
+            printf("Boss 1 : %d\n", boss_1);
+            printf("Boss 2 : %d\n", boss_2);
+            printf("Boss 3 : %d\n", boss_3);
+
             ItemTemplate *weapon = get_item_template(p->equip_weapon.item_id);
             printf("╭─────────────────────────────── Ocean  Depth ────────────────────────────────╮\n");
 
