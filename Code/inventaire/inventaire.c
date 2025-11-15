@@ -30,6 +30,8 @@ ItemTemplate g_item_database[] = {
     {102, ITEM_TYPE_SUIT, "Combinaison Titan",    "Oceanique",   0, 0, 0, 25, 1, EFFECT_NONE, 0, 1},
     {103, ITEM_TYPE_SUIT, "Armure Abyssale",      "Abyssal",     0, 0, 0, 30, 2, EFFECT_NONE, 0, 1},
     {104, ITEM_TYPE_SUIT, "Scaphandr Antique",    "Abyssal",     0, 0, 0, 20, 1, EFFECT_NONE, 0, 1},
+    {105, ITEM_TYPE_SUIT, "Exosuit Hadès",        "Mythique",    0, 0, 0, 40, 2, EFFECT_NONE, 0, 1},
+    {106, ITEM_TYPE_SUIT, "Spectrale",            "Légendaire",  0, 0, 0, 35, 1, EFFECT_NONE, 0, 1},
 
     // Consommable
     {200, ITEM_TYPE_CONSUMABLE, "Capsule O2",      "+50 O2",        0, 0, 0, 0, 0, EFFECT_RESTORE_O2,     50, 5},
@@ -194,11 +196,11 @@ int generer_coffre(int profondeur)
         break;
     }
     case 4:{
-        choix = 2 + rand() % 5;
+        choix = 3 + rand() % 3;
         break;
     }
     case 5:{
-        choix = 5 +rand() % 3;
+        choix = 4 +rand() % 2;
         break;
     }
     default:
@@ -210,7 +212,7 @@ int generer_coffre(int profondeur)
 
     // index des armes et combinaison
     int armes[] = {1, 3, 4, 5, 6, 7};
-    int suits[] = {100, 101, 102, 103, 104};
+    int suits[] = {100, 101, 102, 103, 104, 105};
     
 
     if (type == 0)  // Arme
