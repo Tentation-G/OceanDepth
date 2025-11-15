@@ -62,11 +62,28 @@ void clear_stdin(void) {
     while ((ch = getchar()) != '\n' && ch != EOF) {}
 }
 
- // EVOLUTION ET TRANSFORMATION DES MAXI PATE DU RENDER DES CARTES PAR CETTE DOUCE FONCTION
+ // EVOLUTION ET TRANSFORMATION DES MAXI PATE DU RENDER DES CARTES PAR CETTE DOUCE FONCTION V2
 // cc -> carte cellule (pour eviter d'avoir un maxi paté dans le print
-const char* cc(const World *w, int y, int x) {
-    if (!zone_already_visited(w, y, x)) {
+const char* cc(const World *w, const Plongeur *p, int y, int x) {
+    if (!zone_already_visited(w, y, x))
         return " ?? ";
+
+    const char* nomZone = zone_type_to_string_four_char(world_get_zone_type(w, y, x));
+
+    // Pos joueur
+    if (y == p->map_pos_y && x == p->map_pos_x) {
+
+        // Zone vide -> [  ] (zone joueur)
+        if (strcmp(nomZone, "    ") == 0)
+            return "\x1b[34m[  ]\x1b[0m";
+
+        // Zone non vide -> bleu
+        static char colorBuffer[10];
+        strcpy(colorBuffer, "\x1b[34m");
+        strcat(colorBuffer, nomZone);
+        strcat(colorBuffer, "\x1b[0m");
+        return colorBuffer;
     }
-    return zone_type_to_string_four_char(world_get_zone_type(w, y, x));
+
+    return nomZone;
 }

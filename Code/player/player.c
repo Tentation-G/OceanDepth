@@ -147,7 +147,8 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
     p->niveau_fatigue = clamp(p->niveau_fatigue - montant_fatigue_recup, p->niveau_fatigue_max);
 
     if (screen_status == 0) { // Exploration
-        switch (screen[y][x]) {
+        switch (screen[y][x])
+        {
         case '^': {
             if (p->pos_y == 0 && p->pos_x == largeur/2) {
                 info = "Sortie NORD";
@@ -169,7 +170,6 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
             }
             break;
         }
-
         case 'v': {
             int profondeur_verification = convert_y_to_depth_lvl(p->map_pos_y);
             printf("PROF ACTUELLE: %d\n", profondeur_verification);
@@ -182,30 +182,30 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
                 if(p->cle >= 1){
                     printf("Verification CLEF avec succes! Prof2 -> Prof3\n");
                 }else{
-                     printf("Verification CLEF echouée! Vous restez dans la zone\n");
+                    printf("Verification CLEF echouée! Vous restez dans la zone\n");
                     return;
                 }
             }else if (profondeur_prochaine == 4)
-            {   
+            {
                 // On verifier le nombre de clef (minimum 2 clef pour passer)
                 if(p->cle >= 2){
                     printf("Verification CLEF avec succes! Prof3 -> Prof4\n");
                 }else{
-                     printf("Verification CLEF echouée! Vous restez dans la zone\n");
+                    printf("Verification CLEF echouée! Vous restez dans la zone\n");
                     return;
                 }
             }else if (profondeur_prochaine == 5)
-            {   
+            {
                 // On verifier le nombre de clef (minimum 3 clef pour passer)
                 if(p->cle >= 3){
                     printf("Verification CLEF avec succes! Prof4 -> Prof5\n");
                 }else{
-                     printf("Verification CLEF echouée! Vous restez dans la zone\n");
+                    printf("Verification CLEF echouée! Vous restez dans la zone\n");
                     return;
                 }
             }
-            
-            
+
+
 
             if (p->pos_y == hauteur - 1 && p->pos_x == largeur/2){
                 info = "Sortie SUD";
@@ -228,7 +228,6 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
             }
             break;
         }
-
         case '<': {
             if (p->pos_y == hauteur/2 && p->pos_x == 0){
                 info = "Sortie OUEST";
@@ -251,7 +250,6 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
             }
             break;
         }
-
         case '>': {
             if (p->pos_y == hauteur/2 && p->pos_x == largeur - 1){
                 info = "Sortie EST";
@@ -275,21 +273,21 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
             break;
         }
 
-        case '?':
+        case '?':{
             info = "Qu'est-ce que c'est que ce raffut ?";
             break;
-
-        case 'T':
+        }
+        case 'T':{
             // Enleve le coffre de la map
             zone[p->pos_y][p->pos_x] = ' ';
-            
+
             // generer le coffre
             g_id_item_coffre = generer_coffre();
             screen_status = 4;
-            info ="Trésor";
+            info ="Vous avez trouve un tresor !";
             ajouter_item(p, g_id_item_coffre, 1);
             break;
-
+        }
         case '#': {
             //info = "Tu as heurté un rocher, -5 PV.";
             p->points_de_vie = clamp(p->points_de_vie - 5, p->points_de_vie_max);
@@ -310,9 +308,9 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
                     p->last_pos_y = p->pos_y;  // évite double cout O2
                     p->last_pos_x = p->pos_x;
                     info = "Vous avez heurte une paroi, -5 hp";
-                } else {
-                    info = "Vous avez heurte une paroi, -5 hp";
-                }
+                    } else {
+                        info = "Vous avez heurte une paroi, -5 hp";
+                    }
                 break;
             }
 
@@ -322,7 +320,7 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
 
             int moved = 0;
 
-            // Reculer dans la dite dir until on tombe sur une case libre (ou sortie d'ecran)
+            // Reculer dans la dite dir until on tombe sur une case libre (ou sortie d'écran)
             while (1) {
                 // prochaine pos y et x a tester
                 int proch_pos_y = p->pos_y + back_y;
@@ -364,7 +362,7 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
             break;
         }
 
-        case 'E':
+        case 'E':{
             // Enleve le mob de la map
             zone[p->pos_y][p->pos_x] = ' ';
 
@@ -373,17 +371,19 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
 
             // Créer les créatures pour le combat
             // int profondeur_actuelle = p->map_pos_y;
-            int profondeur_actuelle = convert_y_to_depth_lvl(p->map_pos_y);
+            const int profondeur_actuelle = convert_y_to_depth_lvl(p->map_pos_y);
             g_creatures_en_combat = cree_creatures(profondeur_actuelle);
 
             // Déterminer le nombre de créatures selon la profondeur
-            switch (profondeur_actuelle)
-            {
-                case 1: g_nbr_creatures_en_combat = 1; break;
-                case 2: g_nbr_creatures_en_combat = 2; break;
-                case 3: g_nbr_creatures_en_combat = 2; break;
-                case 4: g_nbr_creatures_en_combat = 3; break;
-                case 5: g_nbr_creatures_en_combat = 3; break;
+            switch (profondeur_actuelle){
+            case 1: g_nbr_creatures_en_combat = 1; break;
+
+            case 2:
+            case 3: g_nbr_creatures_en_combat = 2; break;
+
+            case 4:
+            case 5: g_nbr_creatures_en_combat = 3; break;
+            default:;
             }
             
             // Trier les créatures par vitesse
@@ -394,16 +394,18 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
             screen_status = 10;
             
             break;
-
-        case 'M': // Fonction du Marchand
-            printf("Ouvrir l'ecran du marchant\n");
+        }
+        case 'M':{
+            // Fonction du Marchand
+            //printf("Ouvrir l'ecran du marchant\n");
             info="Marchand !";
             screen_status = 99;
             break;
-
-        case 'B':{ // BOSS
+        }
+        case 'B':{
+            // BOSS
             int profondeur_boss = convert_y_to_depth_lvl(p->map_pos_y);
-            printf("Declanchement du combat BOSS de la profondeur %d!\n", profondeur_boss);
+            //printf("Declanchement du combat BOSS de la profondeur %d!\n", profondeur_boss);
             info = "Combat BOSS !";
             type_combat = 1;
             g_nbr_creatures_en_combat = 1;
@@ -413,15 +415,13 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
             screen_status = 10;
             break;
         }
-        case 'C':
-            printf("Ouvrir l'ecran du coffre\n");
-            screen_status = 88;
-            break;
-        case 'K': // Clef (Key)
-            // Faut le supprimer apres qu'on trouve la clef
-            printf("Vous avez touver la CLEF de Profondeur 3\n");
+        case 'K':{
+            // Clef (Key)
+            zone[p->pos_y][p->pos_x] = ' ';
+            info = "Vous avez trouve une clef";
             p->cle += 1;
             break;
+        }
         default:
             info = "Rien par ici";
             break;

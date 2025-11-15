@@ -14,14 +14,15 @@ char fill_background[] = {'*','.','~',' ',' ', ' ',' ',' ', ' ',' ',' ', ' ',' '
 int active_save = 0; // 0 = pas de save (default) | 1, 2, 3
 
 
-       // 0 = Exploration
-      // 10 = combat | 11 = Competence
-     // 20 = Selection de la carte | 21 = Carte 1 | 22 = Carte 2 | 23 = Carte 3 | 24 = Carte 4
-    // 3 = inventaire
-   // 4 = tresor
-  // 50 = Ecran d'accueil
- // 51 = Ecran de creation de sauvegarde
-// 52 = Select de sauvegarde
+        // 0 = Exploration
+       // 10 = combat | 11 = Competence
+      // 20 = Selection de la carte | 21 = Carte 1 | 22 = Carte 2 | 23 = Carte 3 | 24 = Carte 4
+     // 3 = inventaire
+    // 4 = tresor
+   // 50 = Ecran d'accueil
+  // 51 = Ecran de creation de sauvegarde
+ // 52 = Select de sauvegarde
+// 99 = Marchant
 int screen_status = 50;
 int previous_screen_status = 0;
 
@@ -54,3 +55,8 @@ int g_perles_perdues = 0;
 
 //id_item_coffre
 int g_id_item_coffre = 0;
+
+// Boss battu
+int boss_1 = 0;
+int boss_2 = 0;
+int boss_3 = 0;

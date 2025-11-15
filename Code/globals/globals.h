@@ -44,4 +44,8 @@ extern int g_perles_perdues;
 //id_item_coffre
 extern int g_id_item_coffre;
 
+// Boss battu
+int boss_1;
+int boss_2;
+int boss_3;
 #endif // GLOBALS_H

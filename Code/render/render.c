@@ -12,7 +12,7 @@
 #include "../inventaire/inventaire.h"
 #include "../marchand/marchand.h"
 
- // Les couleurs c'est du bonus pour l'instant la flore et le player
+ // Les couleurs, c'est du bonus pour l'instant la flore et le player
 // (
 void print_screen(char **screen) {
     switch (screen_status){
@@ -35,15 +35,14 @@ void print_screen(char **screen) {
                     if (c == 'Y' || c == '|' || c=='/' || c=='\\' || c == '0'){
                         printf("\x1b[32m%c\x1b[0m", c);
                     }
-                    else if (c == '@')
-                    {
-                        printf("\x1b[31m%c\x1b[0m", c);
+                    else if (c == '@'){
+                        printf("\x1b[34m%c\x1b[0m", c);
                     }
                     // Poisson
                     //else if (c == '<' || c == '>' || c=='(' || c==')' || c=='o' || c=='*' || c== '='){
                     //    printf("\x1b[0m%c\x1b[0m", c);
                     //}
-                    // Fill - Bleu (pour l'instant ce sont des ' ', ça peut etre des '~')
+                     // Fill - Bleu (pour l'instant ce sont des ' ', ça peut etre des '~')
                     // qui sait ce que nous reserve l'avenir
                     //else if (c == fill){
                     //    printf("\x1b[34m%c\x1b[0m", c);
@@ -322,8 +321,9 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             break;
         }
         case 11: { // Competences | Je me suis fait chier à aligner votre merdier in game, pensez y si vous changez quelque chose
+
             printf("│                                                             ╰───────────────┤\n");
-            printf("│   ╭─────────────────────── COMPETENCES MARINES ─────────────────────────╮   │\n");
+            printf("│   ╭──────────────────────── Competences Marines ────────────────────────╮   │\n");
             printf("│   │                                                                     │   │\n");
             printf("│   │  ╔════════════════════════════════════════════════════════════════╗ │   │\n");
             printf("│   │  ║                                                                ║ │   │\n");
@@ -346,7 +346,7 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
         }
         case 12: { // Loading combat (si gagnant ou vaincu)
             printf("│                                                             ╰───────────────┤\n");
-            printf("│   ╭─────────────────────── LOADING ─────────────────────────────────────╮   │\n");
+            printf("│   ╭─────────────────────────────── Combat ──────────────────────────────╮   │\n");
             printf("│   │                                                                     │   │\n");
             printf("│   │  ╔════════════════════════════════════════════════════════════════╗ │   │\n");
             printf("│   │  ║                                                                ║ │   │\n");
@@ -379,7 +379,7 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
         case 20:{
 
             printf("│                                                             ╰───────────────┤\n");
-            printf("│   ╭─────────────────────────────────────────────────────────────────────╮   │\n");
+            printf("│   ╭─────────────────────────────── Cartes ──────────────────────────────╮   │\n");
             printf("│   │                                                                     │   │\n");
             printf("│   │                            ╔══╗                                     │   │\n");
             printf("│   │            ╔═╗             ║  ║                     ╔══╗            │   │\n");
@@ -405,7 +405,7 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
         case 21: { // Carte 1
 
             printf("│                                                             ╰───────────────┤\n");
-            printf("│   ╭─────────────────────────────────────────────────────────────────────╮   │\n");
+            printf("│   ╭────────────────────────────── Cartes I ─────────────────────────────╮   │\n");
             printf("│   │                                                                     │   │\n");
             printf("│   │                                                                     │   │\n");
             printf("│   │      ╔═══════╗ ╔═══════════════════════════════════╗  ╔═════╗       │   │\n");
@@ -414,11 +414,25 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             printf("│   │       ╚╗                                         Pro╚╝ndeur  ║      │   │\n");
             printf("│   │       ╔╝                                                     ║      │   │\n");
             printf("│   │      ╔╝                                                      ║      │   │\n");
-            printf("│   │      ║ %-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s  S  ║      │   │\n", cc(w,0,0), cc(w,0,1), cc(w,0,2), cc(w,0,3), cc(w,0,4), cc(w,0,5), cc(w,0,6), cc(w,0,7), cc(w,0,8), cc(w,0,9));
+            printf("│   │      ║ %s│%s│%s│%s│%s│%s│%s│%s│%s│%s  S  ║      │   │\n",
+                   cc(w, p, 0,0), cc(w, p, 0,1), cc(w, p, 0,2), cc(w, p, 0,3),
+                   cc(w, p, 0,4), cc(w, p, 0,5), cc(w, p, 0,6), cc(w, p, 0,7),
+                   cc(w, p, 0,8), cc(w, p, 0,9));
+
             printf("│   │    @@║ ────┼────┼────┼────┼────┼────┼────┼────┼────┼────     ║@@    │   │\n");
-            printf("│   │    @@║ %-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s  I  ║@@    │   │\n", cc(w,1,0), cc(w,1,1), cc(w,1,2), cc(w,1,3), cc(w,1,4), cc(w,1,5), cc(w,1,6), cc(w,1,7), cc(w,1,8), cc(w,1,9));
+
+            printf("│   │    @@║ %s│%s│%s│%s│%s│%s│%s│%s│%s│%s  I  ║@@    │   │\n",
+                   cc(w, p, 1,0), cc(w, p, 1,1), cc(w, p, 1,2), cc(w, p, 1,3),
+                   cc(w, p, 1,4), cc(w, p, 1,5), cc(w, p, 1,6), cc(w, p, 1,7),
+                   cc(w, p, 1,8), cc(w, p, 1,9));
+
             printf("│   │  @@@@║ ────┼────┼────┼────┼────┼────┼────┼────┼────┼────     ║@@@@  │   │\n");
-            printf("│   │  @@@ ║ %-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s  I  ║ @@@  │   │\n", cc(w,2,0), cc(w,2,1), cc(w,2,2), cc(w,2,3), cc(w,2,4), cc(w,2,5), cc(w,2,6), cc(w,2,7), cc(w,2,8), cc(w,2,9));
+
+            printf("│   │  @@@ ║ %s│%s│%s│%s│%s│%s│%s│%s│%s│%s  I  ║ @@@  │   │\n",
+                   cc(w, p, 2,0), cc(w, p, 2,1), cc(w, p, 2,2), cc(w, p, 2,3),
+                   cc(w, p, 2,4), cc(w, p, 2,5), cc(w, p, 2,6), cc(w, p, 2,7),
+                   cc(w, p, 2,8), cc(w, p, 2,9));
+
             printf("│   │  @@@@║ ────┼────┼────┼────┼────┼────┼──╔╗┼────┼────┼────     ║@@@@  │   │\n");
             printf("│   │  @@@@╚═╗        │╔╗       │           ╔╝║          │      II╔╝@@@@  │   │\n");
             printf("│   │  @@@@  ╚═════════╝╚═══════════════════╝ ╚═══════════════════╝ @@@@@ │   │\n");
@@ -430,7 +444,7 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
         case 22: { // Carte 2
 
             printf("│                                                             ╰───────────────┤\n");
-            printf("│   ╭─────────────────────────────────────────────────────────────────────╮   │\n");
+            printf("│   ╭───────────────────────────── Cartes II ─────────────────────────────╮   │\n");
             printf("│   │                                                                     │   │\n");
             printf("│   │                                                                     │   │\n");
             printf("│   │      ╔══════════════════╗    ╔═══════════════╗╔═════════════╗       │   │\n");
@@ -439,25 +453,39 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             printf("│   │      ║                  ╚╗ ╔╝                    Profondeur  ║      │   │\n");
             printf("│   │      ║                   ╚╗║                                 ║      │   │\n");
             printf("│   │      ║                    ╚╝                                 ║      │   │\n");
-            printf("│   │      ║ %-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s  II ║      │   │\n", cc(w,3,0), cc(w,3,1), cc(w,3,2), cc(w,3,3), cc(w,3,4), cc(w,3,5), cc(w,3,6), cc(w,3,7), cc(w,3,8), cc(w,3,9));
+            printf("│   │      ║ %s│%s│%s│%s│%s│%s│%s│%s│%s│%s  II ║      │   │\n",
+                   cc(w, p, 3,0), cc(w, p, 3,1), cc(w, p, 3,2), cc(w, p, 3,3),
+                   cc(w, p, 3,4), cc(w, p, 3,5), cc(w, p, 3,6), cc(w, p, 3,7),
+                   cc(w, p, 3,8), cc(w, p, 3,9));
+
             printf("│   │    @@║ ────┼────┼────┼────┼────┼────┼────┼────┼────┼────     ║@@    │   │\n");
-            printf("│   │    @@║ %-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s  II ║@@    │   │\n", cc(w,4,0), cc(w,4,1), cc(w,4,2), cc(w,4,3), cc(w,4,4), cc(w,4,5), cc(w,4,6), cc(w,4,7), cc(w,4,8), cc(w,4,9));
+
+            printf("│   │    @@║ %s│%s│%s│%s│%s│%s│%s│%s│%s│%s  II ║@@    │   │\n",
+                   cc(w, p, 4,0), cc(w, p, 4,1), cc(w, p, 4,2), cc(w, p, 4,3),
+                   cc(w, p, 4,4), cc(w, p, 4,5), cc(w, p, 4,6), cc(w, p, 4,7),
+                   cc(w, p, 4,8), cc(w, p, 4,9));
+
             printf("│   │  @@@@║ ────┼────┼────┼────┼────┼────┼────┼────┼────┼────     ║@@@@  │   │\n");
-            printf("│   │  @@@ ║ %-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s III ║ @@@  │   │\n", cc(w,5,0), cc(w,5,1), cc(w,5,2), cc(w,5,3), cc(w,5,4), cc(w,5,5), cc(w,5,6), cc(w,5,7), cc(w,5,8), cc(w,5,9));
+
+            printf("│   │  @@@ ║ %s│%s│%s│%s│%s│%s│%s│%s│%s│%s III ║ @@@  │   │\n",
+                   cc(w, p, 5,0), cc(w, p, 5,1), cc(w, p, 5,2), cc(w, p, 5,3),
+                   cc(w, p, 5,4), cc(w, p, 5,5), cc(w, p, 5,6), cc(w, p, 5,7),
+                   cc(w, p, 5,8), cc(w, p, 5,9));
+
             printf("│   │  @@@@╚╗────┼────┼────┼────┼────╔═╗──┼────┼────╔╗───┼────     ║@@@@  │   │\n");
             printf("│   │  @@@@ ╚╗   │         │        ╔╝ ║  │         ║╚╗        III ║@@@@  │   │\n");
             printf("│   │  @@@@  ╚══════════════════════╝  ╚════════════╝ ╚════════════╝@@@@@ │   │\n");
             printf("│   │@@@@@@@@@@                                                 @@@@@@@@@@│   │\n");
             printf("│   │@@@@@@                                                         @@@@@@│   │\n");
-            printf("│   ╰─────────────────────────────────────────────────────────────────────╯   │\n");
-            printf("│                                                                             │\n");
+            //printf("│   ╰─────────────────────────────────────────────────────────────────────╯   │\n");
+            //printf("│                                                                             │\n");
 
             break;
         }
         case 23:{
 
             printf("│                                                             ╰───────────────┤\n");
-            printf("│   ╭─────────────────────────────────────────────────────────────────────╮   │\n");
+            printf("│   ╭───────────────────────────── Cartes III ────────────────────────────╮   │\n");
             printf("│   │                                                                     │   │\n");
             printf("│   │                                                                     │   │\n");
             printf("│   │       ╔════════════╗ ╔═══════════════╗  ╔═══════════════════╗       │   │\n");
@@ -466,24 +494,38 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             printf("│   │      ║                               ╚╝          Profondeur  ║      │   │\n");
             printf("│   │      ║                                                       ║      │   │\n");
             printf("│   │      ║                                                       ║      │   │\n");
-            printf("│   │      ║ %-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s III ║      │   │\n", cc(w,6,0), cc(w,6,1), cc(w,6,2), cc(w,6,3), cc(w,6,4), cc(w,6,5), cc(w,6,6), cc(w,6,7), cc(w,6,8), cc(w,6,9));;
+            printf("│   │      ║ %s│%s│%s│%s│%s│%s│%s│%s│%s│%s III ║      │   │\n",
+                   cc(w, p, 6,0), cc(w, p, 6,1), cc(w, p, 6,2), cc(w, p, 6,3),
+                   cc(w, p, 6,4), cc(w, p, 6,5), cc(w, p, 6,6), cc(w, p, 6,7),
+                   cc(w, p, 6,8), cc(w, p, 6,9));
+
             printf("│   │    @@║ ────┼────┼────┼────┼────┼────┼────┼────┼────┼────     ║@@    │   │\n");
-            printf("│   │    @@║ %-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s  IV ║@@    │   │\n", cc(w,7,0), cc(w,7,1), cc(w,7,2), cc(w,7,3), cc(w,7,4), cc(w,7,5), cc(w,7,6), cc(w,7,7), cc(w,7,8), cc(w,7,9));;
+
+            printf("│   │    @@║ %s│%s│%s│%s│%s│%s│%s│%s│%s│%s  IV ║@@    │   │\n",
+                   cc(w, p, 7,0), cc(w, p, 7,1), cc(w, p, 7,2), cc(w, p, 7,3),
+                   cc(w, p, 7,4), cc(w, p, 7,5), cc(w, p, 7,6), cc(w, p, 7,7),
+                   cc(w, p, 7,8), cc(w, p, 7,9));
+
             printf("│   │  @@@@║ ────┼────┼────┼────┼────┼────┼────┼────┼────┼────     ║@@@@  │   │\n");
-            printf("│   │  @@@ ║ %-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s  IV ║ @@@  │   │\n", cc(w,8,0), cc(w,8,1), cc(w,8,2), cc(w,8,3), cc(w,8,4), cc(w,8,5), cc(w,8,6), cc(w,8,7), cc(w,8,8), cc(w,8,9));
+
+            printf("│   │  @@@ ║ %s│%s│%s│%s│%s│%s│%s│%s│%s│%s  IV ║ @@@  │   │\n",
+                   cc(w, p, 8,0), cc(w, p, 8,1), cc(w, p, 8,2), cc(w, p, 8,3),
+                   cc(w, p, 8,4), cc(w, p, 8,5), cc(w, p, 8,6), cc(w, p, 8,7),
+                   cc(w, p, 8,8), cc(w, p, 8,9));
+
             printf("│   │  @@@@║ ────┼────┼────┼────┼────┼────┼────┼────┼─╔═╗┼────     ║@@@@  │   │\n");
             printf("│   │  @@@@║  ╔╗      │         ╔╗                   ╔╝ ║│       V ║@@@@  │   │\n");
             printf("│   │  @@@@╚══╝╚════════════════╝╚═══════════════════╝  ╚══════════╝@@@@@ │   │\n");
             printf("│   │@@@@@@@@@@                                                 @@@@@@@@@@│   │\n");
             printf("│   │@@@@@@                                                         @@@@@@│   │\n");
-            printf("│   ╰─────────────────────────────────────────────────────────────────────╯   │\n");
-            printf("│                                                                             │\n");
+            //printf("│   ╰─────────────────────────────────────────────────────────────────────╯   │\n");
+            //printf("│                                                                             │\n");
             break;
         }
         case 24:{
 
             printf("│                                                             ╰───────────────┤\n");
-            printf("│   ╭─────────────────────────────────────────────────────────────────────╮   │\n");
+            printf("│   ╭───────────────────────────── Cartes IV ─────────────────────────────╮   │\n");
             printf("│   │                                                                     │   │\n");
             printf("│   │                                                                     │   │\n");
             printf("│   │      ╔═══════╗╔════════════════════════════════╗  ╔══════╗          │   │\n");
@@ -494,16 +536,25 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             printf("│   │      ║         ╚╝                                            ║      │   │\n");
             printf("│   │      ║     │         │              │    │         │      IV ║      │   │\n");
             printf("│   │    @@║ ────┼────┼────┼────┼────┼────┼────┼────┼────┼────     ║@@    │   │\n");
-            printf("│   │    @@║ %-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s   V ║@@    │   │\n", cc(w,9,0), cc(w,9,1), cc(w,9,2), cc(w,9,3), cc(w,9,4), cc(w,9,5), cc(w,9,6), cc(w,9,7), cc(w,9,8), cc(w,9,9));
+            printf("│   │    @@║ %s│%s│%s│%s│%s│%s│%s│%s│%s│%s   V ║@@    │   │\n",
+                   cc(w, p, 9,0), cc(w, p, 9,1), cc(w, p, 9,2), cc(w, p, 9,3),
+                   cc(w, p, 9,4), cc(w, p, 9,5), cc(w, p, 9,6), cc(w, p, 9,7),
+                   cc(w, p, 9,8), cc(w, p, 9,9));
+
             printf("│   │  @@@@║ ────┼────┼────┼────┼────┼────┼────┼────┼────┼────     ║@@@@  │   │\n");
-            printf("│   │  @@@ ║ %-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s│%-4s   V ║ @@@  │   │\n", cc(w,10,0), cc(w,10,1), cc(w,10,2), cc(w,10,3), cc(w,10,4), cc(w,10,5), cc(w,10,6), cc(w,10,7), cc(w,10,8), cc(w,10,9));
+
+            printf("│   │  @@@ ║ %s│%s│%s│%s│%s│%s│%s│%s│%s│%s   V ║ @@@  │   │\n",
+                   cc(w, p, 10,0), cc(w, p, 10,1), cc(w, p, 10,2), cc(w, p, 10,3),
+                   cc(w, p, 10,4), cc(w, p, 10,5), cc(w, p, 10,6), cc(w, p, 10,7),
+                   cc(w, p, 10,8), cc(w, p, 10,9));
+
             printf("│   │  @@@@║ ────┼────┼╔╗──┼────┼────┼────┼────┼────┼────┼────     ║@@@@  │   │\n");
             printf("│   │  @@@@║     │    │║╚╗      │    │                   │        ╔╝@@@@  │   │\n");
             printf("│   │  @@@@╚═══════════╝ ╚════════════════════════════════════════╝ @@@@@ │   │\n");
             printf("│   │@@@@@@@@@@                                                 @@@@@@@@@@│   │\n");
             printf("│   │@@@@@@                                                         @@@@@@│   │\n");
-            printf("│   ╰─────────────────────────────────────────────────────────────────────╯   │\n");
-            printf("│                                                                             │\n");
+            //printf("│   ╰─────────────────────────────────────────────────────────────────────╯   │\n");
+            //printf("│                                                                             │\n");
 
             break;
         }
@@ -588,8 +639,6 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             printf("│   │            #                   #####                   #            │   │\n");
             printf("│   │             #                                         #             │   │\n");
             printf("│   │              #########################################              │   │\n");
-            printf("│   ╰─────────────────────────────────────────────────────────────────────╯   │\n");
-            printf("│                                                                             │\n");
             break;
         }
         case 50: {
@@ -766,14 +815,14 @@ void screen_footer(World *w, Plongeur *p){
         // Inventaire
         case 3:{
             printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
-            printf("│  [1] Utiliser Objet  [2] Equiper Objet  [Q] Retour                          │\n");
+            printf("│  [1] Utiliser Objet  [2] Equiper Objet  [Q] Quitter                         │\n");
             printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
             break;
         }
         // Coffre
         case 4:{
             printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
-            printf("│                    [Appuyez sur [Q] pour continuer]                         │\n");
+            printf("│  Appuyez sur [Q] pour continuer...                                          │\n");
             printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
             break;
         }

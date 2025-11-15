@@ -11,5 +11,5 @@ char* convert_to_visual_bar(int stat, int stat_max);
 
 void clear_stdin(void);
 //void clear_screen(void);
-const char* cc(const World *w, int y, int x);
+const char* cc(const World *w, const Plongeur *p, int y, int x);
 #endif // UTILS_H
