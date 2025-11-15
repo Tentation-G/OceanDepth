@@ -160,8 +160,8 @@ void sauvegarder(World *w, Plongeur *p, int slot) {
 
     // Map (save d'exploration de la map)
     fprintf(f, "visited:\n");
-    for (int i = 0; i < 10; i++) {
-        for (int j = 0; j < 10; j++) {
+    for (int i = 0; i < map_hauteur; i++) {
+        for (int j = 0; j < map_largeur; j++) {
             fputc(w->visited[i][j] ? '1' : '0', f);
         }
         fputc('\n', f);
@@ -238,9 +238,9 @@ void charger(World *w, Plongeur *p, int slot) {
     // Map
     fscanf(f, "visited:\n");
     // lecture matrice visited
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < map_hauteur; i++) {
         fgets(line, sizeof(line), f);
-        for (int j = 0; j < 10; j++) {
+        for (int j = 0; j < map_largeur; j++) {
             w->visited[i][j] = (line[j] == '1');
         }
     }

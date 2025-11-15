@@ -287,34 +287,6 @@ void decorate_zone_typed(Zone zone, int y, int x, int zone_h, int zone_l, ZoneTy
             break;
     }
 
-    // Marchands (M) - Un par profondeur
-    if (y == 2) { 
-        if (x == 0) zone[6][18] = 'M';
-    }
-    else if (y == 4) { 
-        if (x == 2) zone[14][28] = 'M';
-    }
-    
-    else if (y == 6) { 
-        if (x == 1) zone[12][24] = 'M';
-    }
-
-    else if (y == 8) { 
-        if (x == 1) zone[12][24] = 'M';
-    }
-
-    // Trésors (T) - Un par profondeur  
-    
-    else if (y == 1) { // Profondeur 1
-        if (x == 0) zone[15][30] = 'T';
-    }
-    else if (y == 3) { // Profondeur 3
-        if (x == 2) zone[13][26] = 'T';
-    }
-
-    else if (y == 5) { // Profondeur 5
-        if (x == 1) zone[11][23] = 'T';
-    }
 
     decorate_zone_base_borders(zone, y, x, zone_h, zone_l, type);
 }

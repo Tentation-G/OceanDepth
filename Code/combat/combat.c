@@ -580,17 +580,20 @@ void get_key_boss(Plongeur *p, CreatureMarine *boss){
     {
         p->cle +=1;
         printf("Vous avez obtenue CLE BOSS 1\n");
+        boss_1 = 1;
 
     }
     else if(strcmp(boss[0].nom, "JORMUNGAND") == 0){ // Profondeur 4
         p->cle +=1;
         printf("Vous avez obtenue CLE BOSS 3\n");
+        boss_2 = 1;
     
     }
     else if (strcmp(boss[0].nom, "TIAMAT") == 0) // Profondeur 5
     {
         p->cle +=1;
         printf("Vous avez obtenue CLE BOSS 5\n");
+        boss_3 = 1;
         
     }else{
         return;
@@ -699,6 +702,7 @@ void gerer_tour_combat(Plongeur *p, char cmd, char **screen) {
         {
            info = "VICTOIRE ! tu a gagner le BOSS";
            get_key_boss(p, g_creatures_en_combat);
+
 
         }else{
             info = "VICTOIRE ! Toutes les creatures sont vaincues.";

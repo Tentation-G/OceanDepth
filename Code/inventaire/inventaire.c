@@ -176,27 +176,49 @@ void gerer_inventaire(char cmd, Plongeur* plongeur)
 }
 
 // Generer un coffre (retrourner un id)
-int generer_coffre()
+int generer_coffre(int profondeur)
 {
+    int choix =0;
+    switch (profondeur)
+    {
+    case 1:{
+        choix = rand() % 2;
+        break;
+    }
+    case 2:{
+        choix = rand() % 3;
+        break;
+    }
+    case 3:{
+        choix = 1+ rand() % 4;
+        break;
+    }
+    case 4:{
+        choix = 2 + rand() % 5;
+        break;
+    }
+    case 5:{
+        choix = 5 +rand() % 3;
+        break;
+    }
+    default:
+        break;
+    }
+    
     // 50% arme, 50% combinaison
     int type = rand() % 2;
 
-    // Liste des armes 
+    // index des armes et combinaison
     int armes[] = {1, 3, 4, 5, 6, 7};
-    int nb_armes = sizeof(armes) / sizeof(armes[0]);
-
-    // Liste des combinaisons =
     int suits[] = {100, 101, 102, 103, 104};
-    int nb_suits = sizeof(suits) / sizeof(suits[0]);
+    
 
     if (type == 0)  // Arme
     {
-        int index = rand() % nb_armes;
-        return armes[index];
+        return armes[choix];
     }
     else  // Combinaison
     {
-        int index = rand() % nb_suits;
-        return suits[index];
+        return suits[choix];
     }
 }
