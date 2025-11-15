@@ -1,7 +1,7 @@
 -------------------------
 Numero de Save      : 1
 -------------------------
-points_de_vie       : 1
+points_de_vie       : 50
 points_de_vie_max   : 100
 -------------------------
 niveau_oxygene      : 100
@@ -22,7 +22,7 @@ map_pos_x           : 9
 -------------------------
 equip_weapon        : 1 1
 equip_suit          : 100 1
-cle                 : 1
+cle                 : 3
 slot_0              : 200 3
 slot_1              : 201 2
 slot_2              : 202 1
@@ -45,7 +45,7 @@ visited:
 1111111111
 1111111111
 -------------------------
-boss_1              : 0
+boss_1              : 1
 boss_2              : 0
 boss_3              : 0
 -------------------------

@@ -403,6 +403,21 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
         }
         case 'B':{
             // BOSS
+            switch (y){
+            case 4:{
+                if (boss_1 == 1) zone[hauteur / 2][largeur / 2] = ' ';
+                break;
+            }
+            case 7:{
+                if (boss_2 == 1) zone[hauteur / 2][largeur / 2] = ' ';
+                break;
+            }
+            case 10:{
+                if (boss_3 == 1) zone[hauteur / 2][largeur / 2] = ' ';
+                break;
+            }
+            }
+
             int profondeur_boss = convert_y_to_depth_lvl(p->map_pos_y);
             //printf("Declanchement du combat BOSS de la profondeur %d!\n", profondeur_boss);
             info = "Combat BOSS !";
