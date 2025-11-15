@@ -4,7 +4,7 @@
 - [X] Étape 1   : Génération de Créatures Marines
 - [X] Étape 2   : Système d'Attaque du Plongeur
 - [X] Étape 3   : Attaque des Créatures Marines
-- [~] Étape 4   : Système de Récompenses Marines
+- [X] Étape 4   : Système de Récompenses Marines
 - [X] Étape 4.5 : Gestion d'inventaire
 - [X] Étape 5   : Sauvegarde et Chargement
 - [X] Étape 6   : Compétences Aquatiques
@@ -16,7 +16,7 @@
 - [X] Amélioration Interface
   - [X] Barres de stats dynamiques
   - [X] Génération (semi) procedurale de la map
-  - [ ] Couleurs
+  - [X] Couleurs
 
 ---
 

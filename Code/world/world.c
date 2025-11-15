@@ -177,21 +177,10 @@ static ZoneType zone_type_Norm(ZoneType type) {
 }
 
 void decorate_zone_base_borders(Zone zone, int y, int x, int zone_h, int zone_l, ZoneType type) {
+    ZoneType norm = zone_type_Norm(type);
+    int is_grotte = (norm == ZoneType_GROTTE);
 
-    // Zone de test (grotte en [1][0])
-    if (y == 1 && x == 0){
-        zone[10][10] = 'E';
-        
-
-        //  TEST : placer un marchand (M) au centre de la zone 
-        zone[hauteur / 2][largeur / 2] = 'M';
-        // TEST : placer un BOSS (B)
-        zone[hauteur / 2][20] = 'B';
-        // TEST : placer un Coffre (T)
-        zone[hauteur / 2][22] = 'T';
-    }
-
-    // placer un K temporaire pour tester la cle (Profondeur 4)
+    // placer un K temporaire pour tester la cle (Profondeur 3)
     if(y == 6 && x == 1){
         zone[hauteur / 2][20] = 'K';
     }
@@ -208,17 +197,19 @@ void decorate_zone_base_borders(Zone zone, int y, int x, int zone_h, int zone_l,
     }
 
     // pas de fleches pour les grottes, gerer par la fn de deco des grottes
-    if (y > 0 && type != ZoneType_GROTTE) {
-        build_fleche_haut(zone);
-    }
-    if (y < zone_h - 1 && type != ZoneType_GROTTE) {
-        build_fleche_bas(zone);
-    }
-    if (x > 0 && type != ZoneType_GROTTE) {
-        build_fleche_gauche(zone);
-    }
-    if (x < zone_l - 1 && type != ZoneType_GROTTE) {
-        build_fleche_droit(zone);
+    if (!is_grotte) {
+        if (y > 0) {
+            build_fleche_haut(zone);
+        }
+        if (y < zone_h - 1) {
+            build_fleche_bas(zone);
+        }
+        if (x > 0) {
+            build_fleche_gauche(zone);
+        }
+        if (x < zone_l - 1) {
+            build_fleche_droit(zone);
+        }
     }
 }
 
@@ -234,11 +225,11 @@ void decorate_zone_typed(Zone zone, int y, int x, int zone_h, int zone_l, ZoneTy
             // Deco Base
             break;
         case ZoneType_BATEAU:
-            // Deco zone bateau
+            zone[hauteur / 2][largeur / 2] = 'M';
             break;
         // Les GROTTES
         case ZoneType_GROTTE:
-            build_all_mur(zone, y, x, zone_h, zone_l);
+            //build_all_mur(zone, y, x, zone_h, zone_l);
 
             switch (type){
                 case ZoneType_GROTTE_NORD:
@@ -264,13 +255,13 @@ void decorate_zone_typed(Zone zone, int y, int x, int zone_h, int zone_l, ZoneTy
 
             break;
 
-          // Zones pas chill
+         // Zones pas chill
         // Si vide => 1/2 qu'il y ait deco poisson 1/2 qu'il y ait des mobs
         case ZoneType_VIDE:{
             int probaP = rand() % 100;
             int probaM = rand() % 100;
 
-            if (probaP < 50) build_poisson_on_zone(zone);
+            if (probaP < 70) build_poisson_on_zone(zone);
             if (probaM < 50) spawn_mob_on_zone(zone, 3);
             }
 
@@ -294,7 +285,20 @@ void decorate_zone_typed(Zone zone, int y, int x, int zone_h, int zone_l, ZoneTy
         // Zone pas Chill du tout
         case ZoneType_BOSS:
             // Place un boss au milieu
-            zone[hauteur / 2][largeur / 2] = 'B';
+            switch (y){
+                case 4:{
+                    if (boss_1 == 0) zone[hauteur / 2][largeur / 2] = 'B';
+                    break;
+                }
+                case 7:{
+                    if (boss_2 == 0) zone[hauteur / 2][largeur / 2] = 'B';
+                    break;
+                }
+                case 10:{
+                    if (boss_3 == 0) zone[hauteur / 2][largeur / 2] = 'B';
+                    break;
+                }
+            }
             break;
         default:
             break;
