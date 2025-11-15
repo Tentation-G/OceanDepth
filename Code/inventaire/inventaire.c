@@ -3,8 +3,6 @@
 #include "../globals/globals.h"
 #include "../input/input.h"
 #include "../player/player.h"
-
-// tempo
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -148,7 +146,6 @@ void ajouter_item(Plongeur* p, int item_id, int quantite)
 void gerer_inventaire(char cmd, Plongeur* plongeur)
 {
 
-    printf("Previous screen en combat inventaire: %d", previous_screen_status);
     if (cmd == 'Q' || cmd == 'q')
     {
         screen_status = previous_screen_status;

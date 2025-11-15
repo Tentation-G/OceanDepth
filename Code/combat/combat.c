@@ -38,11 +38,11 @@ void verifier_oxygene_critique(Plongeur *p) {
     }
     
     if (p->niveau_oxygene == 0) {
-        printf("\n");
-        printf("╔════════════════════════════════════════╗\n");
-        printf("║    ! VOUS N'AVEZ PLUS D'O2             ║\n");
-        printf("╚════════════════════════════════════════╝\n");
-        printf("Vous perdez 5 PV par manque d'oxygene !\n");
+        // printf("\n");
+        // printf("╔════════════════════════════════════════╗\n");
+        // printf("║    ! VOUS N'AVEZ PLUS D'O2             ║\n");
+        // printf("╚════════════════════════════════════════╝\n");
+        // printf("Vous perdez 5 PV par manque d'oxygene !\n");
         
         p->points_de_vie -= 5;
         if (p->points_de_vie < 0) {
@@ -53,11 +53,11 @@ void verifier_oxygene_critique(Plongeur *p) {
     }
     
     else if (p->niveau_oxygene <= 10) {
-        printf("\n");
-        printf("╔════════════════════════════════════════╗\n");
-        printf("║       ALERTE OXYGENE CRITIQUE          ║\n");
-        printf("║         Il vous reste %2d%% O2 !         ║\n", p->niveau_oxygene);
-        printf("╚════════════════════════════════════════╝\n");
+        // printf("\n");
+        // printf("╔════════════════════════════════════════╗\n");
+        // printf("║       ALERTE OXYGENE CRITIQUE          ║\n");
+        // printf("║         Il vous reste %2d%% O2 !         ║\n", p->niveau_oxygene);
+        // printf("╚════════════════════════════════════════╝\n");
         
         info = "ALERTE CRITIQUE : O2 tres bas !";
     }
@@ -278,8 +278,7 @@ void attaquer_plongeur(CreatureMarine *c, Plongeur *p)
     // attaque subie fait perdre 1-2 oxygene (stress)
     int stress = rand() % 2 + 1;
     p->niveau_oxygene -= stress;
-    printf("STRESS: -%d O2\n", stress);
-
+    // printf("STRESS: -%d O2\n", stress);
 
     printf("%s vous attaque et inflige %d degats !\n", c->nom, degats);
     verifier_oxygene_critique(p);
