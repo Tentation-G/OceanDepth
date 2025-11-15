@@ -168,6 +168,12 @@ void sauvegarder(World *w, Plongeur *p, int slot) {
     }
     fprintf(f, "-------------------------\n");
 
+    fprintf(f, "boss_1              : %d\n", boss_1);
+    fprintf(f, "boss_2              : %d\n", boss_2);
+    fprintf(f, "boss_3              : %d\n", boss_3);
+
+    fprintf(f, "-------------------------\n");
+
     fclose(f);
 }
 
@@ -244,6 +250,12 @@ void charger(World *w, Plongeur *p, int slot) {
             w->visited[i][j] = (line[j] == '1');
         }
     }
+    fscanf(f, "-------------------------\n");
+
+    fscanf(f, "boss_1              : %d\n", &boss_1);
+    fscanf(f, "boss_2              : %d\n", &boss_2);
+    fscanf(f, "boss_3              : %d\n", &boss_3);
+
     fscanf(f, "-------------------------\n");
 
     fclose(f);

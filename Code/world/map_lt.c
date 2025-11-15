@@ -13,7 +13,7 @@ const char* MAP[MAP_H][MAP_L] = {
     { "BOSS"  ,  " "    , " "     , " "     , " "     , " "     , " "     , "J_CORA", "J_CORA", "J_CORA" },          // Depth 2        Y[4]
     //----------------------------------------------------------------------------------------------------------------------------------------
     { " "     ,  " "    , " "     , " "     , " "     , " "     , " "     , " "     , " "     , " "      },        // Depth 3          Y[5]
-    { "GROT_E",  " "    , " "     , " "     , " "     , " "     , " "     , " "     , " "     , " "      },       // Depth 3           Y[6]
+    { "GROT_E",  " "    , " "     , " "     , " "     , " "     , "SMARIN", " "     , " "     , " "      },       // Depth 3           Y[6]
     //----------------------------------------------------------------------------------------------------------------------------------------
     { "BOSS"  ,  " "    , " "     , " "     , " "     , " "     , " "     , " "     , "GROT_N", " "      },     // Depth 4             Y[7]
     { " "     ,  " "    , " "     , " "     , " "     , " "     , " "     , " "     , " "     , " "      },    // Depth 4              Y[8]
@@ -35,7 +35,7 @@ ZoneType map_to_type(const char *map_info_type) {
     if      (strcmp(map_info_type, "BASE") == 0)    return ZoneType_BASE;
     else if (strcmp(map_info_type, "PLAGE") == 0)   return ZoneType_PLAGE;
     else if (strcmp(map_info_type, "BATEAU") == 0)  return ZoneType_BATEAU;
-    else if (strcmp(map_info_type, "EPAVE") == 0)   return ZoneType_EPAVE;
+    else if (strcmp(map_info_type, "SMARIN") == 0)  return ZoneType_SOUS_MARIN;
 
     else if (strcmp(map_info_type, "GROTTE") == 0)  return ZoneType_GROTTE;
     else if (strcmp(map_info_type, "GROT_N") == 0)  return ZoneType_GROTTE_NORD;
@@ -60,7 +60,7 @@ const char* zone_type_to_string(const ZoneType type) {
     case ZoneType_BASE:             return "    Base";
     case ZoneType_PLAGE:            return "    Plage";
     case ZoneType_BATEAU:           return "   Bateau";
-    case ZoneType_EPAVE:            return "   Epave";
+    case ZoneType_SOUS_MARIN:       return " Sous_Marin";
 
     case ZoneType_GROTTE:           return "   Grotte";
     case ZoneType_GROTTE_NORD:      return "   Grotte";
@@ -85,7 +85,7 @@ const char* zone_type_to_string_four_char(const ZoneType type) {
     case ZoneType_BASE:             return "Base";
     case ZoneType_PLAGE:            return "Plag";
     case ZoneType_BATEAU:           return "Bate";
-    case ZoneType_EPAVE:            return "Epav";
+    case ZoneType_SOUS_MARIN:       return "SMar";
 
     case ZoneType_GROTTE:           return "Grot";
     case ZoneType_GROTTE_NORD:      return "Grot";

@@ -125,7 +125,6 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
     if(strcmp(zone_type_to_string_four_char(type), "Grot") == 0) {
         p->niveau_oxygene = clamp(p->niveau_oxygene + 10, p->niveau_oxygene_max);
     } else {
-
         int dist = distance_entre_pos(p);
         int cout_oxy;
         if (dist != 0){
@@ -135,7 +134,10 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
             cout_oxy = 0;
         }
         p->niveau_oxygene = clamp(p->niveau_oxygene - cout_oxy, p->niveau_oxygene_max);
+    }
 
+    if (p->niveau_oxygene == 0){
+        p->points_de_vie = clamp(p->points_de_vie - 5, p->points_de_vie_max);
     }
 
     int min_mt_recup_fatigue = 0;
@@ -169,9 +171,9 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
         }
         case 'v': {
             int profondeur_verification = convert_y_to_depth_lvl(p->map_pos_y);
-            printf("PROF ACTUELLE: %d\n", profondeur_verification);
+            //printf("PROF ACTUELLE: %d\n", profondeur_verification);
             int profondeur_prochaine = convert_y_to_depth_lvl(p->map_pos_y + 1);
-            printf("PROF PROCHAINE: %d\n", profondeur_prochaine);
+            //printf("PROF PROCHAINE: %d\n", profondeur_prochaine);
 
             if (profondeur_prochaine == 3)
             {
@@ -422,6 +424,13 @@ void action_apres_deplacement(Plongeur *p, CreatureMarine *c, int y, int x, char
         default:
             info = "Rien par ici";
             break;
+        }
+
+         // Verif si mort
+        // C'est un peu barbar, mais ca fonctionne
+        if (p->points_de_vie == 0){
+            Sleep(2000);
+            screen_status = 53;
         }
     }
 }

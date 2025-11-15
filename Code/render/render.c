@@ -85,7 +85,8 @@ void screen_header(World *w, Plongeur *p, char* pv_bar, char* oxy_bar, char* fat
     switch (screen_status){
         case 50:
         case 51:
-        case 52: {
+        case 52:
+        case 53:{
             printf("╭─────────────────────────────── Ocean  Depth ────────────────────────────────╮\n");
             printf("│                                                                             │\n");
             break;
@@ -711,6 +712,34 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
 
             break;
         }
+        // ecran de décès
+        case 53 :{
+            //printf("╭─────────────────────────────── Ocean  Depth ────────────────────────────────╮\n");
+            //printf("│                                                                             │\n");
+            printf("│   ╭─────────────────────────────────────────────────────────────────────╮   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │           ,---.                  .-,--.          .  .               │   │\n");
+            printf("│   │           |   | ,-. ,-. ,-. ,-.  ' |   \\ ,-. ,-. |- |-.             │   │\n");
+            printf("│   │           |   | |   |-' ,-| | |  , |   / |-' | | |  | |             │   │\n");
+            printf("│   │           `---' `-' `-' `-^ ' '  `-^--'  `-' |-' `' ' '             │   │\n");
+            printf("│   │                                              |                      │   │\n");
+            printf("│   │                                              '                      │   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │                           Vous avez peris                           │   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │                                                                     │   │\n");
+            printf("│   │                                                                     │   │\n");
+            //printf("│   ╰─────────────────────────────────────────────────────────────────────╯   │\n");
+            //printf("│                                                                             │\n");
+            break;
+        }
         // Marchand
         case 99:{
                 printf("│                                                             ╰───────────────┤\n");
@@ -833,6 +862,12 @@ void screen_footer(World *w, Plongeur *p){
             printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
             printf("│  [1] %-17s  [2] %-17s  [3] %-17s        │\n", saveName1, saveName2, saveName3);
             printf("│  [R] Retour                                                                 │\n");
+            printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
+            break;
+        }
+        case 53:{
+            printf("├─────────────────────────────────────────────────────────────────────────────┤\n");
+            printf("│  [C] Continuer                                                              │\n");
             printf("╰─────────────────────────────────────────────────────────────────────────────╯\n");
             break;
         }

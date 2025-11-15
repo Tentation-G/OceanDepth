@@ -11,7 +11,7 @@ typedef enum {
     ZoneType_BASE,
     ZoneType_PLAGE,
     ZoneType_BATEAU,
-    ZoneType_EPAVE,
+    ZoneType_SOUS_MARIN,
 
      // Definie la dir de
     // sortie/entrée de la grotte
