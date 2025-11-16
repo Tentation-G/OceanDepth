@@ -1,13 +1,13 @@
 -------------------------
 Numero de Save      : 1
 -------------------------
-points_de_vie       : 50
+points_de_vie       : 70
 points_de_vie_max   : 100
 -------------------------
-niveau_oxygene      : 100
+niveau_oxygene      : 50
 niveau_oxygene_max  : 100
 -------------------------
-niveau_fatigue      : 0
+niveau_fatigue      : 45
 niveau_fatigue_max  : 100
 -------------------------
 perles              : 500
@@ -17,7 +17,7 @@ pos_x               : 36
 last_pos_y          : 1
 last_pos_x          : 1
 -------------------------
-map_pos_y           : 1
+map_pos_y           : 2
 map_pos_x           : 0
 -------------------------
 equip_weapon        : 7 1
@@ -33,9 +33,9 @@ slot_6              : 0 0
 slot_7              : 0 0
 -------------------------
 visited:
+1110000011
 1111111111
-1111111111
-1111111111
+1000000001
 1111111111
 1111111111
 1111111111

@@ -648,13 +648,13 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             printf("│   │       ╚═══╩═══════════════════╝                                     │   │\n");
             printf("│   │  ><>                                                                │   │\n");
             printf("│   │                      ╔═══╦═══════════════════╗                      │   │\n");
-            printf("│   │     \\\\   ><>         ║ 2 ║ %-17s ║                      │   │\n", saveName2);
-            printf("│   │  \\\\ //            \\\\ ╚═══╩═══════════════════╝                      │   │\n");
-            printf("│   │  || \\\\     ><>     \\\\                                               │   │\n");
-            printf("│   │  \\\\ //  ><>        //               ╔═══╦═══════════════════╗       │   │\n");
-            printf("│   │   \\Y/             //   ><>          ║ 3 ║ %-17s ║       │   │\n", saveName3);
-            printf("│   │   // ><>          ||                ╚═══╩═══════════════════╝       │   │\n");
-            printf("│   │##############     ||                                                │   │\n");
+            printf("│   │     %s\\\\%s   ><>         ║ 2 ║ %-17s ║                      │   │\n",C_VERT, C_RESET, saveName2);
+            printf("│   │  %s\\\\ //            \\\\%s ╚═══╩═══════════════════╝                      │   │\n",C_VERT, C_RESET);
+            printf("│   │  %s|| \\\\%s     ><>     %s\\\\%s                                               │   │\n",C_VERT, C_RESET, C_VERT, C_RESET);
+            printf("│   │  %s\\\\ //%s  ><>        %s//%s               ╔═══╦═══════════════════╗       │   │\n",C_VERT, C_RESET, C_VERT, C_RESET);
+            printf("│   │   %s\\Y/             //%s   ><>          ║ 3 ║ %-17s ║       │   │\n",C_VERT, C_RESET, saveName3);
+            printf("│   │   %s//%s ><>          %s||%s                ╚═══╩═══════════════════╝       │   │\n",C_VERT, C_RESET, C_VERT, C_RESET);
+            printf("│   │##############     %s||%s                                                │   │\n",C_VERT, C_RESET);
             printf("│   │##############################                          <*)))==<     │   │\n");
             printf("│   │###################################                                  │   │\n");
 
@@ -672,13 +672,13 @@ void screen_main(World *w, Plongeur *p, CreatureMarine *creatures, char** screen
             printf("│   │       ╚═══╩═══════════════════╝                                     │   │\n");
             printf("│   │  ><>                                                                │   │\n");
             printf("│   │                      ╔═══╦═══════════════════╗                      │   │\n");
-            printf("│   │     \\\\   ><>         ║ 2 ║ %-17s ║                      │   │\n", saveName2);
-            printf("│   │  \\\\ //            \\\\ ╚═══╩═══════════════════╝                      │   │\n");
-            printf("│   │  || \\\\     ><>     \\\\                                               │   │\n");
-            printf("│   │  \\\\ //  ><>        //               ╔═══╦═══════════════════╗       │   │\n");
-            printf("│   │   \\Y/             //   ><>          ║ 3 ║ %-17s ║       │   │\n", saveName3);
-            printf("│   │   // ><>          ||                ╚═══╩═══════════════════╝       │   │\n");
-            printf("│   │##############     ||                                                │   │\n");
+            printf("│   │     %s\\\\%s   ><>         ║ 2 ║ %-17s ║                      │   │\n",C_VERT, C_RESET, saveName2);
+            printf("│   │  %s\\\\ //            \\\\%s ╚═══╩═══════════════════╝                      │   │\n",C_VERT, C_RESET);
+            printf("│   │  %s|| \\\\%s     ><>     %s\\\\%s                                               │   │\n",C_VERT, C_RESET, C_VERT, C_RESET);
+            printf("│   │  %s\\\\ //%s  ><>        %s//%s               ╔═══╦═══════════════════╗       │   │\n",C_VERT, C_RESET, C_VERT, C_RESET);
+            printf("│   │   %s\\Y/             //%s   ><>          ║ 3 ║ %-17s ║       │   │\n",C_VERT, C_RESET, saveName3);
+            printf("│   │   %s//%s ><>          %s||%s                ╚═══╩═══════════════════╝       │   │\n",C_VERT, C_RESET, C_VERT, C_RESET);
+            printf("│   │##############     %s||%s                                                │   │\n",C_VERT, C_RESET);
             printf("│   │##############################                          <*)))==<     │   │\n");
             printf("│   │###################################                                  │   │\n");
 
