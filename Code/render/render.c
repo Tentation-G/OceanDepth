@@ -27,26 +27,12 @@ void print_screen(char **screen) {
                 printf("│  %c│", label);
                 for (int j = 0; j < largeur; j++) {
                     char c = screen[i][j];
-                    // roche - grise
-                    //if (c == '#'){
-                    //    printf("\x1b[38;2;120;120;120m%c\x1b[0m", c);
-                    //}
-                    // algue verte (et corail (dommage collateral)
                     if (c == 'Y' || c == '|' || c=='/' || c=='\\' || c == '0'){
                         printf("\x1b[32m%c\x1b[0m", c);
                     }
                     else if (c == '@'){
                         printf("\x1b[34m%c\x1b[0m", c);
                     }
-                    // Poisson
-                    //else if (c == '<' || c == '>' || c=='(' || c==')' || c=='o' || c=='*' || c== '='){
-                    //    printf("\x1b[0m%c\x1b[0m", c);
-                    //}
-                     // Fill - Bleu (pour l'instant ce sont des ' ', ça peut etre des '~')
-                    // qui sait ce que nous reserve l'avenir
-                    //else if (c == fill){
-                    //    printf("\x1b[34m%c\x1b[0m", c);
-                    //}
                     else{
                         printf("%c", c);
                     }
