@@ -17,7 +17,7 @@ pos_x               : 36
 last_pos_y          : 1
 last_pos_x          : 1
 -------------------------
-map_pos_y           : 7
+map_pos_y           : 1
 map_pos_x           : 0
 -------------------------
 equip_weapon        : 7 1

@@ -215,10 +215,11 @@ void decorate_zone_base_borders(Zone zone, int y, int x, int zone_h, int zone_l,
     ZoneType norm = zone_type_Norm(type);
     int is_grotte = (norm == ZoneType_GROTTE);
 
-    // placer un K temporaire pour tester la cle (Profondeur 3)
+    // Clef cachée parmi les rochers (Profondeur 3)
     if(y == 6 && x == 9){
         zone[hauteur-1][largeur-4] = 'K';
     }
+    //zone[hauteur/2][largeur/2] = 'T';
 
     // Ajoute les murs en bordures
     if (y == zone_h - 1) { // bord bas
