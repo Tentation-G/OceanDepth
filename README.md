@@ -1,11 +1,27 @@
 
 
+# Ocean Depth
 
-- globals : constantes & variables globales
-- types   : typedef.
-- utils   : helpers génériques (d'autres helpers specifique au world dans world)
-- input   : autorisations de saisie
-- world   : génération du monde.
-- render  : tout l’affichage
-- player  : (principalement deplacement et interaction terrain)
-- combat  : Logique de Combat
+---
+
+## Liens support de presentation + annexe (screen de gameplay)
+
+https://tinyurl.com/SupportDePresFlavien
+
+---
+
+## Utilisation
+
+### Copier le repos
+
+```
+git clone https://github.com/Tentation-G/OceanDepth
+```
+
+### Lancer le jeu
+
+```
+.\OceanDepth.exe.lnk
+```
+
+---

@@ -23,6 +23,7 @@
 ## Répartition du Travail
 
 Flavien : 
+```
 - Structure projet
 - Affichage et logique d'affichage
 - Design (UI, artwork)
@@ -32,12 +33,22 @@ Flavien :
 - Generation de la map
 - Sauvegarde et Chargement
 
+- Etape Bonus :
+  - Amelioration de l'interface
+    - Barres de stats dynamiques
+    - Génération semi-procedurale de la map
+    - Couleurs
+```
 Abdelkrim : 
+```
 - Generation Créature Marine / Loots / Items
-- System de Combat
 - Inventaire
-- Competence Aquatique
-
-Shun : 
+```
+Abdelkrim & Shun : 
+```
 - System de combat
 - Competence Aquatique
+
+- Etape Bonus :
+  - Commerce Sous-Marin
+```

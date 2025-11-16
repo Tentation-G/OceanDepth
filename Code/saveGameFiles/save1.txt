@@ -1,13 +1,13 @@
 -------------------------
 Numero de Save      : 1
 -------------------------
-points_de_vie       : 70
+points_de_vie       : 100
 points_de_vie_max   : 100
 -------------------------
-niveau_oxygene      : 50
+niveau_oxygene      : 100
 niveau_oxygene_max  : 100
 -------------------------
-niveau_fatigue      : 45
+niveau_fatigue      : 0
 niveau_fatigue_max  : 100
 -------------------------
 perles              : 500
