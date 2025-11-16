@@ -118,7 +118,7 @@ int main(void) {
             case 10: {
                 // Logique combat
                 previous_screen_status = screen_status;
-                gerer_tour_combat(&plongeur, cmd, screen);
+                gerer_tour_combat(world, &plongeur, cmd, screen);
                 break;
             }
             case 11:{ //Competences

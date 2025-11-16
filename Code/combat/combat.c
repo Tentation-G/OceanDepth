@@ -573,19 +573,21 @@ void appliquer_effet_boss(CreatureMarine *boss, Plongeur *p){
     }
 }
 
-void get_key_boss(Plongeur *p, CreatureMarine *boss){
+void get_key_boss(World *w, Plongeur *p, CreatureMarine *boss, Zone zone){
 
     if (strcmp(boss[0].nom, "CETUS") == 0) // Profondeur 2
     {
         p->cle +=1;
         printf("Vous avez obtenue CLE BOSS 1\n");
         boss_1 = 1;
+        zone[p->pos_y - 1][p->pos_x - 1] = 'T';
 
     }
     else if(strcmp(boss[0].nom, "JORMUNGAND") == 0){ // Profondeur 4
         p->cle +=1;
         printf("Vous avez obtenue CLE BOSS 3\n");
         boss_2 = 1;
+        zone[p->pos_y - 1][p->pos_x - 1] = 'T';
     
     }
     else if (strcmp(boss[0].nom, "TIAMAT") == 0) // Profondeur 5
@@ -593,6 +595,7 @@ void get_key_boss(Plongeur *p, CreatureMarine *boss){
         p->cle +=1;
         printf("Vous avez obtenue CLE BOSS 5\n");
         boss_3 = 1;
+        zone[p->pos_y - 1][p->pos_x - 1] = 'T';
         
     }else{
         return;
@@ -606,7 +609,7 @@ void handle_loading(){
 
 
 // LOGIQUE COMBAT GLOBAL
-void gerer_tour_combat(Plongeur *p, char cmd, char **screen) {
+void gerer_tour_combat(World *w, Plongeur *p, char cmd, char** screen) {
  
     char *competence[4] = {"Elan marin", "Cuirasse aquatique", "Souffle maitrise", "Vague regerante"};
     
@@ -700,7 +703,7 @@ void gerer_tour_combat(Plongeur *p, char cmd, char **screen) {
         if (type_combat == 1)
         {
             info = "VICTOIRE ! tu a gagner le BOSS";
-            get_key_boss(p, g_creatures_en_combat);
+            get_key_boss(w, p, g_creatures_en_combat, screen);
 
         }else{
             info = "VICTOIRE ! Toutes les creatures sont vaincues.";

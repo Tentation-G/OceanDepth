@@ -18,7 +18,7 @@ void verifier_oxygene_critique(Plongeur *p);
 
 
 // Tour Combat (tout)
-void gerer_tour_combat(Plongeur *p, char cmd, char **screen);
+void gerer_tour_combat(World *w, Plongeur *p, char cmd, char** screen);
 
 // competences
 void appliquer_competence(Plongeur *p, char car);
